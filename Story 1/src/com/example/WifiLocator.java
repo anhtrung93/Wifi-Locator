@@ -79,10 +79,14 @@ public class WifiLocator extends Activity {
 		Scan.setOnClickListener(new Button.OnClickListener(){
 			   @Override
 			   public void onClick(View arg0) {	   
-			    // TODO Auto-generated method stub
+			    // TODO Auto-generated method stub				   
+				   status.delete(0, status.length());
 				   wifiList = wifi.getScanResults();
-				   status.delete(0, status.length()-1);	   
-				   if(wifi.getWifiState() == WifiManager.WIFI_STATE_ENABLED){   	
+				   if(wifi.getWifiState() == WifiManager.WIFI_STATE_ENABLED){   
+					   if (wifiList.size()==0)
+					   {
+						   status.append("No wifi connection");
+					   }
 						for(int i = 0; i < wifiList.size(); i++){
 							 status.append(Integer.valueOf(i+1).toString() + ".");
 							 status.append((wifiList.get(i)).toString());
@@ -90,7 +94,7 @@ public class WifiLocator extends Activity {
 						}			 
 					}
 				   else{
-					   status.append("Wifi is off, turn on it now !!! \n");
+					   status.append("Wifi is off, turn it on now !!! \n");
 				   }
 					textStatus.setText(status);
 			   }
