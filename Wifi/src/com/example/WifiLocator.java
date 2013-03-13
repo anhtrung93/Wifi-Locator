@@ -22,8 +22,6 @@ import android.widget.Button;
 import android.widget.TextView;
 //import android.widget.Toast;
 
-
-
 public class WifiLocator extends Activity {
 
 	WifiManager wifi;
@@ -54,7 +52,7 @@ public class WifiLocator extends Activity {
 		// Setup WiFi
 		wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 
-		//Swich Wifi
+		//Switch WiFi
 	      
 	       OnWifi.setOnClickListener(new Button.OnClickListener(){
 		   @Override
@@ -72,7 +70,7 @@ public class WifiLocator extends Activity {
 		    wifi.setWifiEnabled(false);
 		   }});
 
-		// List Wifi
+		// List WiFi
 		
 		status = new StringBuilder();
 		status.append("List of available WiFi: \n\n");
@@ -102,7 +100,7 @@ public class WifiLocator extends Activity {
 
 	}
 	
-		// Wifi Status
+		// WiFi Status
 	   
 	
 	   private BroadcastReceiver WifiStateChangedReceiver
