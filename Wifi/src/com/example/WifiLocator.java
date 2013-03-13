@@ -9,7 +9,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-//import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
 //import android.net.wifi.WifiConfiguration;
 //import android.net.wifi.WifiInfo;
@@ -54,85 +53,85 @@ public class WifiLocator extends Activity {
 
 		//Switch WiFi
 	      
-	       OnWifi.setOnClickListener(new Button.OnClickListener(){
-		   @Override
-		   public void onClick(View arg0) {
-		    // TODO Auto-generated method stub
-		    wifi = (WifiManager)getBaseContext().getSystemService(Context.WIFI_SERVICE);
-		    wifi.setWifiEnabled(true);
-		   }});
+	    	OnWifi.setOnClickListener(new Button.OnClickListener(){
+	    	@Override
+		    public void onClick(View arg0) {
+	    		// TODO Auto-generated method stub
+			    wifi = (WifiManager)getBaseContext().getSystemService(Context.WIFI_SERVICE);
+			    wifi.setWifiEnabled(true);
+		    }});
 		      
-		       OffWifi.setOnClickListener(new Button.OnClickListener(){
-		   @Override
-		   public void onClick(View arg0) {
-		    // TODO Auto-generated method stub
-		    wifi = (WifiManager)getBaseContext().getSystemService(Context.WIFI_SERVICE);
-		    wifi.setWifiEnabled(false);
-		   }});
+		    OffWifi.setOnClickListener(new Button.OnClickListener(){
+		    @Override
+		    public void onClick(View arg0) {
+			    // TODO Auto-generated method stub
+			    wifi = (WifiManager)getBaseContext().getSystemService(Context.WIFI_SERVICE);
+			    wifi.setWifiEnabled(false);
+		    }});
 
-		// List WiFi
-		
+		// List WiFi		
 		status = new StringBuilder();
-		status.append("List of available WiFi: \n\n");
 		Scan.setOnClickListener(new Button.OnClickListener(){
-			   @Override
-			   public void onClick(View arg0) {	   
-			    // TODO Auto-generated method stub				   
-				   status.delete(0, status.length());
-				   wifiList = wifi.getScanResults();
-				   if(wifi.getWifiState() == WifiManager.WIFI_STATE_ENABLED){   
-					   if (wifiList.size()==0)
-					   {
-						   status.append("No wifi connection");
-					   }
-						for(int i = 0; i < wifiList.size(); i++){
-							 status.append(Integer.valueOf(i+1).toString() + ".");
-							 status.append((wifiList.get(i)).toString());
-							 status.append("\n\n");
-						}			 
+			@Override
+			public void onClick(View arg0) {	   
+				// TODO Auto-generated method stub				   
+				status.delete(0, status.length());
+				if(wifi.getWifiState() == WifiManager.WIFI_STATE_ENABLED){
+					do{
+						wifiList = wifi.getScanResults();
+					} while (wifiList == null) ; //wait until wiFi is truly enabled
+					if (wifiList.size()==0 ){
+						status.append("No wifi connection");
 					}
-				   else{
-					   status.append("Wifi is off, turn it on now !!! \n");
-				   }
-					textStatus.setText(status);
-			   }
+					else {
+						status.append("List of available WiFi: \n\n");
+						for(int i = 0; i < wifiList.size(); i++){
+							status.append(Integer.valueOf(i+1).toString() + ".");
+							status.append((wifiList.get(i)).toString());
+							status.append("\n\n");
+						}
+					}
+								 
+				}
+				else{
+					status.append("WiFi is off, turn it on now !!! \n");
+				}
+				textStatus.setText(status);
+			}
 		});
 
 	}
 	
-		// WiFi Status
-	   
-	
-	   private BroadcastReceiver WifiStateChangedReceiver
-	   = new BroadcastReceiver(){
+	// WiFi Status
+   
 
-	  @Override
-	
-	  public void onReceive(Context context, Intent intent) {
-	   // TODO Auto-generated method stub
+	private BroadcastReceiver WifiStateChangedReceiver
+    	= new BroadcastReceiver(){
+
+		@Override	
+	    public void onReceive(Context context, Intent intent) {
+			// TODO Auto-generated method stub
 	   
-	   int extraWifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE ,
-	     WifiManager.WIFI_STATE_UNKNOWN);
-	   
-	   switch(extraWifiState){
-	   case WifiManager.WIFI_STATE_DISABLED:
-	    WifiState.setText("WIFI IS DISABLED");
-	    break;
-	   case WifiManager.WIFI_STATE_DISABLING:
-	    WifiState.setText("WIFI IS DISABLING");
-	    break;
-	   case WifiManager.WIFI_STATE_ENABLED:
-	    WifiState.setText("WIFI IS ENABLED");
-	    break;
-	   case WifiManager.WIFI_STATE_ENABLING:
-	    WifiState.setText("WIFI IS ENABLING");
-	    break;
-	   case WifiManager.WIFI_STATE_UNKNOWN:
-	    WifiState.setText("WIFI IS UNKNOWN");
-	    break;
-	   }
-	  }};
+		    int extraWifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE ,
+		    		WifiManager.WIFI_STATE_UNKNOWN);
+		   
+		    switch(extraWifiState){
+		    case WifiManager.WIFI_STATE_DISABLED:
+			    WifiState.setText("WIFI IS DISABLED");
+			    break;
+		    case WifiManager.WIFI_STATE_DISABLING:
+			    WifiState.setText("WIFI IS DISABLING");
+			    break;
+		    case WifiManager.WIFI_STATE_ENABLED:
+			    WifiState.setText("WIFI IS ENABLED");
+			    break;
+		    case WifiManager.WIFI_STATE_ENABLING:
+			    WifiState.setText("WIFI IS ENABLING");
+			    break;
+		    case WifiManager.WIFI_STATE_UNKNOWN:
+			    WifiState.setText("WIFI IS UNKNOWN");
+			    break;
+		    }
+		}
+    };
 }
-	
-
-
