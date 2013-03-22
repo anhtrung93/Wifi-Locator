@@ -69,7 +69,10 @@ public class WifiLocator extends Activity {
 				status.delete(0, status.length());
 				if (wifi.getWifiState() == WifiManager.WIFI_STATE_ENABLED){
 					if (wifi.startScan() == true){
-						wifiList = wifi.getScanResults();
+						do {
+							//Scanning ...
+							wifiList = wifi.getScanResults();
+						} while (wifiList == null); //wait until the device finishes scanning						
 						if (wifiList.size()==0 ){
 							status.append("No wifi connection");
 						} else {
