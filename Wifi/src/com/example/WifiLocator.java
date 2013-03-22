@@ -21,7 +21,6 @@ import android.widget.ToggleButton;
 public class WifiLocator extends Activity {
 
 	WifiManager wifi;
-	BroadcastReceiver receiver;
 	StringBuilder status = new StringBuilder();
 
 	TextView textStatus;
@@ -49,43 +48,43 @@ public class WifiLocator extends Activity {
 
 		//Switch WiFi
 	        
-		    OnOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-		        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		            if (isChecked) {
-		            	wifi = (WifiManager)getBaseContext().getSystemService(Context.WIFI_SERVICE);
-		 			    wifi.setWifiEnabled(false);
-		            } else {
-		            	wifi = (WifiManager)getBaseContext().getSystemService(Context.WIFI_SERVICE);
-					    wifi.setWifiEnabled(true);
-		            }
-		        }
-		    });
+	    OnOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+	        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+	            if (isChecked) {
+	            	wifi = (WifiManager)getBaseContext().getSystemService(Context.WIFI_SERVICE);
+	 			    wifi.setWifiEnabled(false);
+	            } else {
+	            	wifi = (WifiManager)getBaseContext().getSystemService(Context.WIFI_SERVICE);
+				    wifi.setWifiEnabled(true);
+	            }
+	        }
+	    });
 
 		// List WiFi		
 		status = new StringBuilder();
 		Scan.setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View arg0) {	   
-				// TODO Auto-generated method stub				   
+				// TODO Auto-generated method stub	   
 				status.delete(0, status.length());
-				if(wifi.getWifiState() == WifiManager.WIFI_STATE_ENABLED){
-					do{
+				if (wifi.getWifiState() == WifiManager.WIFI_STATE_ENABLED){
+					if (wifi.startScan() == true){
 						wifiList = wifi.getScanResults();
-					} while (wifiList == null) ; //wait until wiFi is truly enabled
-					if (wifiList.size()==0 ){
-						status.append("No wifi connection");
-					}
-					else {
-						status.append("List of available WiFi: \n\n");
-						for(int i = 0; i < wifiList.size(); i++){
-							status.append(Integer.valueOf(i+1).toString() + ".");
-							status.append((wifiList.get(i)).toString());
-							status.append("\n\n");
+						if (wifiList.size()==0 ){
+							status.append("No wifi connection");
+						} else {
+							status.append("List of available WiFi: \n\n");
+							for(int i = 0; i < wifiList.size(); i++){
+								status.append(Integer.valueOf(i+1).toString() + ".");
+								status.append((wifiList.get(i)).toString());
+								status.append("\n\n");
+							}
 						}
+					} else {
+						status.append("Scan failed!!!") ;
 					}
 								 
-				}
-				else{
+				} else{
 					status.append("WiFi is off, turn it on now !!! \n");
 				}
 				textStatus.setText(status);
