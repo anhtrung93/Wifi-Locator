@@ -10,16 +10,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
-//import android.net.wifi.WifiConfiguration;
-//import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-//import android.util.Log;
 import android.view.View;
-//import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.TextView;
-//import android.widget.Toast;
+import android.widget.ToggleButton;
 
 public class WifiLocator extends Activity {
 
@@ -38,8 +35,7 @@ public class WifiLocator extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		WifiState = (TextView)findViewById(R.id.wifistage);
-		Button OnWifi = (Button)findViewById(R.id.on);
-	    Button OffWifi = (Button)findViewById(R.id.off);
+	    ToggleButton OnOff = (ToggleButton) findViewById(R.id.onoff);
 	    Button Scan = (Button)findViewById(R.id.scan);
 	    this.registerReceiver(this.WifiStateChangedReceiver,
 	               new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION));
@@ -52,22 +48,18 @@ public class WifiLocator extends Activity {
 		wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 
 		//Switch WiFi
-	      
-	    	OnWifi.setOnClickListener(new Button.OnClickListener(){
-	    	@Override
-		    public void onClick(View arg0) {
-	    		// TODO Auto-generated method stub
-			    wifi = (WifiManager)getBaseContext().getSystemService(Context.WIFI_SERVICE);
-			    wifi.setWifiEnabled(true);
-		    }});
-		      
-		    OffWifi.setOnClickListener(new Button.OnClickListener(){
-		    @Override
-		    public void onClick(View arg0) {
-			    // TODO Auto-generated method stub
-			    wifi = (WifiManager)getBaseContext().getSystemService(Context.WIFI_SERVICE);
-			    wifi.setWifiEnabled(false);
-		    }});
+	        
+		    OnOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+		        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		            if (isChecked) {
+		            	wifi = (WifiManager)getBaseContext().getSystemService(Context.WIFI_SERVICE);
+		 			    wifi.setWifiEnabled(false);
+		            } else {
+		            	wifi = (WifiManager)getBaseContext().getSystemService(Context.WIFI_SERVICE);
+					    wifi.setWifiEnabled(true);
+		            }
+		        }
+		    });
 
 		// List WiFi		
 		status = new StringBuilder();
