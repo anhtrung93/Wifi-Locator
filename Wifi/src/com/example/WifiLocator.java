@@ -1,7 +1,5 @@
 package com.example;
 
-import java.util.List;
-
 import com.example.R;
 
 import android.app.Activity;
@@ -9,7 +7,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.View;
@@ -25,7 +22,8 @@ public class WifiLocator extends Activity {
 
 	TextView textStatus;
 	TextView WifiState;
-	List<ScanResult> wifiList;
+	//List<ScanResult> wifiList;
+	Fingerprint fingerprint;
 	
 	/** Called when the activity is first created. */
 	
@@ -71,22 +69,17 @@ public class WifiLocator extends Activity {
 					if (wifi.startScan() == true){
 						do {
 							//Scanning ...
-							wifiList = wifi.getScanResults();
-						} while (wifiList == null); //wait until the device finishes scanning						
-						if (wifiList.size()==0 ){
+							fingerprint = new Fingerprint(wifi.getScanResults());
+						} while (fingerprint.getSize() < 0); //wait until the device finishes scanning						
+						if (fingerprint.getSize() == 0){
 							status.append("No wifi connection");
 						} else {
 							status.append("List of available WiFi: \n\n");
-							for(int i = 0; i < wifiList.size(); i++){
-								status.append(Integer.valueOf(i+1).toString() + ".");
-								status.append((wifiList.get(i)).toString());
-								status.append("\n\n");
-							}
+							status.append(fingerprint.toString());
 						}
 					} else {
 						status.append("Scan failed!!!") ;
-					}
-								 
+					}								 
 				} else{
 					status.append("WiFi is off, turn it on now !!! \n");
 				}
