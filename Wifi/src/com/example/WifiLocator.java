@@ -88,6 +88,7 @@ public class WifiLocator extends Activity {
 			if (fingerprint.getSize() == 0){
 				status.append("No WiFi connection!!!");
 			} else {
+				Scan.setEnabled(true);
 				status.append("List of available WiFi: \n\n");
 				status.append(fingerprint.toString());
 			}
@@ -122,6 +123,7 @@ public class WifiLocator extends Activity {
 					if (wifi.startScan() == false){
 						status.append("Scan failed!!!") ;
 					} else {
+						Scan.setEnabled(false);
 						status.append("Scanning...");
 					}
 				} else{
