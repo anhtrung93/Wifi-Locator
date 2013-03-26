@@ -28,7 +28,5 @@ public class WiFiSignature {
 	
 	public String toString(){
 		return "BSSID: " + this.BSSID + "\nRSS: " + this.RSS + "\n";
-	}
-	
-
+	}	
 }

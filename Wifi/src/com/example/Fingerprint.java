@@ -25,11 +25,13 @@ public class Fingerprint {
 		for (int i = 0; i < this.size; i++){
 			this.WiFiList[i] = new WiFiSignature(WiFiList.get(i));
 		}
+		
 		for (int i = 0; i < this.size - 1; i++){
+			String BSSID1 = this.WiFiList[i].getBSSID();
 			for (int j = i+1; j < this.size; j++){
-				String BSSID1 = this.WiFiList[i].getBSSID();
 				String BSSID2 = this.WiFiList[j].getBSSID();
 				if (BSSID1.compareTo(BSSID2) > 0){
+					BSSID1 = BSSID2;
 					WiFiSignature tempWiFiSignature = this.WiFiList[i];
 					this.WiFiList[i] = this.WiFiList[j];
 					this.WiFiList[j] = tempWiFiSignature;
@@ -49,5 +51,4 @@ public class Fingerprint {
 		}
 		return tempString;
 	}
-
 }

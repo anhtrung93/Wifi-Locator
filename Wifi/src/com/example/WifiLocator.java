@@ -31,7 +31,7 @@ public class WifiLocator extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		WifiState = (TextView)findViewById(R.id.wifistage);
+		WifiState = (TextView)findViewById(R.id.wifistate);
 	    ToggleButton OnOff = (ToggleButton) findViewById(R.id.onoff);
 	    Button Scan = (Button)findViewById(R.id.scan);
 	    this.registerReceiver(this.WifiStateChangedReceiver,
@@ -40,12 +40,10 @@ public class WifiLocator extends Activity {
 		// Setup UI
 		textStatus = (TextView) findViewById(R.id.textStatus);
 
-
 		// Setup WiFi
 		wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 
-		//Switch WiFi
-	        
+		//Switch WiFi        
 	    OnOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 	        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 	            if (isChecked) {
@@ -58,7 +56,7 @@ public class WifiLocator extends Activity {
 	        }
 	    });
 
-		// List WiFi		
+		// Start Scanning WiFi		
 		status = new StringBuilder();
 		Scan.setOnClickListener(new Button.OnClickListener(){
 			@Override
@@ -66,20 +64,11 @@ public class WifiLocator extends Activity {
 				// TODO Auto-generated method stub	   
 				status.delete(0, status.length());
 				if (wifi.getWifiState() == WifiManager.WIFI_STATE_ENABLED){
-					if (wifi.startScan() == true){
-						do {
-							//Scanning ...
-							fingerprint = new Fingerprint(wifi.getScanResults());
-						} while (fingerprint.getSize() < 0); //wait until the device finishes scanning						
-						if (fingerprint.getSize() == 0){
-							status.append("No wifi connection");
-						} else {
-							status.append("List of available WiFi: \n\n");
-							status.append(fingerprint.toString());
-						}
-					} else {
+					if (wifi.startScan() == false){
 						status.append("Scan failed!!!") ;
-					}								 
+					} else {
+						status.append("Scanning...");
+					}
 				} else{
 					status.append("WiFi is off, turn it on now !!! \n");
 				}
@@ -87,11 +76,27 @@ public class WifiLocator extends Activity {
 			}
 		});
 
+		//List WiFi
+		status = new StringBuilder();
+		registerReceiver(new BroadcastReceiver(){
+			@Override
+			public void onReceive(Context context, Intent intent){
+				status.delete(0, status.length());
+				wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+				fingerprint = new Fingerprint(wifi.getScanResults());
+				//status.delete(0, status.length());
+				if (fingerprint.getSize() == 0){
+					status.append("No wifi connection");
+				} else {
+					status.append("List of available WiFi: \n\n");
+					status.append(fingerprint.toString());
+				}
+				textStatus.setText(status);
+			}
+		}, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 	}
 	
 	// WiFi Status
-   
-
 	private BroadcastReceiver WifiStateChangedReceiver
     	= new BroadcastReceiver(){
 
@@ -99,7 +104,7 @@ public class WifiLocator extends Activity {
 	    public void onReceive(Context context, Intent intent) {
 			// TODO Auto-generated method stub
 	   
-		    int extraWifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE ,
+		    int extraWifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE,
 		    		WifiManager.WIFI_STATE_UNKNOWN);
 		   
 		    switch(extraWifiState){
@@ -121,4 +126,9 @@ public class WifiLocator extends Activity {
 		    }
 		}
     };
+    
+    @Override
+    public void onDestroy(){
+    	super.onDestroy();
+    }
 }
