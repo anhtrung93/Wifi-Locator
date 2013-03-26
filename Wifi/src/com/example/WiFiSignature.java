@@ -6,18 +6,24 @@ package com.example;
 import android.net.wifi.ScanResult;
 
 /**
- * @author trunganhdinh
+ * @author anhtrung93
+ * 
+ * Class 'WiFiSignature' Overview:
+ * Describe information about a detected access point
  *
  */
 public class WiFiSignature {
-	private String BSSID;
-	private int RSS;
+	/********************Fields*****************************/
+	private String BSSID;		//Address of the access point
+	private int RSS;			//Signal Level in dBm
 	
+	/********************Methods*****************************/
 	public WiFiSignature(ScanResult scanResult){
 		this.BSSID = scanResult.BSSID;
 		this.RSS = scanResult.level;
 	}
 	
+	//
 	public String getBSSID(){
 		return this.BSSID;
 	}

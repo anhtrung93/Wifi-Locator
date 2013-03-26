@@ -8,7 +8,7 @@ import java.util.List;
 import android.net.wifi.ScanResult;
 
 /**
- * @author trunganhdinh
+ * @author anhtrung93
  *
  */
 public class Fingerprint {
@@ -26,6 +26,10 @@ public class Fingerprint {
 			this.WiFiList[i] = new WiFiSignature(WiFiList.get(i));
 		}
 		
+		this.reorganize();		
+	}
+	
+	private void reorganize(){
 		for (int i = 0; i < this.size - 1; i++){
 			String BSSID1 = this.WiFiList[i].getBSSID();
 			for (int j = i+1; j < this.size; j++){
@@ -37,7 +41,7 @@ public class Fingerprint {
 					this.WiFiList[j] = tempWiFiSignature;
 				}
 			}
-		}		
+		}
 	}
 	
 	public int getSize(){
