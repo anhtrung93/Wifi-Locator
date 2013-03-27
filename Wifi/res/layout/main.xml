@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:orientation="vertical" android:layout_width="fill_parent"
   android:layout_height="fill_parent"
-
   >
 
     <TextView
@@ -11,10 +10,8 @@
         android:layout_height="wrap_content"
         android:text="@string/switch_wifi"
         android:textAppearance="?android:attr/textAppearanceLarge"
-       
          />
-
-    
+ 
 
 <LinearLayout
     android:layout_width="wrap_content"
@@ -29,8 +26,6 @@
         android:layout_height="match_parent"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="15sp" />
-
- 
     
 </LinearLayout>
 
@@ -66,7 +61,5 @@
 
       </LinearLayout>
   </ScrollView>
-
-
 
 </LinearLayout>
