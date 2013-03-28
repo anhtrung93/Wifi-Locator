@@ -25,7 +25,7 @@ public class Fingerprint {
 	 * Output: 'this' with the array of WiFiSignature
 	 * 	- sorted by their BSSID values
 	 */
-	private void sort(){
+	public void sort(){
 		for (int i = 0; i < this.size - 1; i++){
 			String BSSID1 = this.WiFiList[i].getBSSID();
 			for (int j = i+1; j < this.size; j++){
@@ -49,7 +49,21 @@ public class Fingerprint {
 	private void filter(){		
 	}
 	
+
 	/********************Public Methods*********************/
+	
+	public Fingerprint(WiFiSignature[] wiFiList) {
+		super();
+		WiFiList = wiFiList;
+	}
+
+	public Fingerprint(WiFiSignature[] wiFiList, String label) {
+		super();
+		WiFiList = wiFiList;
+		this.label = label;
+	}
+	
+	
 	/**
 	 * Constructor: Fingerprint(List<ScanResult> WiFiList)
 	 * Input: a list of ScanResult

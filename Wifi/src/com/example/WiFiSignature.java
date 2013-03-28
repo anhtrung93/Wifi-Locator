@@ -16,6 +16,12 @@ public class WiFiSignature {
 	
 	/********************Private Methods********************/
 	/********************Public Methods*********************/
+
+	public WiFiSignature(String BSSID, int RSS){
+		this.BSSID = BSSID;
+		this.RSS = RSS;
+	}
+	
 	public WiFiSignature(ScanResult scanResult){
 		this.BSSID = scanResult.BSSID;
 		this.RSS = scanResult.level;
