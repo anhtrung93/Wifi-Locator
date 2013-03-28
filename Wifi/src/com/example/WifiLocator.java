@@ -1,7 +1,7 @@
 package com.example;
-
+import java.util.Timer;
+import java.util.TimerTask;
 import com.example.R;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,7 +10,9 @@ import android.content.IntentFilter;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -20,6 +22,8 @@ public class WifiLocator extends Activity {
 	ToggleButton OnOff;
 	TextView textStatus;
 	Button Scan;
+	CheckBox AutoScan;
+	Timer timer;
 	
 	/** Called when the activity is first created. */
 	
@@ -42,6 +46,7 @@ public class WifiLocator extends Activity {
 		WifiState = (TextView)findViewById(R.id.wifistate);
 	    Scan = (Button)findViewById(R.id.scan);
  		textStatus = (TextView) findViewById(R.id.textStatus);
+ 		AutoScan = (CheckBox) findViewById(R.id.autoscan);
 	}
 	
 	// WiFi Status
@@ -88,7 +93,7 @@ public class WifiLocator extends Activity {
 			if (fingerprint.getSize() == 0){
 				status.append("No WiFi connection!!!");
 			} else {
-				Scan.setEnabled(true);
+				//Scan.setEnabled(true);
 				status.append("List of available WiFi: \n\n");
 				status.append(fingerprint.toString());
 			}
@@ -123,7 +128,7 @@ public class WifiLocator extends Activity {
 					if (wifi.startScan() == false){
 						status.append("Scan failed!!!") ;
 					} else {
-						Scan.setEnabled(false);
+						//Scan.setEnabled(false);
 						status.append("Scanning...");
 					}
 				} else{
@@ -132,6 +137,47 @@ public class WifiLocator extends Activity {
 				textStatus.setText(status);
 			}
 		});
+		
+		//Auto Listener -> Start auto scanning
+		AutoScan.setOnClickListener(new OnClickListener() {
+			
+
+			@Override
+			public void onClick(View v) {	
+				if (AutoScan.isChecked()) {
+					Timer myTimer;
+					myTimer = new Timer();
+				    myTimer.schedule(new TimerTask() {          
+				        @Override
+				        public void run() {
+				        	StringBuilder status = new StringBuilder();
+							WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+							
+							if (wifi.getWifiState() == WifiManager.WIFI_STATE_ENABLED){
+								if (wifi.startScan() == false){
+									status.append("Scan failed!!!") ;
+								} else {
+									status.append("Auto Scanning...");
+								}
+							} else{
+								status.append("WiFi is off, turn it on now !!! \n");
+							}
+							textStatus.setText(status);
+				        	
+				        }
+				    }, 0, 2000);
+					Scan.setEnabled(false);
+				}
+				else{
+					Scan.setEnabled(true);
+				}
+
+			}
+		});
+		
     }
     
 }
+
+
+

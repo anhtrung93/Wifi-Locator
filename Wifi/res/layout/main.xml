@@ -37,6 +37,12 @@
       android:textAppearance="?android:attr/textAppearanceLarge" 
       />
 
+  <CheckBox
+      android:id="@+id/autoscan"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/autoscan" />
+
   <Button
       android:id="@+id/scan"
       android:layout_width="75dp"
