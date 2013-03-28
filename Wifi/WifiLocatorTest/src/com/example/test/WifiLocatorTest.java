@@ -21,7 +21,7 @@ import android.test.ViewAsserts;
 import android.test.suitebuilder.annotation.SmallTest;
 
 public class WifiLocatorTest extends ActivityInstrumentationTestCase2<WifiLocator> {
-	WifiLocator wifiLocator = getActivity();
+//	WifiLocator wifiLocator = getActivity();
 	TextView WifiState;
 	ToggleButton OnOff;
 	TextView textStatus;
@@ -35,14 +35,15 @@ public class WifiLocatorTest extends ActivityInstrumentationTestCase2<WifiLocato
 	}
 	protected void setUp() throws Exception {
 		super.setUp();
+		WifiLocator wifiLocator = getActivity();
 		OnOff = (ToggleButton) wifiLocator.findViewById(R.id.onoff);
 		WifiState = (TextView)wifiLocator.findViewById(R.id.wifistate);
 	    Scan = (Button)wifiLocator.findViewById(R.id.scan);
  		textStatus = (TextView) wifiLocator.findViewById(R.id.textStatus);
 	}
 	
-	@SmallTest
-	public void viewsCreateTest(){
+
+	public void testViewsCreateTest(){
 		assertNotNull(getActivity());
 		assertNotNull(OnOff);
 		assertNotNull(WifiState);
@@ -50,8 +51,23 @@ public class WifiLocatorTest extends ActivityInstrumentationTestCase2<WifiLocato
 		assertNotNull(textStatus);
 	}
 	
-	@SmallTest
-	public void onCreateTest(){
+	public void testNameTest0(){
+		
+	}
+	
+	public void testNameTest1(){
+		
+	}
+	
+	public void testNameTest2(){
+		
+	}
+	
+	public void testNameTest3(){
+		
+	}
+	
+	public void testOnCreateTest(){
 		assertTrue("Test On/Off Button when starting up", OnOff.getText().toString().equals(WifiManager.WIFI_STATE_CHANGED_ACTION));
 		assertTrue("Test Wifi State when starting up", WifiState.getText().toString().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 	}
