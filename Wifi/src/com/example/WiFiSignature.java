@@ -13,6 +13,7 @@ public class WiFiSignature {
 	/********************Fields*****************************/
 	private String BSSID;		//Address of the access point
 	private int RSS;			//Signal Level in dBm
+	private String SSID;
 	
 	/********************Private Methods********************/
 	/********************Public Methods*********************/
@@ -23,6 +24,7 @@ public class WiFiSignature {
 	}
 	
 	public WiFiSignature(ScanResult scanResult){
+		this.SSID = scanResult.SSID;
 		this.BSSID = scanResult.BSSID;
 		this.RSS = scanResult.level;
 	}
@@ -56,6 +58,6 @@ public class WiFiSignature {
 	 * - Second line: the signal strength
 	 */
 	public String toString(){
-		return "BSSID: " + this.BSSID + "\nRSS: " + this.RSS + "\n";
+		return "SSID: " + this.SSID + "\nBSSID: " + this.BSSID + "\nRSS: " + this.RSS + "\n";
 	}	
 }

@@ -139,19 +139,18 @@ public class WifiLocator extends Activity {
 		});
 		
 		//Auto Listener -> Start auto scanning
+		
 		AutoScan.setOnClickListener(new OnClickListener() {
-			
-
 			@Override
-			public void onClick(View v) {	
+			public void onClick(View v) {
+				
 				if (AutoScan.isChecked()) {
-					Timer myTimer;
-					myTimer = new Timer();
-				    myTimer.schedule(new TimerTask() {          
+					timer = new Timer();
+				    timer.schedule(new TimerTask() {          
 				        @Override
 				        public void run() {
 				        	StringBuilder status = new StringBuilder();
-							WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+				        	WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 							
 							if (wifi.getWifiState() == WifiManager.WIFI_STATE_ENABLED){
 								if (wifi.startScan() == false){
@@ -162,22 +161,23 @@ public class WifiLocator extends Activity {
 							} else{
 								status.append("WiFi is off, turn it on now !!! \n");
 							}
-							textStatus.setText(status);
-				        	
+							//textStatus.setText(status);
 				        }
 				    }, 0, 2000);
 					Scan.setEnabled(false);
-				}
-				else{
+				} else{
+					timer.cancel();
 					Scan.setEnabled(true);
 				}
-
 			}
-		});
-		
+		});		
+    }
+    
+    @Override
+    public void onDestroy(){
+    	super.onDestroy();
+    	this.unregisterReceiver(this.WifiScanAvailableReceiver);
+    	this.unregisterReceiver(this.WifiStateChangedReceiver);
     }
     
 }
-
-
-
