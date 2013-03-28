@@ -24,12 +24,14 @@ public class WifiLocator extends Activity {
 	Button Scan;
 	CheckBox AutoScan;
 	Timer timer;
+	Boolean scanOnClick;
 	
 	/** Called when the activity is first created. */
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.initialize();
 		
 		this.setUpInterface();
 		// Register Receivers && Listeners
@@ -38,6 +40,12 @@ public class WifiLocator extends Activity {
 	    this.registerReceiver(this.WifiScanAvailableReceiver,
 	    		new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 		this.setUpButtonListeners();
+	}
+	
+	private void initialize(){
+ 		scanOnClick = false;
+		WifiManager wifi = (WifiManager) getBaseContext().getSystemService(Context.WIFI_SERVICE);
+	    wifi.setWifiEnabled(true);
 	}
 	
 	private void setUpInterface(){
@@ -86,18 +94,25 @@ public class WifiLocator extends Activity {
     	
 		@Override
 		public void onReceive(Context context, Intent intent){
-			StringBuilder status = new StringBuilder();
-			WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-			Fingerprint fingerprint = new Fingerprint(wifi.getScanResults());
-			
-			if (fingerprint.getSize() == 0){
-				status.append("No WiFi connection!!!");
-			} else {
-				//Scan.setEnabled(true);
-				status.append("List of available WiFi: \n\n");
-				status.append(fingerprint.toString());
+			if (AutoScan.isChecked() || scanOnClick){
+				StringBuilder status = new StringBuilder();
+				WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+				Fingerprint fingerprint = new Fingerprint(wifi.getScanResults());
+				
+				if (fingerprint.getSize() == 0){
+					status.append("No WiFi connection!!!");
+				} else {
+					if (AutoScan.isChecked()){
+						Scan.setEnabled(false);
+					} else {
+						Scan.setEnabled(true);
+					}
+					status.append("List of available WiFi: \n\n");
+					status.append(fingerprint.toString());
+				}
+				textStatus.setText(status);
+				scanOnClick = false;
 			}
-			textStatus.setText(status);
 		}
     };
     
@@ -110,9 +125,11 @@ public class WifiLocator extends Activity {
 	        	if (isChecked) {
 	            	wifi = (WifiManager) getBaseContext().getSystemService(Context.WIFI_SERVICE);
 	 			    wifi.setWifiEnabled(false);
+	 			    scanOnClick = false;
 	            } else {
 	            	wifi = (WifiManager) getBaseContext().getSystemService(Context.WIFI_SERVICE);
 				    wifi.setWifiEnabled(true);
+				    scanOnClick = false;
 	            }
 	        }
 	    });
@@ -128,13 +145,14 @@ public class WifiLocator extends Activity {
 					if (wifi.startScan() == false){
 						status.append("Scan failed!!!") ;
 					} else {
-						//Scan.setEnabled(false);
+						Scan.setEnabled(false);
 						status.append("Scanning...");
 					}
 				} else{
 					status.append("WiFi is off, turn it on now !!! \n");
 				}
 				textStatus.setText(status);
+				scanOnClick = true;
 			}
 		});
 		
@@ -163,7 +181,7 @@ public class WifiLocator extends Activity {
 							}
 							//textStatus.setText(status);
 				        }
-				    }, 0, 2000);
+				    }, 0, 1000);
 					Scan.setEnabled(false);
 				} else{
 					timer.cancel();
