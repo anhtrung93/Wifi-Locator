@@ -1,6 +1,7 @@
 package com.example;
 
 import java.util.List;
+import java.util.Arrays;
 
 import android.net.wifi.ScanResult;
 
@@ -26,18 +27,7 @@ public class Fingerprint {
 	 * 	- sorted by their BSSID values
 	 */
 	public void sort(){
-		for (int i = 0; i < this.size - 1; i++){
-			String BSSID1 = this.WiFiList[i].getBSSID();
-			for (int j = i+1; j < this.size; j++){
-				String BSSID2 = this.WiFiList[j].getBSSID();
-				if (BSSID1.compareTo(BSSID2) > 0){
-					BSSID1 = BSSID2;
-					WiFiSignature tempWiFiSignature = this.WiFiList[i];
-					this.WiFiList[i] = this.WiFiList[j];
-					this.WiFiList[j] = tempWiFiSignature;
-				}
-			}
-		}
+		Arrays.sort(this.WiFiList);
 	}
 	
 	/**
@@ -54,12 +44,12 @@ public class Fingerprint {
 	
 	public Fingerprint(WiFiSignature[] wiFiList) {
 		super();
-		WiFiList = wiFiList;
+		this.WiFiList = wiFiList;
 	}
 
 	public Fingerprint(WiFiSignature[] wiFiList, String label) {
 		super();
-		WiFiList = wiFiList;
+		this.WiFiList = wiFiList;
 		this.label = label;
 	}
 	
@@ -74,12 +64,12 @@ public class Fingerprint {
 	 */
 	public Fingerprint(List<ScanResult> WiFiList){
 		if (WiFiList == null){
-			this.size = -1;
+			this.WiFiList = null;
 			return;
 		}
-		this.size = WiFiList.size();
-		this.WiFiList = new WiFiSignature[this.size];
-		for (int i = 0; i < this.size; i++){
+		int size = WiFiList.size();
+		this.WiFiList = new WiFiSignature[size];
+		for (int i = 0; i < size; i++){
 			this.WiFiList[i] = new WiFiSignature(WiFiList.get(i));
 		}
 		
@@ -93,7 +83,7 @@ public class Fingerprint {
 	 * Output: the number of the WiFiSignature
 	 */
 	public int getSize(){
-		return this.size;
+		return this.WiFiList.length;
 	}
 	
 	/**
