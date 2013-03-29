@@ -8,19 +8,28 @@ package com.example;
  *
  *
  */
-public class DataBase {
+ 
+ // Clients interract with server via this class
+ 
+ public class DataBase {
 	/********************Fields*****************************/
-	private Fingerprint[] fingerprintList;
+	private ObjectOutputStream oos;
+	private ObjectInputStream ois;
+	private Socket clientSock;
+
+
 
 	/********************Private Methods********************/
 	/********************Public Methods*********************/
 	/**
 	 * Constructor: DataBase()
-	 * Input:
+	 * Input: server address
 	 * Output: this after initialization
 	 */
-	public DataBase(){
-		
+	public DataBase(String serverAddress, int serverPort) throws Exceptions{
+		clientSock = new Socket(serverAddress, serverPort);
+		oos = new ObjectOutputStream(clientSock.getOutputStream());
+		ois = new ObjectInputStream(clientSock.getInputStream());		
 	}
 	
 	/**
@@ -30,6 +39,10 @@ public class DataBase {
 	 * 
 	 */
 	public void loadFromFile(){
+		// for very first release, everything will be pushed to a server
+		// server will serve hard job, client(android) just request
+		// no local database is implemented at the moment
+		// just for future use
 	}
 	
 	/**
@@ -39,6 +52,20 @@ public class DataBase {
 	 * 
 	 */
 	public void storeToFile(){
+		// the same as loadFromFile method
+	}
+	
+	
+	/**
+	 * Method: request(Object obj)
+	 * Input: request object
+	 * Output: object replied from server
+	 */
+	 
+	 
+	private Object request(Object req) throws Exception {
+		oos.writeObject(req);
+		return ois.readObject();
 	}
 	
 	/**
@@ -48,7 +75,7 @@ public class DataBase {
 	 *  - the 'query' object
 	 */
 	public Fingerprint find(Fingerprint query){
-		return query;
+		return (Fingerprint) request(new FindRequest(query))
 	}
 	
 	/**
@@ -58,6 +85,7 @@ public class DataBase {
 	 *  - 'newFingerprint' to 'fingerprintList'
 	 */
 	public void add(Fingerprint newFingerprint){
+		return (Fingerprint) request(new AddRequest(newFingerprint));
 	}
 	
 	/**
@@ -67,5 +95,18 @@ public class DataBase {
 	 *  - 'oldFingerprint' from 'fingerprintList'
 	 */
 	public void remove(Fingerprint oldFingerprint){
+		return (Fingerprint) remove(new RemoveRequest(oldFingerprint));
+	}
+	
+	/**
+	 * Method: closeSession
+	 * just to close the Session
+	 * do it when there is no more work to do with the server
+	 */
+	public void closeSession() {
+		request(Constant.FINISH);
+		ois.close();
+		oos.close();
+		clientSock.close();
 	}
 }
