@@ -9,11 +9,11 @@ import android.net.wifi.ScanResult;
  * Describe information about a detected access point
  *
  */
-public class WiFiSignature {
+public class WiFiSignature implements Comparable<WiFiSignature> {
 	/********************Fields*****************************/
 	private String BSSID;		//Address of the access point
 	private int RSS;			//Signal Level in dBm
-	private String SSID;
+	private String SSID;	
 	
 	/********************Private Methods********************/
 	/********************Public Methods*********************/
@@ -59,5 +59,14 @@ public class WiFiSignature {
 	 */
 	public String toString(){
 		return "SSID: " + this.SSID + "\nBSSID: " + this.BSSID + "\nRSS: " + this.RSS + "\n";
-	}	
+	}
+	
+	/**
+	 * Method: compareTo()
+	 * just to implement Comaprable interface
+	 */
+	 
+	public int compareTo(WiFiSignature another) {
+        	return this.getBSSID().compareTo(another.getBSSID());
+	}
 }
