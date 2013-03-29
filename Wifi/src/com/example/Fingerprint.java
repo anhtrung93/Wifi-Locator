@@ -103,9 +103,33 @@ public class Fingerprint {
 	 *  - difference between 'this' and otherFingerprint.
 	 *  - The larger the float is, the more different they are
 	 */
-	public float differFrom(Fingerprint otherFingerprint){
-		return 0;
+	public float differFrom(Fingerprint another) {		
+		WiFiSignature[] list1 = this.getWiFiList();
+		WiFiSignature[] list2 = another.getWiFiList();
+		int size1 = this.getSize();
+		int size2 = another.getSize();
+		int count = 0;
+		int diff = 0;
+		
+		int i = 0, j = 0;
+		while (i < size1 && j < size2) {
+			WiFiSignature s1 = list1[i];
+			WiFiSignature s2 = list2[i];
+			int d = s1.compareTo(s2);
+			if (d == 0) {
+				count++;
+				int sd = s1.getRSS() - s2.getRSS();
+				diff += sd*sd;
+			} else if (d < 0) {
+				i++;
+			} else {
+				j++;
+			}
+		}
+		
+		return (float)diff / ((float) count / (size1+size2));			
 	}
+	
 	
 	/**
 	 * Method: toString()
