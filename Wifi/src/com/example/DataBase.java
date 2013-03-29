@@ -75,7 +75,7 @@ package com.example;
 	 *  - the 'query' object
 	 */
 	public Fingerprint find(Fingerprint query){
-		return (Fingerprint) request(new FindRequest(query))
+		return (Fingerprint) request(new FindRequest(query));
 	}
 	
 	/**
