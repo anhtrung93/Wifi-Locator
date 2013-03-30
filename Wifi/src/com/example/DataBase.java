@@ -28,7 +28,7 @@ import java.net.*;
 	 * Input: server address
 	 * Output: this after initialization
 	 */
-	public DataBase(String serverAddress, int serverPort) throws Exceptions{
+	public DataBase(String serverAddress, int serverPort) throws Exception {
 		clientSock = new Socket(serverAddress, serverPort);
 		oos = new ObjectOutputStream(clientSock.getOutputStream());
 		ois = new ObjectInputStream(clientSock.getInputStream());		
@@ -87,7 +87,7 @@ import java.net.*;
 	 *  - 'newFingerprint' to 'fingerprintList'
 	 */
 	public void add(Fingerprint newFingerprint){
-		return (Fingerprint) request(new AddRequest(newFingerprint));
+		request(new AddRequest(newFingerprint));
 	}
 	
 	/**
@@ -97,7 +97,7 @@ import java.net.*;
 	 *  - 'oldFingerprint' from 'fingerprintList'
 	 */
 	public void remove(Fingerprint oldFingerprint){
-		return (Fingerprint) remove(new RemoveRequest(oldFingerprint));
+		remove(new RemoveRequest(oldFingerprint));
 	}
 	
 	/**
