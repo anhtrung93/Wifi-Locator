@@ -87,6 +87,14 @@ public class Fingerprint {
 	}
 	
 	/**
+	 * Method: getWiFiList();
+	 * Output: the Wifi list
+	 */
+	
+	public WiFiSignature[] getWiFiList() {
+		return this.WiFiList;
+	}
+	/**
 	 * Method: addLabel(String newLabel)
 	 * Input: newLabel - String - the name of the location with
 	 * - the respective location
