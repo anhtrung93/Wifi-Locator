@@ -97,7 +97,7 @@ import java.net.*;
 	 *  - 'oldFingerprint' from 'fingerprintList'
 	 */
 	public void remove(Fingerprint oldFingerprint){
-		remove(new RemoveRequest(oldFingerprint));
+		request(new RemoveRequest(oldFingerprint));
 	}
 	
 	/**
