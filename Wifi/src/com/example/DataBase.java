@@ -75,8 +75,9 @@ import java.net.*;
 	 * Input: 'this' object + query
 	 * Output: a Fingerprint which is closest to
 	 *  - the 'query' object
+	 * @throws Exception 
 	 */
-	public Fingerprint find(Fingerprint query){
+	public Fingerprint find(Fingerprint query) throws Exception{
 		return (Fingerprint) request(new FindRequest(query));
 	}
 	
@@ -85,8 +86,9 @@ import java.net.*;
 	 * Input: 'this' object
 	 * Output: 'this' object after adding 
 	 *  - 'newFingerprint' to 'fingerprintList'
+	 * @throws Exception 
 	 */
-	public void add(Fingerprint newFingerprint){
+	public void add(Fingerprint newFingerprint) throws Exception{
 		request(new AddRequest(newFingerprint));
 	}
 	
@@ -95,8 +97,9 @@ import java.net.*;
 	 * Input: 'this' object
 	 * Output: 'this' object after deleting
 	 *  - 'oldFingerprint' from 'fingerprintList'
+	 * @throws Exception 
 	 */
-	public void remove(Fingerprint oldFingerprint){
+	public void remove(Fingerprint oldFingerprint) throws Exception{
 		request(new RemoveRequest(oldFingerprint));
 	}
 	
@@ -104,8 +107,9 @@ import java.net.*;
 	 * Method: closeSession
 	 * just to close the Session
 	 * do it when there is no more work to do with the server
+	 * @throws Exception 
 	 */
-	public void closeSession() {
+	public void closeSession() throws Exception {
 		request(Constant.FINISH);
 		ois.close();
 		oos.close();
