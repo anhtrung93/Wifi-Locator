@@ -25,7 +25,7 @@ import java.net.*;
 	/********************Public Methods*********************/
 	/**
 	 * Constructor: DataBase()
-	 * Input: server address
+	 *3 Input: server address
 	 * Output: this after initialization
 	 */
 	public DataBase(String serverAddress, int serverPort) throws Exception {
@@ -33,30 +33,7 @@ import java.net.*;
 		oos = new ObjectOutputStream(clientSock.getOutputStream());
 		ois = new ObjectInputStream(clientSock.getInputStream());		
 	}
-	
-	/**
-	 * Method: loadFromFile()
-	 * Input: this
-	 * Output: a file was creating to save 'fingerprintList'
-	 * 
-	 */
-	public void loadFromFile(){
-		// for very first release, everything will be pushed to a server
-		// server will serve hard job, client(android) just request
-		// no local database is implemented at the moment
-		// just for future use
-	}
-	
-	/**
-	 * Method: storeToFile()
-	 * Input: this
-	 * Output: a file was creating to save 'fingerprintList'
-	 * 
-	 */
-	public void storeToFile(){
-		// the same as loadFromFile method
-	}
-	
+		
 	
 	/**
 	 * Method: request(Object obj)
