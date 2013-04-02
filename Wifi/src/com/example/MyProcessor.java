@@ -28,7 +28,7 @@ public class MyProcessor implements Processor {
 
     public Object process(Object obj) {
 	Object ret = null;
-	if (obj == Finish.FINISH)
+	if (obj == Constant.FINISH)
 	    ret = obj;
 	else if (obj instanceof AddRequest) {
 	    add(((AddRequest) obj).getFingerprint());
