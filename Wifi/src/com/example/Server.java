@@ -29,7 +29,7 @@ class ClientThread implements Runnable {
 		toSent = protocol.process(received);
 		oos.writeObject(toSent);
 		//		oos.flush();
-	    } while (received != Finish.FINISH && toSent != Finish.FINISH);
+	    } while (received != Constant.FINISH && toSent != Constant.FINISH);
 	
 	    ois.close();
 	    oos.close();
