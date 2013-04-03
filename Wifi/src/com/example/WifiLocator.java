@@ -25,6 +25,7 @@ public class WifiLocator extends Activity {
 	CheckBox AutoScan;
 	Timer timer;
 	Boolean scanOnClick;
+	Button saveLabel;
 	
 	/** Called when the activity is first created. */
 	
@@ -40,6 +41,8 @@ public class WifiLocator extends Activity {
 	    this.registerReceiver(this.WifiScanAvailableReceiver,
 	    		new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 		this.setUpButtonListeners();
+		
+        
 	}
 	
 	private void initialize(){
@@ -55,6 +58,8 @@ public class WifiLocator extends Activity {
 	    Scan = (Button)findViewById(R.id.scan);
  		textStatus = (TextView) findViewById(R.id.textStatus);
  		AutoScan = (CheckBox) findViewById(R.id.autoscan);
+ 		saveLabel = (Button) findViewById(R.id.saveLabel);
+ 		
 	}
 	
 	// WiFi Status
@@ -117,6 +122,13 @@ public class WifiLocator extends Activity {
     };
     
     private void setUpButtonListeners(){
+    	// saveLabel Listener -> go to saved label activity
+    	saveLabel.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent myIntent = new Intent(view.getContext(), SavedLabelActivity.class);
+                startActivityForResult(myIntent, 0);
+            }
+        });
     	//OnOff Listener -> enable/disable WiFi
 	    OnOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 	        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

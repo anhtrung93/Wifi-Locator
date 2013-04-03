@@ -2,43 +2,49 @@
  * 
  */
 package com.example;
+import java.io.*;
+import java.net.*;
 
 /**
  * @author anhtrung93
  *
  *
  */
-public class DataBase {
+ 
+ // Clients interract with server via this class
+ 
+ public class DataBase {
 	/********************Fields*****************************/
-	private Fingerprint[] fingerprintList;
+	private ObjectOutputStream oos;
+	private ObjectInputStream ois;
+	private Socket clientSock;
+
+
 
 	/********************Private Methods********************/
 	/********************Public Methods*********************/
 	/**
 	 * Constructor: DataBase()
-	 * Input:
+	 *3 Input: server address
 	 * Output: this after initialization
 	 */
-	public DataBase(){
+	public DataBase(String serverAddress, int serverPort) throws Exception {
+		clientSock = new Socket(serverAddress, serverPort);
+		oos = new ObjectOutputStream(clientSock.getOutputStream());
+		ois = new ObjectInputStream(clientSock.getInputStream());		
+	}
 		
-	}
 	
 	/**
-	 * Method: loadFromFile()
-	 * Input: this
-	 * Output: a file was creating to save 'fingerprintList'
-	 * 
+	 * Method: request(Object obj)
+	 * Input: request object
+	 * Output: object replied from server
 	 */
-	public void loadFromFile(){
-	}
-	
-	/**
-	 * Method: storeToFile()
-	 * Input: this
-	 * Output: a file was creating to save 'fingerprintList'
-	 * 
-	 */
-	public void storeToFile(){
+	 
+	 
+	private Object request(Object req) throws Exception {
+		oos.writeObject(req);
+		return ois.readObject();
 	}
 	
 	/**
@@ -46,9 +52,10 @@ public class DataBase {
 	 * Input: 'this' object + query
 	 * Output: a Fingerprint which is closest to
 	 *  - the 'query' object
+	 * @throws Exception 
 	 */
-	public Fingerprint find(Fingerprint query){
-		return query;
+	public Fingerprint find(Fingerprint query) throws Exception{
+		return (Fingerprint) request(new FindRequest(query));
 	}
 	
 	/**
@@ -56,8 +63,10 @@ public class DataBase {
 	 * Input: 'this' object
 	 * Output: 'this' object after adding 
 	 *  - 'newFingerprint' to 'fingerprintList'
+	 * @throws Exception 
 	 */
-	public void add(Fingerprint newFingerprint){
+	public void add(Fingerprint newFingerprint) throws Exception{
+		request(new AddRequest(newFingerprint));
 	}
 	
 	/**
@@ -65,7 +74,22 @@ public class DataBase {
 	 * Input: 'this' object
 	 * Output: 'this' object after deleting
 	 *  - 'oldFingerprint' from 'fingerprintList'
+	 * @throws Exception 
 	 */
-	public void remove(Fingerprint oldFingerprint){
+	public void remove(Fingerprint oldFingerprint) throws Exception{
+		request(new RemoveRequest(oldFingerprint));
+	}
+	
+	/**
+	 * Method: closeSession
+	 * just to close the Session
+	 * do it when there is no more work to do with the server
+	 * @throws Exception 
+	 */
+	public void closeSession() throws Exception {
+		request(Constant.FINISH);
+		ois.close();
+		oos.close();
+		clientSock.close();
 	}
 }
