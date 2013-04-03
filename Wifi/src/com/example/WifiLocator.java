@@ -93,7 +93,7 @@ public class WifiLocator extends Activity {
 		}
     };
 
-    //List WiFi when Scan finish	es
+    //List WiFi when Scan finishes
     private BroadcastReceiver WifiScanAvailableReceiver
     	= new BroadcastReceiver(){
     	
