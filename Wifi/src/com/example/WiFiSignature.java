@@ -1,6 +1,7 @@
 package com.example;
 
 import android.net.wifi.ScanResult;
+import android.app.Activity;
 
 /**
  * @author anhtrung93
@@ -9,7 +10,7 @@ import android.net.wifi.ScanResult;
  * Describe information about a detected access point
  *
  */
-public class WiFiSignature {
+public class WiFiSignature extends Activity{
 	/********************Fields*****************************/
 	private String BSSID;		//Address of the access point
 	private int RSS;			//Signal Level in dBm

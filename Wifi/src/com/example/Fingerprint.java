@@ -2,6 +2,7 @@ package com.example;
 
 import java.util.List;
 
+import android.app.Activity;
 import android.net.wifi.ScanResult;
 
 /**
@@ -12,7 +13,7 @@ import android.net.wifi.ScanResult;
  * - which was arranged for future implementation
  *
  */
-public class Fingerprint {
+public class Fingerprint extends Activity{
 	/********************Fields*****************************/
 	private int size;
 	private WiFiSignature [] WiFiList;
