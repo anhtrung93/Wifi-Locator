@@ -21,6 +21,7 @@
         <action android:name="com.example" />
       </intent-filter>
     </receiver>
+    <activity android:name="SavedLabelActivity" android:label="@string/save_label"></activity>
     
   </application>
   

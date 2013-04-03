@@ -7,4 +7,6 @@
     <string name="program_title">WiFi Locator v1.2</string>
     <string name="Scan_button">Scan</string>
     <string name="autoscan">Auto Scan</string>
+    <string name="save_label">Saved Label</string>
+    <string name="back">Back</string>
 </resources>
