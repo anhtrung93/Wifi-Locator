@@ -12,7 +12,8 @@ public class SavedLabelActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
-	    setContentView(R.layout.savelabel);
+	    setContentView(R.layout.savedlabel);
+	    
 	    
         Button back = (Button) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
