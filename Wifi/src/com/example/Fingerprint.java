@@ -1,6 +1,7 @@
 package com.example;
 
 import java.util.List;
+import java.util.Arrays;
 
 import android.app.Activity;
 import android.net.wifi.ScanResult;
@@ -27,18 +28,7 @@ public class Fingerprint extends Activity{
 	 * 	- sorted by their BSSID values
 	 */
 	public void sort(){
-		for (int i = 0; i < this.size - 1; i++){
-			String BSSID1 = this.WiFiList[i].getBSSID();
-			for (int j = i+1; j < this.size; j++){
-				String BSSID2 = this.WiFiList[j].getBSSID();
-				if (BSSID1.compareTo(BSSID2) > 0){
-					BSSID1 = BSSID2;
-					WiFiSignature tempWiFiSignature = this.WiFiList[i];
-					this.WiFiList[i] = this.WiFiList[j];
-					this.WiFiList[j] = tempWiFiSignature;
-				}
-			}
-		}
+		Arrays.sort(this.WiFiList);
 	}
 	
 	/**
@@ -55,12 +45,12 @@ public class Fingerprint extends Activity{
 	
 	public Fingerprint(WiFiSignature[] wiFiList) {
 		super();
-		WiFiList = wiFiList;
+		this.WiFiList = wiFiList;
 	}
 
 	public Fingerprint(WiFiSignature[] wiFiList, String label) {
 		super();
-		WiFiList = wiFiList;
+		this.WiFiList = wiFiList;
 		this.label = label;
 	}
 	
@@ -75,12 +65,12 @@ public class Fingerprint extends Activity{
 	 */
 	public Fingerprint(List<ScanResult> WiFiList){
 		if (WiFiList == null){
-			this.size = -1;
+			this.WiFiList = null;
 			return;
 		}
-		this.size = WiFiList.size();
-		this.WiFiList = new WiFiSignature[this.size];
-		for (int i = 0; i < this.size; i++){
+		int size = WiFiList.size();
+		this.WiFiList = new WiFiSignature[size];
+		for (int i = 0; i < size; i++){
 			this.WiFiList[i] = new WiFiSignature(WiFiList.get(i));
 		}
 		
@@ -94,9 +84,17 @@ public class Fingerprint extends Activity{
 	 * Output: the number of the WiFiSignature
 	 */
 	public int getSize(){
-		return this.size;
+		return this.WiFiList.length;
 	}
 	
+	/**
+	 * Method: getWiFiList();
+	 * Output: the Wifi list
+	 */
+	
+	public WiFiSignature[] getWiFiList() {
+		return this.WiFiList;
+	}
 	/**
 	 * Method: addLabel(String newLabel)
 	 * Input: newLabel - String - the name of the location with
@@ -114,9 +112,33 @@ public class Fingerprint extends Activity{
 	 *  - difference between 'this' and otherFingerprint.
 	 *  - The larger the float is, the more different they are
 	 */
-	public float differFrom(Fingerprint otherFingerprint){
-		return 0;
+	public float differFrom(Fingerprint another) {		
+		WiFiSignature[] list1 = this.getWiFiList();
+		WiFiSignature[] list2 = another.getWiFiList();
+		int size1 = this.getSize();
+		int size2 = another.getSize();
+		int count = 0;
+		int diff = 0;
+		
+		int i = 0, j = 0;
+		while (i < size1 && j < size2) {
+			WiFiSignature s1 = list1[i];
+			WiFiSignature s2 = list2[i];
+			int d = s1.compareTo(s2);
+			if (d == 0) {
+				count++;
+				int sd = s1.getRSS() - s2.getRSS();
+				diff += sd*sd;
+			} else if (d < 0) {
+				i++;
+			} else {
+				j++;
+			}
+		}
+		
+		return (float)diff / ((float) count / (size1+size2));			
 	}
+	
 	
 	/**
 	 * Method: toString()
