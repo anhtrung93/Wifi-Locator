@@ -13,35 +13,34 @@ public class SavedLabelActivity extends Activity {
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-	    super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);
 
-	    
-	    this.setUpInterface(); // Setup Interface
-	    this.setUpButtonListeners();
-	    
-        
-        
-	
-	    // TODO Auto-generated method stub
+
+		this.setUpInterface(); // Setup Interface
+		this.setUpButtonListeners();
+
+
+
+
+		// TODO Auto-generated method stub
 	}
 	private void setUpInterface(){
-	    setContentView(R.layout.savedlabel);
-	    back = (Button) findViewById(R.id.back);
-
- 		
+		setContentView(R.layout.savedlabel);
+		back = (Button) findViewById(R.id.back);
 	}
-	
+
 	private void setUpButtonListeners(){
-		
+
 		//Back Listener -> Back to mainActivity
 		back.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                setResult(RESULT_OK, intent);
-                finish();
-            }
-        });
-		
+			@Override
+			public void onClick(View view) {
+				Intent intent = new Intent();
+				setResult(RESULT_OK, intent);
+				finish();
+			}
+		});
+
 	}
 
 }

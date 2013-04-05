@@ -6,72 +6,98 @@ import android.app.Activity;
 /**
  * @author anhtrung93
  * 
- * Class 'WiFiSignature' Overview:
- * Describe information about a detected access point
- *
+ *         Class WiFiSignature Overview: 
+ *         - Keep information of a wifi access points including 
+ *         	+ its basicServiceSetIdentifier 
+ *         	+ its receivedSignalStrenth
+ *         	+ its serviceSetIdentifier
+ * 
  */
-<<<<<<< HEAD
-public class WiFiSignature extends Activity{
-=======
-public class WiFiSignature implements Comparable<WiFiSignature> {
->>>>>>> ad0deb87f71fa9036666b06107ff0766f2dd7ec4
-	/********************Fields*****************************/
-	private String BSSID;		//Address of the access point
-	private int RSS;			//Signal Level in dBm
-	private String SSID;	
-	
-	/********************Private Methods********************/
-	/********************Public Methods*********************/
+public class WifiSignature extends Activity implements
+		Comparable<WifiSignature> {
+	private String basicServiceSetIdentifier; // Address of the access point
+	private int receivedSignalStrength; // Signal strength
+	private String serviceSetIdentifier; // Name of the access point
 
-	public WiFiSignature(String BSSID, int RSS){
-		this.BSSID = BSSID;
-		this.RSS = RSS;
-	}
-	
-	public WiFiSignature(ScanResult scanResult){
-		this.SSID = scanResult.SSID;
-		this.BSSID = scanResult.BSSID;
-		this.RSS = scanResult.level;
+	/**
+	 * Constructor: WifiSignature(ScanResult)
+	 * Input: a ScanResult object
+	 * Output: this object(with fields are initialized)
+	 * Description: initialize this object 
+	 * - with a ScanResult object taken by scanning
+	 */
+	public WifiSignature(ScanResult scanResult) {
+		this.serviceSetIdentifier = scanResult.SSID;
+		this.basicServiceSetIdentifier = scanResult.BSSID;
+		this.receivedSignalStrength = scanResult.level;
 	}
 	
 	/**
-	 * Method: getBSSID()
-	 * Input: this
-	 * Output: String in the form of 
-	 * - a six-byte MAC address: XX:XX:XX:XX:XX:XX
-	 * - 'X : is an alpha-number
+	 * Constructor: WifiSignature(String, int, String)
+	 * Input: 2 strings + an integer
+	 * - First String: in the form of "XX:XX:XX:XX:XX:XX"
+	 * 	 	MAC address of the access point (X is an alpha-number)
+	 * - The integer: the current signal strength measured in dBm
+	 * - Second String: the name of the access point
+	 * Output: this object(with fields are initialized)
+	 * Note: this object method is used to test!!!
 	 */
-	public String getBSSID(){
-		return this.BSSID;
+	public WifiSignature(String initBasicServiceSetIdentifier,
+			int initReceivedSignalStrength, String initServiceSetIdentifier) {
+		this.basicServiceSetIdentifier = initBasicServiceSetIdentifier;
+		this.receivedSignalStrength = initReceivedSignalStrength;
+		this.serviceSetIdentifier = initServiceSetIdentifier;
 	}
-	
+
 	/**
-	 * Method: getRSS()
-	 * Input: this
-	 * Output: the signal strength integer
-	 * -  in range from -100 to ???
+	 * Method: compareTo(WifiSignature)
+	 * Input: this object + another WifiSignature object
+	 * Output: an integer
+	 * - is the lexicographic distance between
+	 * - the basicServiceSetIdentifier strings of both
+	 * - this object and the other WifiSignature object
 	 */
-	public int getRSS(){
-		return this.RSS;
+	@Override
+	public int compareTo(WifiSignature otherWifiSignature) {
+		return this.getBasicServiceSetIdentifier().compareTo(
+				otherWifiSignature.getBasicServiceSetIdentifier());
 	}
-	
+
+	/**
+	 * Method: getBasicServiceSetIdentifier()
+	 * Input: this object
+	 * Output: a string 
+	 * - in the form of a six-byte MAC address 
+	 * - "XX:XX:XX:XX:XX:XX" with 'X' is an alpha-number
+	 */
+	public String getBasicServiceSetIdentifier() {
+		return this.basicServiceSetIdentifier;
+	}
+
+	/**
+	 * Method: getReceivedSignalStrength()
+	 * Input: this object
+	 * Output: an integer 
+	 * - shows the signal strength
+	 * - in range from -100 to ???
+	 */
+	public int getReceivedSignalStrength() {
+		return this.receivedSignalStrength;
+	}
+
 	/**
 	 * Method: toString()
-	 * Input: this
-	 * Output: a string with 2 lines
-	 * - First line: the BSSID string
-	 * - Second line: the signal strength
+	 * Input: this object
+	 * Output: a string with 3 lines
+	 * - First line: the name
+	 * - Second line: the MAC address
+	 * - Third line: the signal strength
 	 */
-	public String toString(){
-		return "SSID: " + this.SSID + "\nBSSID: " + this.BSSID + "\nRSS: " + this.RSS + "\n";
-	}
-	
-	/**
-	 * Method: compareTo()
-	 * just to implement Comaprable interface
-	 */
-	 
-	public int compareTo(WiFiSignature another) {
-        	return this.getBSSID().compareTo(another.getBSSID());
+	@Override
+	public String toString() {
+		String strTemp = "SSID: " + this.serviceSetIdentifier + "\nBSSID: "
+				+ this.basicServiceSetIdentifier + "\nRSS: "
+				+ this.receivedSignalStrength + "\n";
+		return strTemp;
 	}
 }
