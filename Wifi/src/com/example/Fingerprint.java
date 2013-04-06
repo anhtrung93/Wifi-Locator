@@ -8,92 +8,104 @@ import android.net.wifi.ScanResult;
 /**
  * @author anhtrung93
  * 
- *         Class Fingerprint overview: Objects of this class keep a list of all
- *         WifiSignature which a device scan gets and a label of its location
+ *         A Fingerprint object encapsulates the state information of all signal
+ *         from all wifi access points(WifiSignature objects) at a point of
+ *         time. Fingerprint class allows application to reorder the list of
+ *         delete some unnecessary wifi signal from the list. Users also can
+ *         assign a location label to a Fingerprint object This state
+ *         information includes:
+ *         <ul>
+ *         <li>a list of WifiSignature objects</li>
+ *         <li>a label of location</li>
+ *         </ul>
  * 
  */
-public class Fingerprint{
-	private WifiSignature[] wifiList; //the list of WifiSignature objects
-	String locationLabel; //the label assigned by users
+public class Fingerprint {
+	private WifiSignature[] wifiList; // the list of WifiSignature objects
+	String locationLabel; // the label assigned by users
 
 	/**
-	 * Constructor: Fingerprint(List<ScanResult>)
-	 * Input: a list of ScanResult objects
-	 * Output: this object with
-	 * - this.wifiList are initialized 
-	 *  + by using data from List<ScanResult>
-	 * - this.wifiList is sorted and filtered (watch sort() and filter())
-	 * - this.locationLabel is initialized with "Unknown location"
+	 * Constructs the object by using a scan result. This.wifiList is
+	 * initialized by using data from a list of ScanResult objects and then is
+	 * sorted and filtered. The location label of this object is initialized
+	 * with "Unknown location" label.
+	 * 
+	 * @param listOfScanResults
+	 *            list of all wifi signal received after the device makes a scan
 	 */
-	
-	
 	public Fingerprint(List<ScanResult> listOfScanResults) {
-		int size = listOfScanResults.size();		
+		int size = listOfScanResults.size();
 		this.wifiList = new WifiSignature[size];
 		for (int idWifiList = 0; idWifiList < size; idWifiList++) {
 			this.wifiList[idWifiList] = new WifiSignature(
 					listOfScanResults.get(idWifiList));
 		}
-	this.sort();
+
+		this.sort();
 		this.filter();
-		
+
 		this.locationLabel = "Unknown location";
 	}
 
 	/**
-	 * Constructor: Fingerprint(WifiSignature[])
-	 * Input: an array of WifiSignature objects
-	 * Output: this object with
-	 * - this.wifiList are initialized 
-	 *  + by using data from the array WifiSignature[]
-	 * Note: this method is used to test!!!
-	*/
+	 * Constructs this object with an initial list of WifiSignature objects. The
+	 * label is initialized with "Unknown location" label.
+	 * <p>
+	 * <b>Note: this method is used to test!!!</b>
+	 * 
+	 * @param initWifiList
+	 *            a list of WifiSignature objects
+	 */
 	public Fingerprint(WifiSignature[] initWifiList) {
-		super();
 		this.wifiList = initWifiList;
+		this.locationLabel = "Unknown location";
 	}
 
 	/**
-	 * Constructor: Fingerprint(WifiSignature[], String)
-	 * Input: an array of WifiSignature objects + String
-	 * - the String is the label assigned to this object
-	 * Output: this object with
-	 * - this.wifiList are initialized 
-	 *  + by using data from the array WifiSignature[]
-	 * - this.locationLabel is initialized with the String
-	 * Note: this method is used to test!!!
-	*/
-
+	 * Constructs this object with an initial list of WifiSignature objects and
+	 * an initial locatiation label.
+	 * <p>
+	 * <b>Note: this method is used to test!!!</b>
+	 * 
+	 * @param initWifiList
+	 *            a list of WifiSignature objects
+	 * @param initLocationLabel
+	 *            a initial location label
+	 */
 	public Fingerprint(WifiSignature[] initWifiList, String initLocationLabel) {
-		super();
 		this.wifiList = initWifiList;
 		this.locationLabel = initLocationLabel;
 	}
 
 	/**
-	 * Method: addLabel(String)
-	 * Input: a String 
-	 * - the new label of the location
-	 * Output: this (with this.label == newLabel)
-	 * Alert: if there is an old label, it will be replaced!!!
+	 * Adds a new location label.
+	 * <p>
+	 * <b>Alert: if there exists an older label, it will be replaced!!!</b>
+	 * 
+	 * @param newLabel
+	 *            a new location label
 	 */
 	public void addLabel(String newLabel) {
 		this.locationLabel = newLabel;
 	}
 
 	/**
-	 * Method: differFrom(Fingerprint)
-	 * Input: this object + another Fingerprint object
-	 * Output: a float
-	 * - shows the difference between two Fingerprint objects
-	 * - the larger the float is, the more different two objects are
+	 * Differs this Fingerprint object with another Fingerprint object. Returns
+	 * a float which shows the difference between two Fingerprint objects. The
+	 * larger the float is, the more different two objects are.
+	 * 
+	 * @param otherFingerprint
+	 *            other Fingerprint object which will be compared with the
+	 *            current object
+	 * @return a float show the relative difference between this Fingerprint
+	 *         object the otherFingerprint object
 	 */
-	//This method needs to be changed in the future release
-	public float differFrom(Fingerprint anotherFingerprint) {
+	// This method needs to be changed in the future release
+	public float differFrom(Fingerprint otherFingerprint) {
 		WifiSignature[] thisWifiList = this.getWifiList();
-		WifiSignature[] anotherWifiList = anotherFingerprint.getWifiList();
+		WifiSignature[] anotherWifiList = otherFingerprint.getWifiList();
 		int thisSize = this.getSize();
-		int anotherSize = anotherFingerprint.getSize();
+		int anotherSize = otherFingerprint.getSize();
 
 		int count = 0; // Number of matched WifiSignature
 		int difference = 0;
@@ -116,56 +128,49 @@ public class Fingerprint{
 			}
 		}
 
-		return ((float)difference / count)
-		    / ((float) count / (thisSize + anotherSize));
+		return ((float) difference / count)
+				/ ((float) count / (thisSize + anotherSize));
 	}
 
 	/**
-	 * Method: filter()
-	 * Input: this object
-	 * Output: this object with 
-	 * - unimportant WifiSignature objects are deleted
+	 * Deletes unnecessary WifiSignature objects from the list of WifiSignature
+	 * objects. Objects which will be deleted are ...
 	 */
 	private void filter() {
 	}
 
 	/**
-	 * Method: getSize()
-	 * Input: this object
-	 * Output: an integer
-	 * - the number of the WifiSignature objects in the list
+	 * Gets the current number of WifiSignature objects in the list.
+	 * 
+	 * @return the number of WifiSignature objects
 	 */
 	public int getSize() {
 		return this.wifiList.length;
 	}
 
 	/**
-	 * Method: getWifiList()
-	 * Input: this object
-	 * Output: the wifi list
+	 * Gets the list of all wifi signal objects in the form of an array of
+	 * WifiSignature objects.
+	 * 
+	 * @return array of WifiSignature objects extracted from this current object
 	 */
 	public WifiSignature[] getWifiList() {
 		return this.wifiList;
 	}
 
 	/**
-	 * Method: sort()
-	 * Input: this object
-	 * Output: this object with
-	 * - the array of WifiSignature objects
-	 * - sorted by their BSSID values
+	 * Sorts the list of WifiSignature objects by using the compareTo method of
+	 * the WifiSignature class
 	 */
-	public void sort(){
+	public void sort() {
 		Arrays.sort(this.wifiList);
 	}
-	
+
 	/**
-	 * Method: toString()
-	 * Input: this object
-	 * Output: a string including 
-	 * - groups of lines 
-	 * - each groups shows the information about 
-	 * - a WifiSignature object
+	 * Returns this Fingerprint object in the form of string.
+	 * 
+	 * @return a string with many group of lines. Each group is a substring form
+	 *         of a WifiSignature objects in the list
 	 */
 	@Override
 	public String toString() {

@@ -15,7 +15,6 @@ import java.net.*;
  */
 
 // Clients interact with server via this class
-
 public class DataBase {
 	private ObjectOutputStream objectOutputStream;
 	private ObjectInputStream objectInputStream;
