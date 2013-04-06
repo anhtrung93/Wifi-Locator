@@ -15,18 +15,18 @@ import java.net.*;
  */
 
 // Clients interact with server via this class
-public class DataBase {
+public class Database {
 	private ObjectOutputStream objectOutputStream;
 	private ObjectInputStream objectInputStream;
 	private Socket clientSocket;
 
 	/**
-	 * Constructor: DataBase()
+	 * Constructor: Database()
 	 * Input: a string and an integer (the string contains the server address
 	 *         and the integer is the server port)
 	 * Output: this object after initialization
 	 */
-	public DataBase(String serverAddress, int serverPort) throws Exception {
+	public Database(String serverAddress, int serverPort) throws Exception {
 		clientSocket = new Socket(serverAddress, serverPort);
 		objectOutputStream = new ObjectOutputStream(
 				clientSocket.getOutputStream());
