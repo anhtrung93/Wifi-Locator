@@ -24,14 +24,16 @@ public class SavedLabelActivity extends Activity {
 
 		// TODO Auto-generated method stub
 	}
+	//To setup interface
 	private void setUpInterface(){
 		setContentView(R.layout.savedlabel);
 		back = (Button) findViewById(R.id.back);
 	}
 
+	// To setup all ButtonListenrs
 	private void setUpButtonListeners(){
-
 		//Back Listener -> Back to mainActivity
+		
 		back.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
