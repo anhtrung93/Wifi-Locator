@@ -13,12 +13,6 @@ import android.net.wifi.ScanResult;
  * 
  */
 public class Fingerprint{
-	/********************Fields*****************************/
-	private int size;
-	private WifiSignature [] WiFiList;
-	String label;	//name of the room or location
-	
-	/********************Private Methods********************/
 	private WifiSignature[] wifiList; //the list of WifiSignature objects
 	String locationLabel; //the label assigned by users
 
@@ -40,7 +34,7 @@ public class Fingerprint{
 			this.wifiList[idWifiList] = new WifiSignature(
 					listOfScanResults.get(idWifiList));
 		}
-		this.sort();
+	this.sort();
 		this.filter();
 		
 		this.locationLabel = "Unknown location";
@@ -70,8 +64,7 @@ public class Fingerprint{
 	 * Note: this method is used to test!!!
 	*/
 
-	public Fingerprint(WifiSignature[] initWifiList,
-			String initLocationLabel) {
+	public Fingerprint(WifiSignature[] initWifiList, String initLocationLabel) {
 		super();
 		this.wifiList = initWifiList;
 		this.locationLabel = initLocationLabel;
@@ -101,18 +94,19 @@ public class Fingerprint{
 		WifiSignature[] anotherWifiList = anotherFingerprint.getWifiList();
 		int thisSize = this.getSize();
 		int anotherSize = anotherFingerprint.getSize();
-		
+
 		int count = 0; // Number of matched WifiSignature
 		int difference = 0;
 		// Sum of square of each difference of each matched WifiSignature's RSS
 
-		for (int i=0, j=0; i < thisSize && j < anotherSize; ) {
+		for (int i = 0, j = 0; i < thisSize && j < anotherSize;) {
 			WifiSignature thisSignature = thisWifiList[i];
 			WifiSignature anotherSignature = anotherWifiList[i];
-			int compareResult  = thisSignature.compareTo(anotherSignature);
+			int compareResult = thisSignature.compareTo(anotherSignature);
 			if (compareResult == 0) {
 				count++;
-				intsquareOfDifference = thisSignature.getReceivedSignalStrength()
+				int squareOfDifference = thisSignature
+						.getReceivedSignalStrength()
 						- anotherSignature.getReceivedSignalStrength();
 				difference += squareOfDifference * squareOfDifference;
 			} else if (compareResult < 0) {
@@ -162,7 +156,7 @@ public class Fingerprint{
 	 * - sorted by their BSSID values
 	 */
 	public void sort(){
-		Arrays.sort(this.WiFiList);
+		Arrays.sort(this.wifiList);
 	}
 	
 	/**

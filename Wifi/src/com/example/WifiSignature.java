@@ -1,7 +1,6 @@
 package com.example;
 
 import android.net.wifi.ScanResult;
-import android.app.Activity;
 
 /**
  * @author anhtrung93

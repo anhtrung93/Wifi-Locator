@@ -60,6 +60,10 @@ public class Server {
     public static void main(String args[]) {
 	Processor demoProcessor = new MyProcessor();
 	Server demoServer = new Server(demoProcessor, Constant.SERVER_PORT);
-	demoServer.serve();	
+	try {
+		demoServer.serve();	
+	}catch(Exception ignoreException){
+		//change in the future
+	}
     }
 }
