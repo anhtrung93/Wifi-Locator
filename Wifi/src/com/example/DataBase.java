@@ -2,94 +2,83 @@
  * 
  */
 package com.example;
+
 import java.io.*;
 import java.net.*;
 
 /**
- * @author anhtrung93
- *
- *
+ * author anhtrung93
+ * 
+ *         Class Database overview: This class is a virtual database in the
+ *         device as it is actually the link to the real database in the server
+ * 
  */
- 
- // Clients interract with server via this class
- 
- public class DataBase {
-	/********************Fields*****************************/
-	private ObjectOutputStream oos;
-	private ObjectInputStream ois;
-	private Socket clientSock;
 
+// Clients interact with server via this class
 
+public class DataBase {
+	private ObjectOutputStream objectOutputStream;
+	private ObjectInputStream objectInputStream;
+	private Socket clientSocket;
 
-	/********************Private Methods********************/
-	/********************Public Methods*********************/
 	/**
 	 * Constructor: DataBase()
-	 *3 Input: server address
-	 * Output: this after initialization
+	 * Input: a string and an integer (the string contains the server address
+	 *         and the integer is the server port)
+	 * Output: this object after initialization
 	 */
 	public DataBase(String serverAddress, int serverPort) throws Exception {
-		clientSock = new Socket(serverAddress, serverPort);
-		oos = new ObjectOutputStream(clientSock.getOutputStream());
-		ois = new ObjectInputStream(clientSock.getInputStream());		
+		clientSocket = new Socket(serverAddress, serverPort);
+		objectOutputStream = new ObjectOutputStream(
+				clientSocket.getOutputStream());
+		objectInputStream = new ObjectInputStream(clientSocket.getInputStream());
 	}
-		
-	
+
 	/**
-	 * Method: request(Object obj)
-	 * Input: request object
-	 * Output: object replied from server
+	 * Method: request(Object)
+	 * Input: the request object
+	 * Output: the object replied from server
 	 */
-	 
-	 
 	private Object request(Object req) throws Exception {
-		oos.writeObject(req);
-		return ois.readObject();
+		objectOutputStream.writeObject(req);
+		return objectInputStream.readObject();
 	}
-	
+
 	/**
-	 * Method: find(Fingerprint query)
-	 * Input: 'this' object + query
-	 * Output: a Fingerprint which is closest to
-	 *  - the 'query' object
-	 * @throws Exception 
+	 * Method: find(Fingerprint)
+	 * Input: this object + a Fingerprint(which needs to be found)
+	 * Output: a Fingerprint which is closest to the input Fingerprint object
 	 */
-	public Fingerprint find(Fingerprint query) throws Exception{
-		return (Fingerprint) request(new FindRequest(query));
+	public Fingerprint find(Fingerprint queryFingerprint) throws Exception {
+		return (Fingerprint) request(new FindRequest(queryFingerprint));
 	}
-	
+
 	/**
-	 * Method add(Fingerprint newFingerprint)
-	 * Input: 'this' object
-	 * Output: 'this' object after adding 
-	 *  - 'newFingerprint' to 'fingerprintList'
-	 * @throws Exception 
+	 * Method add(Fingerprint)
+	 * Input: this object
+	 * Output: this object after adding the Fingerprint object to the database
 	 */
-	public void add(Fingerprint newFingerprint) throws Exception{
+	public void add(Fingerprint newFingerprint) throws Exception {
 		request(new AddRequest(newFingerprint));
 	}
-	
+
 	/**
-	 * Method: remove(Fingerprint oldFingerprint)
-	 * Input: 'this' object
-	 * Output: 'this' object after deleting
-	 *  - 'oldFingerprint' from 'fingerprintList'
-	 * @throws Exception 
+	 * Method: remove(Fingerprint)
+	 * Input: this object
+	 * Output: this object after deleting the Fingerprint from the database
 	 */
-	public void remove(Fingerprint oldFingerprint) throws Exception{
+	public void remove(Fingerprint oldFingerprint) throws Exception {
 		request(new RemoveRequest(oldFingerprint));
 	}
-	
+
 	/**
-	 * Method: closeSession
-	 * just to close the Session
-	 * do it when there is no more work to do with the server
-	 * @throws Exception 
+	 * Method: closeSession()
+	 * Description: close the Session by closing all streams and socket
 	 */
 	public void closeSession() throws Exception {
 		request(Constant.FINISH);
-		ois.close();
-		oos.close();
-		clientSock.close();
+		objectInputStream.close();
+		objectOutputStream.close();
+		clientSocket.close();
 	}
 }

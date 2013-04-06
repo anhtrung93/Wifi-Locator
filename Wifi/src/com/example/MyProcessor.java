@@ -4,60 +4,60 @@ import java.util.*;
 import java.io.*;
 
 public class MyProcessor implements Processor {
-    private ArrayList <Fingerprint> fingerList;
-    
-    public MyProcessor() {
-	fingerList = new ArrayList<Fingerprint>();
-    }
+	private ArrayList <Fingerprint> fingerList;
 
-    public MyProcessor(String fileName) throws Exception {
-	FileInputStream fis = new FileInputStream(fileName);
-	ObjectInputStream ois = new ObjectInputStream(fis);
-	fingerList = (ArrayList <Fingerprint>) ois.readObject();
-	fis.close();
-	ois.close();
-    }
-
-    public void storeToFile(String fileName) throws Exception {
-	FileOutputStream fos = new FileOutputStream(fileName);
-	ObjectOutputStream oos = new ObjectOutputStream(fos);
-	oos.writeObject(fingerList);
-	fos.close();
-	oos.close();
-    }
-
-    public Object process(Object obj) {
-	Object ret = null;
-	if (obj == Constant.FINISH)
-	    ret = obj;
-	else if (obj instanceof AddRequest) {
-	    add(((AddRequest) obj).getFingerprint());
-	} else if (obj instanceof RemoveRequest) {
-	    remove(((RemoveRequest) obj).getFingerprint());
-	} else if (obj instanceof FindRequest) {
-	    ret = find(((FindRequest) obj).getFingerprint());
+	public MyProcessor() {
+		fingerList = new ArrayList<Fingerprint>();
 	}
-	return ret;
-    }
-    
-    public Fingerprint find(Fingerprint query) {
-	Fingerprint result = null;
-	float minDiff = Constant.MAX_DIFF;
-	for (Fingerprint fp: fingerList) {
-	    float diff = fp.differFrom(query);
-	    if (diff < minDiff) {
-		result = fp;
-		minDiff = diff;
-	    }
+
+	public MyProcessor(String fileName) throws Exception {
+		FileInputStream fileInputStream = new FileInputStream(fileName);
+		ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+		fingerList = (ArrayList <Fingerprint>) objectInputStream.readObject();
+		fileInputStream.close();
+		objectInputStream.close();
 	}
-	return result;
-    }
 
-    public void add(Fingerprint fp) {
-	fingerList.add(fp);
-    }
+	public void storeToFile(String fileName) throws Exception {
+		FileOutputStream fileOutputStream = new FileOutputStream(fileName);
+		ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+		objectOutputStream.writeObject(fingerList);
+		fileOutputStream.close();
+		objectOutputStream.close();
+	}
 
-    public void remove(Fingerprint fp) {
-	fingerList.remove(fp);
-    }
+	public Object process(Object object) {
+		Object result = null;
+		if (object == Constant.FINISH)
+			result = object;
+		else if (object instanceof AddRequest) {
+			add(((AddRequest) object).getFingerprint());
+		} else if (object instanceof RemoveRequest) {
+			remove(((RemoveRequest) object).getFingerprint());
+		} else if (object instanceof FindRequest) {
+			result = find(((FindRequest) object).getFingerprint());
+		}
+		return result;
+	}
+
+	public Fingerprint find(Fingerprint query) {
+		Fingerprint result = null;
+		float smallestDifference = Constant.MAXIMUM_DIFFERENCE;
+		for (Fingerprint fingerprint: fingerList) {
+			float diff = fingerprint.differFrom(query);
+			if (diff < smallestDifference) {
+				result = fingerprint;
+				smallestDifference = diff;
+			}
+		}
+		return result;
+	}
+
+	public void add(Fingerprint fingerprint) {
+		fingerList.add(fingerprint);
+	}
+
+	public void remove(Fingerprint fingerprint) {
+		fingerList.remove(fingerprint);
+	}
 }
