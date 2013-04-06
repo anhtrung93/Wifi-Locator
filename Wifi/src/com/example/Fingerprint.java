@@ -88,32 +88,34 @@ public class Fingerprint extends Activity {
 	 * - the larger the float is, the more different two objects are
 	 */
 	//This method needs to be changed in the future release
-	public float differFrom(Fingerprint otherFingerprint) {
-		WifiSignature[] list1 = this.getwifiList();
-		WifiSignature[] list2 = otherFingerprint.getwifiList();
-		int size1 = this.getSize();
-		int size2 = otherFingerprint.getSize();
-		int count = 0;
+	public float differFrom(Fingerprint anotherFingerprint) {
+		WifiSignature[] thisWifiList = this.getWifiList();
+		WifiSignature[] anotherWifiList = anotherFingerprint.getwifiList();
+		int thisSize = this.getSize();
+		int anotherSize = otherFingerprint.getSize();
+		
+		int count = 0; // Number of matched WifiSignature
 		int difference = 0;
+		// Sum of square of each difference of each matched WifiSignature's RSS
 
-		int i = 0, j = 0;
-		while (i < size1 && j < size2) {
-			WifiSignature s1 = list1[i];
-			WifiSignature s2 = list2[i];
-			int d = s1.compareTo(s2);
-			if (d == 0) {
+		for (int i=0, j=0; i < thisSize && j < anotherSize; ) {
+			WifiSignature thisSignature = thisWifiList[i];
+			WifiSignature anotherSignature = anotherWifiList[i];
+			int compareResult  = thisSignature.compareTo(anotherSignature);
+			if (compareResult == 0) {
 				count++;
-				int sd = s1.getReceivedSignalStrength()
-						- s2.getReceivedSignalStrength();
-				difference += sd * sd;
-			} else if (d < 0) {
+				intsquareOfDifference = thisSignature.getReceivedSignalStrength()
+						- anotherSignature.getReceivedSignalStrength();
+				difference += squareOfDifference * squareOfDifference;
+			} else if (compareResult < 0) {
 				i++;
 			} else {
 				j++;
 			}
 		}
 
-		return difference / ((float) count / (size1 + size2));
+		return ((float)difference / count)
+		    / ((float) count / (thisSize + anotherSize));
 	}
 
 	/**
@@ -136,11 +138,11 @@ public class Fingerprint extends Activity {
 	}
 
 	/**
-	 * Method: getwifiList()
+	 * Method: getWifiList()
 	 * Input: this object
 	 * Output: the wifi list
 	 */
-	public WifiSignature[] getwifiList() {
+	public WifiSignature[] getWifiList() {
 		return this.wifiList;
 	}
 
