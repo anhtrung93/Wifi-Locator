@@ -1,7 +1,6 @@
 package com.example;
 
 import android.net.wifi.ScanResult;
-import android.app.Activity;
 
 /**
  * @author anhtrung93
@@ -10,11 +9,9 @@ import android.app.Activity;
  * Describe information about a detected access point
  *
  */
-<<<<<<< HEAD
-public class WiFiSignature extends Activity{
-=======
+
 public class WiFiSignature implements Comparable<WiFiSignature> {
->>>>>>> ad0deb87f71fa9036666b06107ff0766f2dd7ec4
+
 	/********************Fields*****************************/
 	private String BSSID;		//Address of the access point
 	private int RSS;			//Signal Level in dBm
@@ -26,6 +23,7 @@ public class WiFiSignature implements Comparable<WiFiSignature> {
 	public WiFiSignature(String BSSID, int RSS){
 		this.BSSID = BSSID;
 		this.RSS = RSS;
+		this.SSID = null;
 	}
 	
 	public WiFiSignature(ScanResult scanResult){
@@ -68,7 +66,7 @@ public class WiFiSignature implements Comparable<WiFiSignature> {
 	
 	/**
 	 * Method: compareTo()
-	 * just to implement Comaprable interface
+	 * just to implement Comparable interface
 	 */
 	 
 	public int compareTo(WiFiSignature another) {

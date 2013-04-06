@@ -3,7 +3,6 @@ package com.example;
 import java.util.List;
 import java.util.Arrays;
 
-import android.app.Activity;
 import android.net.wifi.ScanResult;
 
 /**
@@ -14,7 +13,7 @@ import android.net.wifi.ScanResult;
  * - which was arranged for future implementation
  *
  */
-public class Fingerprint extends Activity{
+public class Fingerprint{
 	/********************Fields*****************************/
 	private int size;
 	private WiFiSignature [] WiFiList;
@@ -27,6 +26,7 @@ public class Fingerprint extends Activity{
 	 * Output: 'this' with the array of WiFiSignature
 	 * 	- sorted by their BSSID values
 	 */
+	
 	public void sort(){
 		Arrays.sort(this.WiFiList);
 	}
@@ -118,7 +118,7 @@ public class Fingerprint extends Activity{
 		int size1 = this.getSize();
 		int size2 = another.getSize();
 		int count = 0;
-		int diff = 0;
+		int diffentFingerprints = 0;
 		
 		int i = 0, j = 0;
 		while (i < size1 && j < size2) {
@@ -128,15 +128,14 @@ public class Fingerprint extends Activity{
 			if (d == 0) {
 				count++;
 				int sd = s1.getRSS() - s2.getRSS();
-				diff += sd*sd;
+				diffentFingerprints += sd*sd;
 			} else if (d < 0) {
 				i++;
 			} else {
 				j++;
 			}
 		}
-		
-		return (float)diff / ((float) count / (size1+size2));			
+		return (float)diffentFingerprints / ((float) count / (size1+size2));			
 	}
 	
 	
