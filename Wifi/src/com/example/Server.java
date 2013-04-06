@@ -10,27 +10,27 @@ import java.io.*;
 import java.net.*;
 
 class ClientThread implements Runnable {
-
+    
     private Socket clientSocket;
-    private Processor protocol;
-    public ClientThread(Socket clientSocket, Processor protocol) {
+    private Processor processor;
+    public ClientThread(Socket clientSocket, Processor processor) {
 	this.clientSocket = clientSocket;
-	this.protocol = protocol;
+	this.processor = processor;
     }
-
+    
     public void run() {
 	try {
 	    ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
 	    ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
-
+	    
 	    Object received, toSent;
 	    do {
 		received = ois.readObject();
-		toSent = protocol.process(received);
+		toSent = processor.process(received);
 		oos.writeObject(toSent);
 		//		oos.flush();
 	    } while (received != Constant.FINISH && toSent != Constant.FINISH);
-	
+	    
 	    ois.close();
 	    oos.close();
 	    clientSocket.close();
@@ -42,18 +42,24 @@ class ClientThread implements Runnable {
 
 public class Server {
     private int port;
-    private Processor protocol;
+    private Processor processor;
     
-    public Server(Processor protocol, int port) {
-	this.protocol = protocol;
+    public Server(Processor processor, int port) {
+	this.processor = processor;
 	this.port = port;
     }
-
+    
     public void serve() throws Exception {
 	ServerSocket serverSocket = new ServerSocket(port);
 	while (true) {
 	    Socket clientSocket = serverSocket.accept();
-	    new Thread(new ClientThread(clientSocket, protocol)).start();
+	    new Thread(new ClientThread(clientSocket, processor)).start();
 	}
+    }
+    
+    public static void main(String args[]) {
+	Processor demoProcessor = new MyProcessor();
+	Server demoServer = new Server(demoProcessor, Constant.SERVER_PORT);
+	demoServer.serve();	
     }
 }
