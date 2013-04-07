@@ -1,15 +1,24 @@
-// @author: bvuong1993                                                                   
-package com.example.share;
+package com.example;
 
-import com.example.*;
-
-// This implements a specific type of a request
-// Use this request type to remove a fingerprint in a server
-
+/**
+ * 
+ * @author bvuong93
+ * 
+ *         RemoveRequest class is the subclass of the Request class, which is
+ *         specialized to remove an old Fingerprint object to the database on
+ *         the Server. An RemoveRequest object keeps only a Fingerprint object
+ *         field.
+ */
 public class RemoveRequest extends Request {
-	public RemoveRequest(Fingerprint fp) {
-		super(fp);
+
+	/**
+	 * Constructs an RemoveRequest object with a given Fingerprint object.
+	 * 
+	 * @param fingerprint
+	 *            the Fingerprint object which will be removed from the database
+	 *            on Server
+	 */
+	public RemoveRequest(Fingerprint fingerprint) {
+		super(fingerprint);
 	}
 }
-
-

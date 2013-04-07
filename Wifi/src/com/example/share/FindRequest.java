@@ -1,14 +1,22 @@
-// @author: bvuong1993                                                                   
+package com.example;
 
-package com.example.share;
-
-import com.example.*;
-
-// This implements a specific type of a request
-// Use this request type to find a fingerprint in a server
-
+/**
+ * 
+ * @author bvuong93
+ * 
+ *         FindRequest class is the subclass of the Request class, which is
+ *         specialized to search a Fingerprint object on the database on the
+ *         Server. An FindRequest object keeps only a Fingerprint object field.
+ */
 public class FindRequest extends Request {
-	public FindRequest(Fingerprint fp) {
-		super(fp);
+	/**
+	 * Constructs an FindRequest object with a given Fingerprint object.
+	 * 
+	 * @param fingerprint
+	 *            the Fingerprint object which will be searched from the
+	 *            database on Server
+	 */
+	public FindRequest(Fingerprint fingerprint) {
+		super(fingerprint);
 	}
 }

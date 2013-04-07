@@ -1,17 +1,21 @@
-// @author: bvuong1993
+package com.example;
 
-package com.example.share;
-
-import com.example.*;
+/**
+ * 
+ * @author bvuong93
+ * 
+ * Request class is a base class 
+ *
+ */
 
 public abstract class Request {
-	protected Fingerprint fp;
+    protected Fingerprint fingerprint;
 
-	public Request(Fingerprint fp) {
-		this.fp = fp;
-	}
+    public Request(Fingerprint fingerprint) {
+        this.fingerprint = fingerprint;
+    }
 
-	public Fingerprint getFingerprint() {
-		return this.fp;
-	}
+    public Fingerprint getFingerprint() {
+        return this.fingerprint;
+    }
 }

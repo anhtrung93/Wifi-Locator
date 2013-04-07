@@ -1,14 +1,23 @@
-// @author: bvuong1993
+package com.example;
 
-package com.example.share;
-
-import com.example.*;
-
-// This implements a specific type of a request
-// Use this request type to add a fingerprint to a server
-
+/**
+ * 
+ * @author bvuong93
+ * 
+ *         AddRequest class is the subclass of the Request class, which is
+ *         specialized to add a new Fingerprint object to the database on the
+ *         Server. An AddRequest object keeps only a Fingerprint object field.
+ */
 public class AddRequest extends Request {
-	public AddRequest(Fingerprint fp) {
-		super(fp);
-	}  
+
+	/**
+	 * Constructs an AddRequest object with a given Fingerprint object.
+	 * 
+	 * @param fingerprint
+	 *            the Fingerprint object which will be added into the database
+	 *            on Server
+	 */
+	public AddRequest(Fingerprint fingerprint) {
+		super(fingerprint);
+	}
 }
