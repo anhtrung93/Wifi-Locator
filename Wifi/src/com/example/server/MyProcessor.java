@@ -2,6 +2,7 @@ package com.example;
 
 import java.util.*;
 import java.io.*;
+import com.example.share.*;
 
 public class MyProcessor implements Processor {
 	private ArrayList <Fingerprint> fingerList;

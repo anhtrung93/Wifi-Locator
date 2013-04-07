@@ -8,6 +8,7 @@ package com.example;
 
 import java.io.*;
 import java.net.*;
+import com.example.share.*;
 
 class ClientThread implements Runnable {
 

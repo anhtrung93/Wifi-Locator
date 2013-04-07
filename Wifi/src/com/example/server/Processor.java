@@ -5,6 +5,7 @@
 // has only one method Object process(Object)
 
 package com.example;
+import com.example.share.*;
 
 public interface Processor {
 	public Object process(Object obj);
