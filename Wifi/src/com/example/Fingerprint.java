@@ -6,7 +6,7 @@ import java.util.Arrays;
 import android.net.wifi.ScanResult;
 
 /**
- * @author anhtrung93
+ * @author anhtrung93 + bvuong93
  * 
  *         A Fingerprint object encapsulates the state information of all signal
  *         from all wifi access points(WifiSignature objects) at a point of
@@ -63,7 +63,7 @@ public class Fingerprint {
 
 	/**
 	 * Constructs this object with an initial list of WifiSignature objects and
-	 * an initial locatiation label.
+	 * an initial location label.
 	 * <p>
 	 * <b>Note: this method is used to test!!!</b>
 	 * 
