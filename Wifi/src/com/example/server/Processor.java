@@ -7,5 +7,5 @@
 package com.example;
 
 public interface Processor {
-    public Object process(Object obj);
+	public Object process(Object obj);
 }
