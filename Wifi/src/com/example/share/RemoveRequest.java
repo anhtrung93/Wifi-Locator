@@ -1,4 +1,6 @@
-package com.example;
+package com.example.share;
+
+import com.example.*;
 
 /**
  * 

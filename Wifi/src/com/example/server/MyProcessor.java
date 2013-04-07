@@ -1,8 +1,9 @@
-package com.example;
+package com.example.server;
 
 import java.util.*;
 import java.io.*;
 import com.example.share.*;
+import com.example.*;
 
 public class MyProcessor implements Processor {
 	private ArrayList <Fingerprint> fingerList;

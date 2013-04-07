@@ -4,8 +4,7 @@
 // this is the base of classes which every specific request handler will implement
 // has only one method Object process(Object)
 
-package com.example;
-import com.example.share.*;
+package com.example.server;
 
 public interface Processor {
 	public Object process(Object obj);

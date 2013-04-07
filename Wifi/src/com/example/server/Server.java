@@ -4,7 +4,7 @@
 // Support multiple clients concurrently accessing the server
 // Missing Exception handlers
 
-package com.example;
+package com.example.server;
 
 import java.io.*;
 import java.net.*;
