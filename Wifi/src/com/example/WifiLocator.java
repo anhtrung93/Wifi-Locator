@@ -25,16 +25,13 @@ public class WifiLocator extends Activity {
 	CheckBox AutoScan;
 	Timer timer;
 	Boolean scanOnClick;
-	Button savedLabel;
-	public static Fingerprint generalFingerprint;
-	
+	Button saveLabel;
 
 	/** Called when the activity is first created. */
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
 		this.initialize();
 
 		this.setUpInterface();
@@ -44,17 +41,14 @@ public class WifiLocator extends Activity {
 		this.registerReceiver(this.WifiScanAvailableReceiver,
 				new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 		this.setUpButtonListeners();
-		//generalFingerprint.addLabel("gello");
 
 
 	}
 
 	private void initialize(){
 		scanOnClick = false;
-		generalFingerprint = new Fingerprint();
 		WifiManager wifi = (WifiManager) getBaseContext().getSystemService(Context.WIFI_SERVICE);
 		wifi.setWifiEnabled(true);
-		
 	}
 
 	private void setUpInterface(){
@@ -64,7 +58,7 @@ public class WifiLocator extends Activity {
 		Scan = (Button)findViewById(R.id.scan);
 		textStatus = (TextView) findViewById(R.id.textStatus);
 		AutoScan = (CheckBox) findViewById(R.id.autoscan);
-		savedLabel = (Button) findViewById(R.id.saveButton);
+		saveLabel = (Button) findViewById(R.id.saveLabel);
 
 	}
 
@@ -118,26 +112,21 @@ public class WifiLocator extends Activity {
 					} else {
 						Scan.setEnabled(true);
 					}
-					generalFingerprint = fingerprint;
 					status.append("List of available WiFi: \n\n");
-					status.append(generalFingerprint.toString());
+					status.append(fingerprint.toString());
 				}
 				textStatus.setText(status);
 				scanOnClick = false;
-				
 			}
-			
 		}
-		
 	};
 
 	private void setUpButtonListeners(){
-		// savedLabel Listener -> go to saved label activity
-		savedLabel.setOnClickListener(new View.OnClickListener() {
+		// saveLabel Listener -> go to saved label activity
+		saveLabel.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				Intent myIntent = new Intent(view.getContext(), SavedLabelActivity.class);
-//				myIntent.putExtra("theFP", generalFingerprint);
 				startActivityForResult(myIntent, 0);
 			}
 		});

@@ -30,7 +30,7 @@
 </LinearLayout>
 
   <TextView
-      android:id="@+id/labelName"
+      android:id="@+id/textView2"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="@string/scan_wifi"
@@ -50,7 +50,7 @@
       android:text="@string/Scan_button" />
 
   <Button
-      android:id="@+id/saveButton"
+      android:id="@+id/saveLabel"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="@string/save_label" />

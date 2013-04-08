@@ -4,7 +4,8 @@ package com.example.share;
  * 
  * @author bvuong93
  * 
- *         Constant Class is created to hold shared constants.
+ *         Constant Class is created to hold shared constants which nearly all
+ *         classes use.
  * 
  */
 
