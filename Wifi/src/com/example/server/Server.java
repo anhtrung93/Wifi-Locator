@@ -41,7 +41,7 @@ public class Server {
 	}
 
 	/**
-	 * Starts serving the clients' requests
+	 * Starts serving the clients' requests. ???
 	 * 
 	 * @throws Exception
 	 *             exception when something goes wrong
