@@ -20,7 +20,7 @@ import android.net.wifi.ScanResult;
  *         </ul>
  * 
  */
-public class Fingerprint {
+public class Fingerprint{
 	private WifiSignature[] wifiList; // the list of WifiSignature objects
 	private String locationLabel; // the label assigned by users
 
@@ -45,6 +45,10 @@ public class Fingerprint {
 		this.filter();
 
 		this.locationLabel = "Unknown location";
+	}
+	public Fingerprint(){
+		wifiList = null;
+		locationLabel="unknown";
 	}
 
 	/**
