@@ -6,8 +6,40 @@
 
 package com.example.server;
 
+import java.io.*;
 import java.net.*;
 import com.example.share.*;
+
+class ClientThread implements Runnable {
+
+	private Socket clientSocket;
+	private Processor processor;
+	public ClientThread(Socket clientSocket, Processor processor) {
+		this.clientSocket = clientSocket;
+		this.processor = processor;
+	}
+
+	public void run() {
+		try {
+			ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
+			ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
+
+			Object received, toSent;
+			do {
+				received = ois.readObject();
+				toSent = processor.process(received);
+				oos.writeObject(toSent);
+				//		oos.flush();
+			} while (received != Constant.FINISH && toSent != Constant.FINISH);
+
+			ois.close();
+			oos.close();
+			clientSocket.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
 
 public class Server {
 	private int port;
@@ -32,8 +64,8 @@ public class Server {
 		try {
 			demoServer.serve();
 			System.out.println("Server is running");
-		} catch (Exception ignoreException) {
-			// change in the future
+		}catch(Exception ignoreException){
+			//change in the future
 		}
 	}
 }

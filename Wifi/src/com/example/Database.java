@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package com.example;
 
 import java.io.*;
@@ -5,7 +8,7 @@ import java.net.*;
 import com.example.share.*;
 
 /**
- * author bvuong93
+ * author anhtrung93
  * 
  *         Class Database overview: This class is a virtual database in the
  *         device as it is actually the link to the real database in the server

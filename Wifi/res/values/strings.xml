@@ -9,4 +9,7 @@
     <string name="autoscan">Auto Scan</string>
     <string name="save_label">Saved Label</string>
     <string name="back">Back</string>
+    <string name="addlabeledittext">Add your label here</string>
+    <string name="save">Save</string>
+    <string name="labelname">Label</string>
 </resources>

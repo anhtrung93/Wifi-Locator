@@ -3,7 +3,7 @@ package com.example;
 import android.net.wifi.ScanResult;
 
 /**
- * @author anhtrung93 + bvuong93
+ * @author anhtrung93
  * 
  *         A WifiSignature object encapsulates the state information of a wifi
  *         access points. This state information includes:
@@ -21,8 +21,8 @@ public class WifiSignature implements Comparable<WifiSignature> {
 	/**
 	 * Constructs the start state of the WifiSignature object by using the
 	 * result from a scan of the device. All the fields of WifiSignature object
-	 * (including BSSID, RSS and SSID) are initialized by assigning with the
-	 * respective fields in scanResult object.
+	 * (including BSSID, RSS and SSID) are initialized by the respective fields
+	 * in scanResult object.
 	 * 
 	 * @param scanResult
 	 *            the result from a scan the device has done
@@ -96,9 +96,9 @@ public class WifiSignature implements Comparable<WifiSignature> {
 	 * 
 	 * @return a string with 3 lines:
 	 *         <ul>
-	 *         <li>First line: the name</li>
-	 *         <li>Second line: the MAC address</li>
-	 *         <li>Third line: the signal strength</li>
+	 *         <li>First line: the name </li>
+	 *         <li>Second line: the MAC address </li>
+	 *         <li>Third line: the signal strength </li>
 	 *         </ul>
 	 */
 	@Override
