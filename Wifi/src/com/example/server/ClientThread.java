@@ -7,7 +7,6 @@ import java.net.Socket;
 import com.example.share.Constant;
 
 class ClientThread implements Runnable {
-
 	private Socket clientSocket;
 	private Processor processor;
 

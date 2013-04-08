@@ -5,24 +5,31 @@ import java.net.*;
 import com.example.share.*;
 
 /**
- * author bvuong93
+ * @author bvuong93
  * 
- *         Class Database overview: This class is a virtual database in the
- *         device as it is actually the link to the real database in the server
+ *         Database class is actually a virtual database as the real database is
+ *         located on the Server. This class supports all methods that other
+ *         part of the application need to communicate with the database.
+ *         Clients interact with server via this class
  * 
  */
-
-// Clients interact with server via this class
 public class Database {
 	private ObjectOutputStream objectOutputStream;
 	private ObjectInputStream objectInputStream;
 	private Socket clientSocket;
 
 	/**
-	 * Constructor: Database()
-	 * Input: a string and an integer (the string contains the server address
-	 *         and the integer is the server port)
-	 * Output: this object after initialization
+	 * 
+	 * Starts a new Database object with the specified server address and the
+	 * server port to connect.
+	 * 
+	 * @param serverAddress
+	 *            a string contains the address of the server
+	 * @param serverPort
+	 *            an integer which is the port number
+	 * @throws Exception
+	 *             exception which may exists when creates new
+	 *             objectInput/Output Stream and clienSocket
 	 */
 	public Database(String serverAddress, int serverPort) throws Exception {
 		clientSocket = new Socket(serverAddress, serverPort);
@@ -32,45 +39,67 @@ public class Database {
 	}
 
 	/**
-	 * Method: request(Object)
-	 * Input: the request object
-	 * Output: the object replied from server
+	 * Sends an object to the server and received an other object from Server.
+	 * 
+	 * @param requestObject
+	 *            an object that the client requests
+	 * @return an object replied from the server
+	 * @throws Exception
+	 *             exception exception may caused when the client and server
+	 *             communicate
 	 */
-	private Object request(Object req) throws Exception {
-		objectOutputStream.writeObject(req);
+	private Object request(Object requestObject) throws Exception {
+		objectOutputStream.writeObject(requestObject);
 		return objectInputStream.readObject();
 	}
 
 	/**
-	 * Method: find(Fingerprint)
-	 * Input: this object + a Fingerprint(which needs to be found)
-	 * Output: a Fingerprint which is closest to the input Fingerprint object
+	 * Searches for a Fingerprint object on the real database on the server.
+	 * 
+	 * @param queryFingerprint
+	 *            a Fingerprint object that the client want to find on the
+	 *            Server
+	 * @return the closest Fingerprint object with the one sent to the Server
+	 * @throws Exception
+	 *             exception may caused when the object is sending\receiving
+	 *             to\from the Server
 	 */
 	public Fingerprint find(Fingerprint queryFingerprint) throws Exception {
 		return (Fingerprint) request(new FindRequest(queryFingerprint));
 	}
 
 	/**
-	 * Method add(Fingerprint)
-	 * Input: this object
-	 * Output: this object after adding the Fingerprint object to the database
+	 * Adds a Fingerprint object to the real database on the server.
+	 * 
+	 * @param newFingerprint
+	 *            a Fingerprint object that the client want to add to the
+	 *            database
+	 * @throws Exception
+	 *             exception may caused when the object is sending to the Server
 	 */
 	public void add(Fingerprint newFingerprint) throws Exception {
 		request(new AddRequest(newFingerprint));
 	}
 
 	/**
-	 * Method: remove(Fingerprint)
-	 * Input: this object
-	 * Output: this object after deleting the Fingerprint from the database
+	 * Adds a Fingerprint object to the real database on the server.
+	 * 
+	 * @param newFingerprint
+	 *            a Fingerprint object that the client want to add to the
+	 *            database
+	 * @throws Exception
+	 *             exception may caused when the object is sending to the Server
 	 */
 	public void remove(Fingerprint oldFingerprint) throws Exception {
 		request(new RemoveRequest(oldFingerprint));
 	}
 
 	/**
-	 * Method: closeSession()
-	 * Description: close the Session by closing all streams and socket
+	 * Closes all the objectInput\OuputStream and clientSocket. Also sends a
+	 * request to terminate connection.
+	 * 
+	 * @throws Exception
+	 *             exception when something goes wrong
 	 */
 	public void closeSession() throws Exception {
 		request(Constant.FINISH);

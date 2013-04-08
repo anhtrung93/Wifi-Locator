@@ -20,9 +20,18 @@ import android.net.wifi.ScanResult;
  *         </ul>
  * 
  */
-public class Fingerprint{
+public class Fingerprint {
 	private WifiSignature[] wifiList; // the list of WifiSignature objects
 	private String locationLabel; // the label assigned by users
+
+	/**
+	 * Starts an empty object without any Fingerprint objects in the wifiList
+	 * and the label is set to be "Unknown location"
+	 */
+	public Fingerprint() {
+		wifiList = null;
+		locationLabel = "Unknown location";
+	}
 
 	/**
 	 * Constructs the object by using a scan result. This.wifiList is
@@ -45,10 +54,6 @@ public class Fingerprint{
 		this.filter();
 
 		this.locationLabel = "Unknown location";
-	}
-	public Fingerprint(){
-		wifiList = null;
-		locationLabel="unknown";
 	}
 
 	/**
@@ -92,11 +97,13 @@ public class Fingerprint{
 	public void addLabel(String newLabel) {
 		this.locationLabel = newLabel;
 	}
+
 	/**
 	 * return the location label of this fingerprint
+	 * 
 	 * @return this locationLabel
 	 */
-	public String getLabel(){
+	public String getLabel() {
 		return this.locationLabel;
 	}
 
