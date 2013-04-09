@@ -193,7 +193,7 @@ public class Fingerprint implements Serializable {
 	 */
 	@Override
 	public String toString() {
-	    String tempString = "Place: " + this.locationLabel + "\n";
+		String tempString = "Place: " + this.locationLabel + "\n";
 		for (int i = 0; i < this.wifiList.length; i++) {
 			tempString += this.wifiList[i].toString() + "\n";
 		}

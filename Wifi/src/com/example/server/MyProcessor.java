@@ -39,7 +39,7 @@ public class MyProcessor implements Processor {
 		} else if (object instanceof FindRequest) {
 			result = find(((FindRequest) object).getFingerprint());
 		} else {
-		    System.err.println("Uknown request regcognized");
+			System.err.println("Uknown request regcognized");
 		}
 		return result;
 	}

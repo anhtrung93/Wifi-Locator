@@ -24,9 +24,9 @@ public class RemoveRequest extends Request implements Serializable {
 	public RemoveRequest(Fingerprint fingerprint) {
 		super(fingerprint);
 	}
-    
-    public String toString() {
-	return "Request (REMOVE)\n" + getFingerprint().toString();
-    }
+
+	public String toString() {
+		return "Request (REMOVE)\n" + getFingerprint().toString();
+	}
 
 }

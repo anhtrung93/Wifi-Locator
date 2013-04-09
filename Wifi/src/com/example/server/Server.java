@@ -60,16 +60,16 @@ public class Server {
 	 * @param args
 	 *            just ignore this
 	 */
-    
+
 	public static void main(String args[]) {
 		Processor demoProcessor = new MyProcessor();
 		Server demoServer = new Server(demoProcessor, Constant.SERVER_PORT);
 		try {
-		    System.out.println("Server is running");
+			System.out.println("Server is running");
 			demoServer.serve();
 
 		} catch (Exception exception) {
-		    exception.printStackTrace();
+			exception.printStackTrace();
 			// change in the future
 		}
 	}

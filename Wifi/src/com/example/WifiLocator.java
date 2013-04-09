@@ -27,14 +27,14 @@ public class WifiLocator extends Activity {
 	Boolean scanOnClick;
 	Button savedLabel;
 	public static Fingerprint generalFingerprint;
-	
+
 
 	/** Called when the activity is first created. */
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		this.initialize();
 
 		this.setUpInterface();
@@ -54,7 +54,7 @@ public class WifiLocator extends Activity {
 		generalFingerprint = new Fingerprint();
 		WifiManager wifi = (WifiManager) getBaseContext().getSystemService(Context.WIFI_SERVICE);
 		wifi.setWifiEnabled(true);
-		
+
 	}
 
 	private void setUpInterface(){
@@ -124,11 +124,11 @@ public class WifiLocator extends Activity {
 				}
 				textStatus.setText(status);
 				scanOnClick = false;
-				
+
 			}
-			
+
 		}
-		
+
 	};
 
 	private void setUpButtonListeners(){
@@ -137,7 +137,7 @@ public class WifiLocator extends Activity {
 			@Override
 			public void onClick(View view) {
 				Intent myIntent = new Intent(view.getContext(), SavedLabelActivity.class);
-//				myIntent.putExtra("theFP", generalFingerprint);
+				//				myIntent.putExtra("theFP", generalFingerprint);
 				startActivityForResult(myIntent, 0);
 			}
 		});

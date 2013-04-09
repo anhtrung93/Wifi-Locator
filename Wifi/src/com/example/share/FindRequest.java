@@ -22,8 +22,8 @@ public class FindRequest extends Request implements Serializable {
 	public FindRequest(Fingerprint fingerprint) {
 		super(fingerprint);
 	}
-    public String toString() {
-	return "Request (FIND)\n" + getFingerprint().toString();
-    }
-    
+	public String toString() {
+		return "Request (FIND)\n" + getFingerprint().toString();
+	}
+
 }

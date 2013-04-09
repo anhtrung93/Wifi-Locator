@@ -24,7 +24,7 @@ public class AddRequest extends Request implements Serializable {
 		super(fingerprint);
 	}
 
-    public String toString() {
-	return "Request (ADD)\n" + getFingerprint().toString();
-    }
+	public String toString() {
+		return "Request (ADD)\n" + getFingerprint().toString();
+	}
 }
