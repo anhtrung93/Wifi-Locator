@@ -1,5 +1,7 @@
 package com.example;
 
+import com.example.share.Constant;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,11 +27,11 @@ public class SavedLabelActivity extends WifiLocator {
 		this.setUpButtonListeners();
 		//Add new label
 		this.addLabel();
-
+		
 
 		// TODO Auto-generated method stub
 	}
-
+	
 	//To setup interface
 	private void setUpInterface(){
 		setContentView(R.layout.savedlabel);
@@ -37,14 +39,14 @@ public class SavedLabelActivity extends WifiLocator {
 		label = (TextView) findViewById(R.id.labelName);
 		save = (Button) findViewById(R.id.saveButton);
 		labelAdd = (EditText) findViewById(R.id.addLabelText);
-
-
+		
+		
 	}
 
 	// To setup all ButtonListenrs
 	private void setUpButtonListeners(){
 		//Back Listener -> Back to mainActivity
-
+		
 		back.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -55,32 +57,38 @@ public class SavedLabelActivity extends WifiLocator {
 		});
 
 	}
-
+	
+	
 	//Add new label for fingerprint
-	private void addLabel(){
+	private void addLabel() {
 		//Save listener -> save new label from <edittext>labelAdd
 		save.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
+				try {
 				String name = labelAdd.getText().toString();
 				WifiLocator.generalFingerprint.addLabel(name);
 				label.setText(WifiLocator.generalFingerprint.getLabel());
+				Database newData = new Database("192.168.43.23", Constant.SERVER_PORT);
+				newData.add(WifiLocator.generalFingerprint);
+				} catch (Exception e) {}
+				
 			}
 		});
 		//StringBuilder status = new StringBuilder();
+		
+//		int a = WifiLocator.generalFingerprint.getSize();
+		
+//		if (WifiLocator.generalFingerprint.getSize() == 0){
+//			status.append("No WiFi connection!!!");
+//		} else {
+//			status.append(WifiLocator.generalFingerprint.toString());
+//		}
+		
+//		WifiLocator.generalFingerprint.addLabel("a");
+//		status.append(WifiLocator.generalFingerprint.getLabel());
 
-		//		int a = WifiLocator.generalFingerprint.getSize();
-
-		//		if (WifiLocator.generalFingerprint.getSize() == 0){
-		//			status.append("No WiFi connection!!!");
-		//		} else {
-		//			status.append(WifiLocator.generalFingerprint.toString());
-		//		}
-
-		//		WifiLocator.generalFingerprint.addLabel("a");
-		//		status.append(WifiLocator.generalFingerprint.getLabel());
-
-
+	
 
 		//label.setText(status);
 	}
