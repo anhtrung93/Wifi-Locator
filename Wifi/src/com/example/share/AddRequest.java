@@ -1,6 +1,7 @@
 package com.example.share;
 
 import com.example.*;
+import java.io.Serializable;
 
 /**
  * 
@@ -10,7 +11,7 @@ import com.example.*;
  *         specialized to add a new Fingerprint object to the database on the
  *         Server. An AddRequest object keeps only a Fingerprint object field.
  */
-public class AddRequest extends Request {
+public class AddRequest extends Request implements Serializable {
 
 	/**
 	 * Constructs an AddRequest object with a given Fingerprint object.
@@ -22,4 +23,8 @@ public class AddRequest extends Request {
 	public AddRequest(Fingerprint fingerprint) {
 		super(fingerprint);
 	}
+
+    public String toString() {
+	return "Request (ADD)\n" + getFingerprint().toString();
+    }
 }

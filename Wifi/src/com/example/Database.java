@@ -2,6 +2,7 @@ package com.example;
 
 import java.io.*;
 import java.net.*;
+import java.util.Random;
 import com.example.share.*;
 
 /**
@@ -107,4 +108,39 @@ public class Database {
 		objectOutputStream.close();
 		clientSocket.close();
 	}
+    
+    public static void main(String args[]) throws Exception {
+	Database database = new Database(Constant.SERVER_ADDRESS, Constant.SERVER_PORT);
+	Random rd = new Random();
+	Fingerprint[] fingerList = new Fingerprint[10];
+	for (int i = 0; i < 10; i++) {
+	    
+	    WifiSignature[] signatureList = new WifiSignature[5];
+	    for (int j = 0; j < 5; j++) {
+		String name = "wifi" + (j+1);
+		int rss = Math.abs(rd.nextInt()) % 100;
+		signatureList[j] = new WifiSignature(name, rss, name);
+	    }
+	    String name = "place" + (i+1);
+	    fingerList[i] = new Fingerprint(signatureList, name);
+	}
+
+	
+	for (int i = 0; i < 10; i++) {
+	    System.out.println(fingerList[i]);
+	    database.add(fingerList[i]);
+	    //database.request("hello");
+	}
+
+	System.out.println("RETTTTTTT");
+
+	//database.closeSession();
+	
+	for (int i = 0; i < 10; i++) {
+	    Fingerprint fp = database.find(fingerList[i]);
+	    System.out.println(fp);
+	}
+
+	database.closeSession();
+    }
 }

@@ -55,10 +55,13 @@ class ClientThread implements Runnable {
 			Object received, toSent;
 			do {
 				received = inputStream.readObject();
+				System.out.println("Received " + received);
 				toSent = processor.process(received);
 				ouputStream.writeObject(toSent);
-				// oos.flush();
-			} while (received != Constant.FINISH && toSent != Constant.FINISH);
+				System.out.println(">>>>>>>Return " + toSent);
+				System.out.println("------------------END REQUEST--------------------\n");
+			} while (! Constant.isFINISH(received)
+				 && ! Constant.isFINISH(toSent));
 
 			inputStream.close();
 			ouputStream.close();

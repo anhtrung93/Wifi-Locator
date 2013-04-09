@@ -1,6 +1,8 @@
 package com.example.share;
 
 import com.example.*;
+import java.io.Serializable;
+
 
 /**
  * @author bvuong93
@@ -11,7 +13,7 @@ import com.example.*;
  *         Fingerprint to/from the Database on Server, respectively. Request
  *         objects will be transferred between the client and the Server.
  */
-public abstract class Request {
+public abstract class Request implements Serializable {
 	protected Fingerprint fingerprint;
 
 	/**

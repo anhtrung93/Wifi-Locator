@@ -1,6 +1,8 @@
 package com.example;
 
 import android.net.wifi.ScanResult;
+import java.io.Serializable;
+
 
 /**
  * @author anhtrung93 + bvuong93
@@ -13,7 +15,7 @@ import android.net.wifi.ScanResult;
  *         <li>its Service Set Identifier (SSID)</li>
  *         </ul>
  */
-public class WifiSignature implements Comparable<WifiSignature> {
+public class WifiSignature implements Comparable<WifiSignature>, Serializable {
 	private String basicServiceSetIdentifier; // Address of the access point
 	private int receivedSignalStrength; // Signal strength
 	private String serviceSetIdentifier; // Name of the access point
@@ -105,7 +107,7 @@ public class WifiSignature implements Comparable<WifiSignature> {
 	public String toString() {
 		String strTemp = "SSID: " + this.serviceSetIdentifier + "\nBSSID: "
 				+ this.basicServiceSetIdentifier + "\nRSS: "
-				+ this.receivedSignalStrength + "\n";
+		    + this.receivedSignalStrength;
 		return strTemp;
 	}
 }

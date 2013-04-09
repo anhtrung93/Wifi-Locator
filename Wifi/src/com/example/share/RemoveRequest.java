@@ -1,6 +1,7 @@
 package com.example.share;
 
 import com.example.*;
+import java.io.Serializable;
 
 /**
  * 
@@ -11,7 +12,7 @@ import com.example.*;
  *         the Server. An RemoveRequest object keeps only a Fingerprint object
  *         field.
  */
-public class RemoveRequest extends Request {
+public class RemoveRequest extends Request implements Serializable {
 
 	/**
 	 * Constructs an RemoveRequest object with a given Fingerprint object.
@@ -23,4 +24,9 @@ public class RemoveRequest extends Request {
 	public RemoveRequest(Fingerprint fingerprint) {
 		super(fingerprint);
 	}
+    
+    public String toString() {
+	return "Request (REMOVE)\n" + getFingerprint().toString();
+    }
+
 }

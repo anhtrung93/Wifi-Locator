@@ -2,7 +2,7 @@ package com.example;
 
 import java.util.List;
 import java.util.Arrays;
-
+import java.io.Serializable;
 import android.net.wifi.ScanResult;
 
 /**
@@ -20,7 +20,7 @@ import android.net.wifi.ScanResult;
  *         </ul>
  * 
  */
-public class Fingerprint {
+public class Fingerprint implements Serializable {
 	private WifiSignature[] wifiList; // the list of WifiSignature objects
 	private String locationLabel; // the label assigned by users
 
@@ -131,7 +131,7 @@ public class Fingerprint {
 
 		for (int i = 0, j = 0; i < thisSize && j < anotherSize;) {
 			WifiSignature thisSignature = thisWifiList[i];
-			WifiSignature anotherSignature = anotherWifiList[i];
+			WifiSignature anotherSignature = anotherWifiList[j];
 			int compareResult = thisSignature.compareTo(anotherSignature);
 			if (compareResult == 0) {
 				count++;
@@ -139,6 +139,7 @@ public class Fingerprint {
 						.getReceivedSignalStrength()
 						- anotherSignature.getReceivedSignalStrength();
 				difference += squareOfDifference * squareOfDifference;
+				i++; j++;
 			} else if (compareResult < 0) {
 				i++;
 			} else {
@@ -192,7 +193,7 @@ public class Fingerprint {
 	 */
 	@Override
 	public String toString() {
-		String tempString = "";
+	    String tempString = "Place: " + this.locationLabel + "\n";
 		for (int i = 0; i < this.wifiList.length; i++) {
 			tempString += this.wifiList[i].toString() + "\n";
 		}

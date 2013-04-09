@@ -30,14 +30,16 @@ public class MyProcessor implements Processor {
 
 	public Object process(Object object) {
 		Object result = null;
-		if (object == Constant.FINISH)
-			result = object;
-		else if (object instanceof AddRequest) {
+		if (Constant.isFINISH(object)) {
+			result = object;		    
+		} else if (object instanceof AddRequest) {
 			add(((AddRequest) object).getFingerprint());
 		} else if (object instanceof RemoveRequest) {
 			remove(((RemoveRequest) object).getFingerprint());
 		} else if (object instanceof FindRequest) {
 			result = find(((FindRequest) object).getFingerprint());
+		} else {
+		    System.err.println("Uknown request regcognized");
 		}
 		return result;
 	}
