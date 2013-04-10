@@ -15,10 +15,10 @@ import android.widget.TextView;
 public class SavedLabelActivity extends WifiLocator {
 	Button back;
 	Button save;
-	EditText labelAdd;
-	TextView label;
-	TextView ecep;
-	TextView ecep2;
+	EditText labelAdding;
+	TextView labelShowing;
+	TextView exceptionConnection;
+	TextView exceptionAdding;
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -29,27 +29,25 @@ public class SavedLabelActivity extends WifiLocator {
 		this.setUpButtonListeners();
 		//Add new label
 		this.addLabel();
-		
 
 		// TODO Auto-generated method stub
 	}
-	
-	//To setup interface
+
+	//To setup Interface
 	private void setUpInterface(){
 		setContentView(R.layout.savedlabel);
 		back = (Button) findViewById(R.id.back);
-		label = (TextView) findViewById(R.id.labelName);
+		labelShowing = (TextView) findViewById(R.id.labelName);
 		save = (Button) findViewById(R.id.saveButton);
-		labelAdd = (EditText) findViewById(R.id.addLabelText);
-		ecep = (TextView) findViewById(R.id.ecep);
-		ecep2 = (TextView) findViewById(R.id.ecep2);
-		
+		labelAdding = (EditText) findViewById(R.id.addLabelText);
+		exceptionConnection = (TextView) findViewById(R.id.excepConnect);
+		exceptionAdding = (TextView) findViewById(R.id.excepAdd);
+
 	}
 
-	// To setup all ButtonListenrs
+	// To setup some ButtonListenrs
 	private void setUpButtonListeners(){
 		//Back Listener -> Back to mainActivity
-		
 		back.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -60,51 +58,197 @@ public class SavedLabelActivity extends WifiLocator {
 		});
 
 	}
-	
-	
+
+
 	//Add new label for fingerprint
 	private void addLabel() {
-		//Save listener -> save new label from <edittext>labelAdd
+		
+		/** Save listener -> save new label for a fingerprint from <edittext>labelAdd
+		 *  After that, send that fingerprint to server
+		 */
+		
 		save.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				String name = labelAdd.getText().toString();
-				WifiLocator.generalFingerprint.addLabel(name);
-				label.setText(WifiLocator.generalFingerprint.getLabel());
+				String tempName = labelAdding.getText().toString();
+				WifiLocator.generalFingerprint.addLabel(tempName);
+				labelShowing.setText(WifiLocator.generalFingerprint.getLabel());
+				
 				Database newData=null;
-				
+				// Make new Database to connect server
 				try {
-				newData = new Database("192.168.9.103", Constant.SERVER_PORT);
-				
+					newData = new Database("192.168.9.103", Constant.SERVER_PORT);
 				} catch (Exception e) {
-					ecep.setText("sai me may roi");
+					exceptionConnection.setText("Exception of connecting to server");
 				}
-				try {
-					
-					newData.add(WifiLocator.generalFingerprint);
-					} catch (Exception e) {
-						ecep2.setText("ji");
-					}
 				
+				// Adding new fingerprint to server
+				try {
+					newData.add(WifiLocator.generalFingerprint);
+				} catch (Exception e) {
+					exceptionAdding.setText("Exception of adding new Fingerprint");
+				}
+
 			}
 		});
-		//StringBuilder status = new StringBuilder();
-		
-//		int a = WifiLocator.generalFingerprint.getSize();
-		
-//		if (WifiLocator.generalFingerprint.getSize() == 0){
-//			status.append("No WiFi connection!!!");
-//		} else {
-//			status.append(WifiLocator.generalFingerprint.toString());
-//		}
-		
-//		WifiLocator.generalFingerprint.addLabel("a");
-//		status.append(WifiLocator.generalFingerprint.getLabel());
 
-	
-
-		//label.setText(status);
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
