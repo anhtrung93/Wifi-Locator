@@ -3,8 +3,6 @@ package com.example;
 import java.util.Timer;
 import java.util.TimerTask;
 import com.example.R;
-import com.example.share.Constant;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -49,8 +47,6 @@ public class WifiLocator extends Activity {
 		this.registerReceiver(this.WifiScanAvailableReceiver, new IntentFilter(
 				WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 		this.setUpButtonListeners();
-		// generalFingerprint.addLabel("gello");
-//		this.addLabel();
 
 	}
 
@@ -72,7 +68,6 @@ public class WifiLocator extends Activity {
 		AutoScan = (CheckBox) findViewById(R.id.autoscan);
 		savedLabel = (Button) findViewById(R.id.saveButton);
 		send = (Button) findViewById(R.id.sendButton);
-//		ecep1 = (TextView) findViewById(R.id.ecep1);
 
 	}
 
@@ -146,10 +141,10 @@ public class WifiLocator extends Activity {
 			public void onClick(View view) {
 				Intent myIntent = new Intent(view.getContext(),
 						SavedLabelActivity.class);
-				// myIntent.putExtra("theFP", generalFingerprint);
 				startActivityForResult(myIntent, 0);
 			}
 		});
+		
 		// OnOff Listener -> enable/disable WiFi
 		OnOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
@@ -228,31 +223,6 @@ public class WifiLocator extends Activity {
 			}
 		});
 	}
-//	private void addLabel() {
-//		//Save listener -> save new label from <edittext>labelAdd
-//		send.setOnClickListener(new View.OnClickListener() {
-//			@Override
-//			public void onClick(View view) {
-//				String name = labelAdd.getText().toString();
-//				generalFingerprint.addLabel(name);
-//				label.setText(generalFingerprint.getLabel());
-//				Database newData=null;
-//				
-//				try {
-//				newData = new Database("192.168.9.103", Constant.SERVER_PORT);
-//				
-//				} catch (Exception e) {
-//					ecep1.setText("sai me may roi");
-//				}
-//				try {
-//					
-//					newData.add(WifiLocator.generalFingerprint);
-//					} catch (Exception e) {
-//						ecep1.setText("ji");
-//					}
-//				
-//			}
-//		});
 	
 
 	@Override
