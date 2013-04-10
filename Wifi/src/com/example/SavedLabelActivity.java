@@ -17,6 +17,8 @@ public class SavedLabelActivity extends WifiLocator {
 	Button save;
 	EditText labelAdd;
 	TextView label;
+	TextView ecep;
+	TextView ecep2;
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -39,7 +41,8 @@ public class SavedLabelActivity extends WifiLocator {
 		label = (TextView) findViewById(R.id.labelName);
 		save = (Button) findViewById(R.id.saveButton);
 		labelAdd = (EditText) findViewById(R.id.addLabelText);
-		
+		ecep = (TextView) findViewById(R.id.ecep);
+		ecep2 = (TextView) findViewById(R.id.ecep2);
 		
 	}
 
@@ -65,13 +68,23 @@ public class SavedLabelActivity extends WifiLocator {
 		save.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				try {
 				String name = labelAdd.getText().toString();
 				WifiLocator.generalFingerprint.addLabel(name);
 				label.setText(WifiLocator.generalFingerprint.getLabel());
-				Database newData = new Database("192.168.43.23", Constant.SERVER_PORT);
-				newData.add(WifiLocator.generalFingerprint);
-				} catch (Exception e) {}
+				Database newData=null;
+				
+				try {
+				newData = new Database("192.168.9.103", Constant.SERVER_PORT);
+				
+				} catch (Exception e) {
+					ecep.setText("sai me may roi");
+				}
+				try {
+					
+					newData.add(WifiLocator.generalFingerprint);
+					} catch (Exception e) {
+						ecep2.setText("ji");
+					}
 				
 			}
 		});

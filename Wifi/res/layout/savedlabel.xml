@@ -23,6 +23,18 @@
         android:ems="10"
         android:hint="@string/addlabeledittext" />
 
+    <TextView
+        android:id="@+id/ecep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="exception" />
+
+    <TextView
+        android:id="@+id/ecep2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="exception2" />
+
     <Button
         android:id="@+id/saveButton"
         android:layout_width="wrap_content"
