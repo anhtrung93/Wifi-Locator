@@ -39,7 +39,7 @@ public class WifiSignature implements Comparable<WifiSignature>, Serializable {
 	 * Constructs the start state of the WifiSignature object by setting all the
 	 * fields of the class with some information from the parameters.
 	 * <p>
-	 * <b> Note: this object method is used to test!!! </b>
+	 * 
 	 * 
 	 * @param initBasicServiceSetIdentifier
 	 *            the MAC address of the access point in the form of
@@ -54,6 +54,25 @@ public class WifiSignature implements Comparable<WifiSignature>, Serializable {
 		this.basicServiceSetIdentifier = initBasicServiceSetIdentifier;
 		this.receivedSignalStrength = initReceivedSignalStrength;
 		this.serviceSetIdentifier = initServiceSetIdentifier;
+	}
+	
+	/**
+	 * Constructs the start state of the WifiSignature object by setting all the
+	 * fields of the class with some information from the parameters.
+	 * <p>
+	 * <b> Note: this object method is used to test!!! </b>
+	 * 
+	 * @param initBasicServiceSetIdentifier
+	 *            the MAC address of the access point in the form of
+	 *            "XX:XX:XX:XX:XX:XX" (X is an alpha-number)
+	 * @param initReceivedSignalStrength
+	 *            the signal strength measured in dB
+	 */
+	public WifiSignature(String initBasicServiceSetIdentifier,
+			int initReceivedSignalStrength) {
+		this.basicServiceSetIdentifier = initBasicServiceSetIdentifier;
+		this.receivedSignalStrength = initReceivedSignalStrength;
+		this.serviceSetIdentifier = null;
 	}
 
 	/**

@@ -146,7 +146,6 @@ public class Fingerprint implements Serializable {
 				j++;
 			}
 		}
-
 		return ((float) difference / count)
 				/ ((float) count / (thisSize + anotherSize));
 	}

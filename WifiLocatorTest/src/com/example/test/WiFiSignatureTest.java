@@ -1,77 +1,77 @@
 package com.example.test;
-import com.example.WiFiSignature;
+import com.example.WifiSignature;
 
 import static org.junit.Assert.*;
 import org.junit.*;
 
 
 
-public class WiFiSignatureTest {
-	private WiFiSignature wS1, wS2, wS3, wS4, wS5;
+public class WifiSignatureTest {
+	private WifiSignature wS1, wS2, wS3, wS4, wS5;
 	
 	@Before
 	public void setUp() throws Exception{
-		wS1 = new WiFiSignature("a1:b2:c3:d4:e5", -60);
+		wS1 = new WifiSignature("a1:b2:c3:d4:e5", -60);
 		
-		wS2 = new WiFiSignature("f3:a2:b1:c3", 0);
+		wS2 = new WifiSignature("f3:a2:b1:c3", 0);
 		
-		wS3 = new WiFiSignature("a2:b1:c3:d4:e5", -60);
+		wS3 = new WifiSignature("a2:b1:c3:d4:e5", -60);
 		
-		wS4 = new WiFiSignature("f3:a2:b1:c3", 0);
+		wS4 = new WifiSignature("f3:a2:b1:c3", 0);
 		
-		wS5 = new WiFiSignature("a1:b2:c3:d4:e5", -60);
+		wS5 = new WifiSignature("a1:b2:c3:d4:e5", -60);
 	}
 	
 	@Test
 	public void testBSSID1(){
 		//check the BSSID of the WifiSignature;
-		assertEquals("a1:b2:c3:d4:e5", wS1.getBSSID());
+		assertEquals("a1:b2:c3:d4:e5", wS1.getBasicServiceSetIdentifier());
 	}
 	
 	@Test
 	public void testBSSID2(){
-		assertEquals("f3:a2:b1:c3", wS2.getBSSID());
+		assertEquals("f3:a2:b1:c3", wS2.getBasicServiceSetIdentifier());
 	}
 	
 	@Test
 	public void testBSSID3(){
-		assertEquals("a2:b1:c3:d4:e5", wS3.getBSSID());
+		assertEquals("a2:b1:c3:d4:e5", wS3.getBasicServiceSetIdentifier());
 	}
 	
 	@Test
 	public void testBSSID4(){
-		assertEquals("f3:a2:b1:c3", wS4.getBSSID());
+		assertEquals("f3:a2:b1:c3", wS4.getBasicServiceSetIdentifier());
 	}
 	
 	@Test
 	public void testBSSID5(){
-		assertEquals("a1:b2:c3:d4:e5", wS5.getBSSID());
+		assertEquals("a1:b2:c3:d4:e5", wS5.getBasicServiceSetIdentifier());
 	}
 	
 	@Test
 	public void testRSS1(){
 		//check the RSS of the WifiSignature;
-		assertEquals(-60, wS1.getRSS());
+		assertEquals(-60, wS1.getReceivedSignalStrength());
 	}
 	
 	@Test
 	public void testRSS2(){
-		assertEquals(0, wS2.getRSS());
+		assertEquals(0, wS2.getReceivedSignalStrength());
 	}
 	
 	@Test
 	public void testRSS3(){
-		assertEquals(-60, wS3.getRSS());
+		assertEquals(-60, wS3.getReceivedSignalStrength());
 	}
 	
 	@Test
 	public void testRSS4(){
-		assertEquals(0, wS4.getRSS());
+		assertEquals(0, wS4.getReceivedSignalStrength());
 	}
 	
 	@Test
 	public void testRSS5(){
-		assertEquals(-60, wS5.getRSS());
+		assertEquals(-60, wS5.getReceivedSignalStrength());
 	}
 	
 	@Test
