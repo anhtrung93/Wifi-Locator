@@ -5,49 +5,86 @@ import java.io.*;
 import com.example.share.*;
 import com.example.*;
 
+/**
+ * 
+ * @author bvuong93
+ * 
+ *         Class MyProcessor is used to process different requests from the
+ *         clients. MyProcessor encapsulates in it the true database of the
+ *         program, which is called ArrayList<Fingerprint> fingerprintList.
+ * 
+ */
 public class MyProcessor implements Processor {
-	private ArrayList <Fingerprint> fingerList;
+	private ArrayList<Fingerprint> fingerprintList;
 
+	/**
+	 * Constructs a new empty list of Fingerprint.
+	 */
 	public MyProcessor() {
-		fingerList = new ArrayList<Fingerprint>();
+		fingerprintList = new ArrayList<Fingerprint>();
 	}
 
+	/**
+	 * Reads the database from a fileName team
+	 * 
+	 * @param fileName
+	 *            the name of the file contains the fingerprintList.
+	 * @throws Exception
+	 *             there may be wrong fileName, or the data in the wifli
+	 */
 	public MyProcessor(String fileName) throws Exception {
 		FileInputStream fileInputStream = new FileInputStream(fileName);
-		ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-		fingerList = (ArrayList <Fingerprint>) objectInputStream.readObject();
+		ObjectInputStream objectInputStream = new ObjectInputStream(
+				fileInputStream);
+		fingerprintList = (ArrayList<Fingerprint>) objectInputStream
+				.readObject();
 		fileInputStream.close();
 		objectInputStream.close();
 	}
 
+	/**
+	 * Writes the current database of MyProcessor into a filename team.
+	 * 
+	 * @param fileName
+	 *            the name of the file which the Fingerprint list will be
+	 *            written in.
+	 * @throws Exception
+	 */
 	public void storeToFile(String fileName) throws Exception {
 		FileOutputStream fileOutputStream = new FileOutputStream(fileName);
-		ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-		objectOutputStream.writeObject(fingerList);
+		ObjectOutputStream objectOutputStream = new ObjectOutputStream(
+				fileOutputStream);
+		objectOutputStream.writeObject(fingerprintList);
 		fileOutputStream.close();
 		objectOutputStream.close();
 	}
 
-	public Object process(Object object) {
-		Object result = null;
-		if (Constant.isFINISH(object)) {
-			result = object;		    
-		} else if (object instanceof AddRequest) {
-			add(((AddRequest) object).getFingerprint());
-		} else if (object instanceof RemoveRequest) {
-			remove(((RemoveRequest) object).getFingerprint());
-		} else if (object instanceof FindRequest) {
-			result = find(((FindRequest) object).getFingerprint());
+	/**
+	 * Processes incoming requests.
+	 * 
+	 * @param requestObject
+	 */
+	@Override
+	public Object process(Object requestObject) {
+		Object resultObject = null;
+		if (Constant.isFINISH(requestObject)) {
+			resultObject = requestObject;
+		} else if (requestObject instanceof AddRequest) {
+			add(((AddRequest) requestObject).getFingerprint());
+		} else if (requestObject instanceof RemoveRequest) {
+			remove(((RemoveRequest) requestObject).getFingerprint());
+		} else if (requestObject instanceof FindRequest) {
+			resultObject = find(((FindRequest) requestObject).getFingerprint());
 		} else {
 			System.err.println("Uknown request regcognized");
 		}
-		return result;
+		return resultObject;
 	}
 
 	public Fingerprint find(Fingerprint query) {
 		Fingerprint result = null;
 		float smallestDifference = Constant.MAXIMUM_DIFFERENCE;
-		for (Fingerprint fingerprint: fingerList) {
+		for (Fingerprint fingerprint : fingerprintList) {
 			float diff = fingerprint.differFrom(query);
 			if (diff < smallestDifference) {
 				result = fingerprint;
@@ -58,10 +95,10 @@ public class MyProcessor implements Processor {
 	}
 
 	public void add(Fingerprint fingerprint) {
-		fingerList.add(fingerprint);
+		fingerprintList.add(fingerprint);
 	}
 
 	public void remove(Fingerprint fingerprint) {
-		fingerList.remove(fingerprint);
+		fingerprintList.remove(fingerprint);
 	}
 }

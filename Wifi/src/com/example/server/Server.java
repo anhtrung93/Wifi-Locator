@@ -8,7 +8,7 @@ import com.example.share.*;
  * @author bvuong93
  * 
  *         Server object is located on the server. The Server object can process
- *         directly Java Serializable Object. It also supports mulitple clients
+ *         directly Java Serializable Object. It also supports multiple clients
  *         concurrently accessing the server. Server object keeps composites two
  *         objects:</br>
  *         <p>
@@ -41,7 +41,8 @@ public class Server {
 	}
 
 	/**
-	 * Starts serving the clients' requests. ???
+	 * Starts serving the clients' requests. Waits for incoming requests. When a
+	 * request comes, a new Thread is created to process that request.
 	 * 
 	 * @throws Exception
 	 *             exception when something goes wrong
@@ -70,7 +71,8 @@ public class Server {
 
 		} catch (Exception exception) {
 			exception.printStackTrace();
-			// change in the future
+			System.out.println("Error!!!");
+			exception.printStackTrace();
 		}
 	}
 }

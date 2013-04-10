@@ -3,7 +3,6 @@ package com.example.share;
 import com.example.*;
 import java.io.Serializable;
 
-
 /**
  * @author bvuong93
  * 
@@ -15,6 +14,7 @@ import java.io.Serializable;
  */
 public abstract class Request implements Serializable {
 	protected Fingerprint fingerprint;
+	final static long serialVersionUID = 1L;
 
 	/**
 	 * Creates a new Request object with a given Fingerprint object.
@@ -22,8 +22,14 @@ public abstract class Request implements Serializable {
 	 * @param fingerprint
 	 *            a Fingerprint object to add, delete or search to/from/on
 	 *            database
+	 * @throws Exception
+	 *             when intializes a Request with a null Fingerprint pointer
 	 */
-	public Request(Fingerprint fingerprint) {
+	public Request(Fingerprint fingerprint) throws Exception {
+		if (fingerprint == null) {
+			throw new Exception(
+					"Initialize a request with a null Fingerprint pointer");
+		}
 		this.fingerprint = fingerprint;
 	}
 

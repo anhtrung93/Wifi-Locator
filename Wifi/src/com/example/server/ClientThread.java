@@ -39,7 +39,7 @@ class ClientThread implements Runnable {
 	}
 
 	/**
-	 * Each client thread runs. Connects the server with clients through
+	 * Each client-thread runs. Connects the server with clients through
 	 * objectInput\OuputStream objects, keeps receiving request objects and
 	 * answering when it is necessary until the connections are terminated.
 	 * 
@@ -52,16 +52,17 @@ class ClientThread implements Runnable {
 			ObjectInputStream inputStream = new ObjectInputStream(
 					clientSocket.getInputStream());
 
-			Object received, toSent;
+			Object receivedObject, toSentObject;
 			do {
-				received = inputStream.readObject();
-				System.out.println("Received " + received);
-				toSent = processor.process(received);
-				ouputStream.writeObject(toSent);
-				System.out.println(">>>>>>>Return " + toSent);
-				System.out.println("------------------END REQUEST--------------------\n");
-			} while (! Constant.isFINISH(received)
-					&& ! Constant.isFINISH(toSent));
+				receivedObject = inputStream.readObject();
+				System.out.println("Received " + receivedObject);
+				toSentObject = processor.process(receivedObject);
+				ouputStream.writeObject(toSentObject);
+				System.out.println(">>>>>>>Return " + toSentObject);
+				System.out
+				.println("------------------END REQUEST--------------------\n");
+			} while (!Constant.isFINISH(receivedObject)
+					&& !Constant.isFINISH(toSentObject));
 
 			inputStream.close();
 			ouputStream.close();

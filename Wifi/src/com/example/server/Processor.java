@@ -4,7 +4,7 @@ package com.example.server;
  * 
  * @author bvuong93
  * 
- *         Interface Processor is base of classes which every specific request
+ *         Interface Processor is base of classes which specify request
  *         handler will implement. This has only one method Object
  *         process(Object)
  * 
