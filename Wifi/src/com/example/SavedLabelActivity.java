@@ -13,10 +13,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+/**
+ * 
+ * @author braveWolf
+ *
+ */
 @SuppressLint("CutPasteId")
 public class SavedLabelActivity extends WifiLocator {
-	Button back;
-	Button save;
+	Button backButton;
+	Button saveButton;
 	EditText labelAdding;
 	TextView labelShowing;
 	TextView exceptionConnection;
@@ -29,27 +34,34 @@ public class SavedLabelActivity extends WifiLocator {
 		// Setup Interface
 		this.setUpInterface();
 		// Setup all ButtonListenrs
-		this.setUpButtonListeners();
+		this.setUpBackButtonListeners();
 		// Add new label
-		this.addLabel();
+		this.setUpSaveButtonListeners();
 		// TODO Auto-generated method stub
 	}
 
-	// To setup Interface
+	/**
+	 * Links xml parts to variables. Allows using variables (button and text
+	 * area variables)to control the user interface
+	 * 
+	 */
 	private void setUpInterface() {
 		setContentView(R.layout.savedlabel);
-		back = (Button) findViewById(R.id.back);
+		backButton = (Button) findViewById(R.id.back);
 		labelShowing = (TextView) findViewById(R.id.labelName);
-		save = (Button) findViewById(R.id.saveButton);
+		saveButton = (Button) findViewById(R.id.saveButton);
 		labelAdding = (EditText) findViewById(R.id.addLabelText);
 		exceptionConnection = (TextView) findViewById(R.id.exceptConnect);
 		exceptionAdding = (TextView) findViewById(R.id.exceptAdd);
 	}
 
-	// To setup some ButtonListenrs
-	private void setUpButtonListeners() {
+	/**
+	 * Listens to clicking the backButton and then returns back to the main
+	 * activity.
+	 */
+	private void setUpBackButtonListeners() {
 		// Back Listener -> Back to mainActivity
-		back.setOnClickListener(new View.OnClickListener() {
+		backButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				Intent intent = new Intent();
@@ -59,15 +71,12 @@ public class SavedLabelActivity extends WifiLocator {
 		});
 	}
 
-	// Add new label for fingerprint
-	private void addLabel() {
-
-		/**
-		 * Save listener -> save new label for a fingerprint from
-		 * <edittext>labelAdd After that, send that fingerprint to server
-		 */
-
-		save.setOnClickListener(new View.OnClickListener() {
+	/**
+	 * Listens to clicking from saveButton and sends an AddRequest to the
+	 * Server.
+	 */
+	private void setUpSaveButtonListeners() {
+		saveButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				String tempName = labelAdding.getText().toString();
@@ -77,7 +86,7 @@ public class SavedLabelActivity extends WifiLocator {
 				Database newData = null;
 				// Make new Database to connect server
 				try {
-					newData = new Database("192.168.9.103",
+					newData = new Database("192.168.43.23",
 							Constant.SERVER_PORT);
 				} catch (Exception e) {
 					StringWriter sw = new StringWriter();

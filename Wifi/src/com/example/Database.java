@@ -109,6 +109,11 @@ public class Database {
 		clientSocket.close();
 	}
 
+	/** 
+	 * This is just for demo linking on localhost.
+	 * @param args
+	 * @throws Exception
+	 */
 	public static void main(String args[]) throws Exception {
 		Database database = new Database(Constant.SERVER_ADDRESS, Constant.SERVER_PORT);
 		Random rd = new Random();
