@@ -1,5 +1,7 @@
 package com.example;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Timer;
 import java.util.TimerTask;
 import com.example.R;
@@ -18,21 +20,28 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+/**
+ * 
+ * @author braveWolf
+ * 
+ */
 public class WifiLocator extends Activity {
+	Button ScanButton;
+	CheckBox AutoScanButton;
+	ToggleButton OnOffButton;
+	Button savedLabelButton;
+
 	TextView WifiState;
-	ToggleButton OnOff;
 	TextView textStatus;
-	Button Scan;
-	CheckBox AutoScan;
+
 	Timer timer;
 	Boolean scanOnClick;
-	Button savedLabel;
-	Button send;
-	TextView ecep1;
-	public static Fingerprint generalFingerprint;
-	
 
-	/** Called when the activity is first created. */
+	public static Fingerprint generalFingerprint;
+
+	/**
+	 * Called when the activity is first created.
+	 */
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -61,14 +70,12 @@ public class WifiLocator extends Activity {
 
 	private void setUpInterface() {
 		setContentView(R.layout.main);
-		OnOff = (ToggleButton) findViewById(R.id.onoff);
+		OnOffButton = (ToggleButton) findViewById(R.id.onoff);
 		WifiState = (TextView) findViewById(R.id.wifistate);
-		Scan = (Button) findViewById(R.id.scan);
+		ScanButton = (Button) findViewById(R.id.scan);
 		textStatus = (TextView) findViewById(R.id.textStatus);
-		AutoScan = (CheckBox) findViewById(R.id.autoscan);
-		savedLabel = (Button) findViewById(R.id.saveButton);
-		send = (Button) findViewById(R.id.sendButton);
-
+		AutoScanButton = (CheckBox) findViewById(R.id.autoscan);
+		savedLabelButton = (Button) findViewById(R.id.saveButton);
 	}
 
 	// WiFi Status
@@ -107,25 +114,34 @@ public class WifiLocator extends Activity {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (AutoScan.isChecked() || scanOnClick) {
+			if (AutoScanButton.isChecked() || scanOnClick) {
 				StringBuilder status = new StringBuilder();
 				WifiManager wifi = (WifiManager) context
 						.getSystemService(Context.WIFI_SERVICE);
-				Fingerprint fingerprint = new Fingerprint(wifi.getScanResults());
+				try {
+					Fingerprint fingerprint = new Fingerprint(
+							wifi.getScanResults());
 
-				if (fingerprint.getSize() == 0) {
-					status.append("No WiFi connection!!!");
-				} else {
-					if (AutoScan.isChecked()) {
-						Scan.setEnabled(false);
+					if (fingerprint.getSize() == 0) {
+						status.append("No WiFi connection!!!");
 					} else {
-						Scan.setEnabled(true);
+						if (AutoScanButton.isChecked()) {
+							ScanButton.setEnabled(false);
+						} else {
+							ScanButton.setEnabled(true);
+						}
+						generalFingerprint = fingerprint;
+						status.append("List of available WiFi: \n\n");
+						status.append(generalFingerprint.toString());
 					}
-					generalFingerprint = fingerprint;
-					status.append("List of available WiFi: \n\n");
-					status.append(generalFingerprint.toString());
+					textStatus.setText(status);
+				} catch (Exception exception) {
+					StringWriter sw = new StringWriter();
+					PrintWriter pw = new PrintWriter(sw);
+					exception.printStackTrace(pw);
+					textStatus.setText(sw.toString());
 				}
-				textStatus.setText(status);
+
 				scanOnClick = false;
 
 			}
@@ -136,7 +152,7 @@ public class WifiLocator extends Activity {
 
 	private void setUpButtonListeners() {
 		// savedLabel Listener -> go to saved label activity
-		savedLabel.setOnClickListener(new View.OnClickListener() {
+		savedLabelButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				Intent myIntent = new Intent(view.getContext(),
@@ -144,30 +160,31 @@ public class WifiLocator extends Activity {
 				startActivityForResult(myIntent, 0);
 			}
 		});
-		
-		// OnOff Listener -> enable/disable WiFi
-		OnOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-				WifiManager wifi;
 
-				if (isChecked) {
-					wifi = (WifiManager) getBaseContext().getSystemService(
-							Context.WIFI_SERVICE);
-					wifi.setWifiEnabled(false);
-					scanOnClick = false;
-				} else {
-					wifi = (WifiManager) getBaseContext().getSystemService(
-							Context.WIFI_SERVICE);
-					wifi.setWifiEnabled(true);
-					scanOnClick = false;
-				}
-			}
-		});
+		// OnOff Listener -> enable/disable WiFi
+		OnOffButton
+				.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						WifiManager wifi;
+
+						if (isChecked) {
+							wifi = (WifiManager) getBaseContext()
+									.getSystemService(Context.WIFI_SERVICE);
+							wifi.setWifiEnabled(false);
+							scanOnClick = false;
+						} else {
+							wifi = (WifiManager) getBaseContext()
+									.getSystemService(Context.WIFI_SERVICE);
+							wifi.setWifiEnabled(true);
+							scanOnClick = false;
+						}
+					}
+				});
 
 		// Scan Listener -> Start scanning
-		Scan.setOnClickListener(new Button.OnClickListener() {
+		ScanButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				StringBuilder status = new StringBuilder();
@@ -177,7 +194,7 @@ public class WifiLocator extends Activity {
 					if (wifi.startScan() == false) {
 						status.append("Scan failed!!!");
 					} else {
-						Scan.setEnabled(false);
+						ScanButton.setEnabled(false);
 						status.append("Scanning...");
 					}
 				} else {
@@ -190,40 +207,26 @@ public class WifiLocator extends Activity {
 
 		// Auto Listener -> Start auto scanning
 
-		AutoScan.setOnClickListener(new OnClickListener() {
+		AutoScanButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
-				if (AutoScan.isChecked()) {
+				if (AutoScanButton.isChecked()) {
 					timer = new Timer();
 					timer.schedule(new TimerTask() {
 						@Override
 						public void run() {
-							StringBuilder status = new StringBuilder();
 							WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-
-							if (wifi.getWifiState() == WifiManager.WIFI_STATE_ENABLED) {
-								if (wifi.startScan() == false) {
-									status.append("Scan failed!!!");
-								} else {
-								
-									status.append("Auto Scanning...");
-								}
-							} else {
-								status.append("WiFi is off, turn it on now !!! \n");
-							}
-							// textStatus.setText(status);
+							wifi.startScan();
 						}
 					}, 0, 1000);
-					Scan.setEnabled(false);
+					ScanButton.setEnabled(false);
 				} else {
 					timer.cancel();
-					Scan.setEnabled(true);
+					ScanButton.setEnabled(true);
 				}
 			}
 		});
 	}
-	
 
 	@Override
 	public void onDestroy() {

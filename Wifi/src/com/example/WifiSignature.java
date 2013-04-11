@@ -16,6 +16,8 @@ import java.io.Serializable;
  *         </ul>
  */
 public class WifiSignature implements Comparable<WifiSignature>, Serializable {
+	final static long serialVersionUID = 1L;
+	
 	private String basicServiceSetIdentifier; // Address of the access point
 	private int receivedSignalStrength; // Signal strength
 	private String serviceSetIdentifier; // Name of the access point

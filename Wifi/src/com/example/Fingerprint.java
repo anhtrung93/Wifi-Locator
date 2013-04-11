@@ -21,6 +21,8 @@ import android.net.wifi.ScanResult;
  * 
  */
 public class Fingerprint implements Serializable {
+	final static long serialVersionUID = 1L;
+
 	private WifiSignature[] wifiList; // the list of WifiSignature objects
 	private String locationLabel; // the label assigned by users
 
@@ -41,8 +43,14 @@ public class Fingerprint implements Serializable {
 	 * 
 	 * @param listOfScanResults
 	 *            list of all wifi signal received after the device makes a scan
+	 * @throws Exception
+	 *             when listOfScanResults does not exist
 	 */
-	public Fingerprint(List<ScanResult> listOfScanResults) {
+	public Fingerprint(List<ScanResult> listOfScanResults) throws Exception {
+		if (listOfScanResults == null) {
+			throw new Exception(
+					"There is no listOfScanResults to init Fingerprint");
+		}
 		int size = listOfScanResults.size();
 		this.wifiList = new WifiSignature[size];
 		for (int idWifiList = 0; idWifiList < size; idWifiList++) {
@@ -129,6 +137,7 @@ public class Fingerprint implements Serializable {
 		int difference = 0;
 		// Sum of square of each difference of each matched WifiSignature's RSS
 
+		//Note: Rename i,j !!!!!!!!!11
 		for (int i = 0, j = 0; i < thisSize && j < anotherSize;) {
 			WifiSignature thisSignature = thisWifiList[i];
 			WifiSignature anotherSignature = anotherWifiList[j];
@@ -139,7 +148,8 @@ public class Fingerprint implements Serializable {
 						.getReceivedSignalStrength()
 						- anotherSignature.getReceivedSignalStrength();
 				difference += squareOfDifference * squareOfDifference;
-				i++; j++;
+				i++;
+				j++;
 			} else if (compareResult < 0) {
 				i++;
 			} else {

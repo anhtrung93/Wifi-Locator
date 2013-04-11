@@ -24,16 +24,16 @@
         android:hint="@string/addlabeledittext" />
 
     <TextView
-        android:id="@+id/ecep"
+        android:id="@+id/exceptConnect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="exception" />
+        android:text="@string/initExceptConnect" />
 
     <TextView
-        android:id="@+id/ecep2"
+        android:id="@+id/exceptAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="exception2" />
+        android:text="@string/initExceptAdd" />
 
     <Button
         android:id="@+id/saveButton"

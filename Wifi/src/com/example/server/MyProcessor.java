@@ -60,7 +60,13 @@ public class MyProcessor implements Processor {
 	}
 
 	/**
-	 * Processes incoming requests.
+	 * Processes incoming requests:
+	 * <ul>
+	 * <li>AddRequest: add a new Fingerprint into fingerprintList</li>
+	 * <li>RemoveRequest: delete an old Fingerprint from fingerprintList</li>
+	 * <li>FindRequest: search for a Fingerprint on fingerprintList</li>
+	 * <li>...</li>
+	 * </ul>
 	 * 
 	 * @param requestObject
 	 */
@@ -76,28 +82,50 @@ public class MyProcessor implements Processor {
 		} else if (requestObject instanceof FindRequest) {
 			resultObject = find(((FindRequest) requestObject).getFingerprint());
 		} else {
-			System.err.println("Uknown request regcognized");
+			System.err.println("Uknown request recognized");
 		}
 		return resultObject;
 	}
 
+	/**
+	 * Search for a Fingerprint on the fingerprintList
+	 * 
+	 * @param query
+	 *            a Fingerprint to search for
+	 * @return the closest Fingerprint to the query, using
+	 *         Fingerprint.differFrom(Fingerprint) to compare
+	 */
 	public Fingerprint find(Fingerprint query) {
 		Fingerprint result = null;
 		float smallestDifference = Constant.MAXIMUM_DIFFERENCE;
 		for (Fingerprint fingerprint : fingerprintList) {
-			float diff = fingerprint.differFrom(query);
-			if (diff < smallestDifference) {
+			float difference = fingerprint.differFrom(query);
+			if (difference < smallestDifference) {
 				result = fingerprint;
-				smallestDifference = diff;
+				smallestDifference = difference;
 			}
 		}
 		return result;
 	}
 
+	/**
+	 * Add a new Fingerprint to the fingerprintList
+	 * 
+	 * @param fingerprint
+	 *            a new Fingerprint which will be added into the fingerprintList
+	 */
 	public void add(Fingerprint fingerprint) {
 		fingerprintList.add(fingerprint);
 	}
 
+	/**
+	 * Delete an old Fingerprint from the fingerprintList ??? What will happen
+	 * if fingerprint not in the fingerprintList
+	 * 
+	 * @param fingerprint
+	 *            an old Fingerprint which will be deleted from the
+	 *            fingerprintList
+	 */
 	public void remove(Fingerprint fingerprint) {
 		fingerprintList.remove(fingerprint);
 	}

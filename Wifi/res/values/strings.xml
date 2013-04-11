@@ -12,4 +12,6 @@
     <string name="addlabeledittext">Add your label here</string>
     <string name="save">Save</string>
     <string name="labelname">Label</string>
+    <string name="initExceptConnect">ExceptionConnect</string>
+    <string name="initExceptAdd">ExceptionAdd</string>
 </resources>
