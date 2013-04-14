@@ -12,7 +12,7 @@ package com.example.share;
 public class Constant {
 	public static String FINISH = "quit";
 	public static int MAXIMUM_DIFFERENCE = 100; // need changing
-	public static String SERVER_ADDRESS = "localhost";
+	public static String SERVER_ADDRESS = "192.168.184.1";
 	public static int SERVER_PORT = 4444;
 
 	public static boolean isFINISH(Object object) {

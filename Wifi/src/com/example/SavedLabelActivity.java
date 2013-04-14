@@ -1,7 +1,5 @@
 package com.example;
 
-import com.example.share.Constant;
-
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -16,7 +14,7 @@ import android.widget.TextView;
 /**
  * 
  * @author braveWolf
- *
+ * 
  */
 @SuppressLint("CutPasteId")
 public class SavedLabelActivity extends WifiLocator {
@@ -37,7 +35,6 @@ public class SavedLabelActivity extends WifiLocator {
 		this.setUpBackButtonListeners();
 		// Add new label
 		this.setUpSaveButtonListeners();
-		// TODO Auto-generated method stub
 	}
 
 	/**
@@ -82,27 +79,16 @@ public class SavedLabelActivity extends WifiLocator {
 				String tempName = labelAdding.getText().toString();
 				WifiLocator.generalFingerprint.addLabel(tempName);
 				labelShowing.setText(WifiLocator.generalFingerprint.getLabel());
-
-				Database newData = null;
-				// Make new Database to connect server
 				try {
-					newData = new Database("192.168.43.23",
-							Constant.SERVER_PORT);
-				} catch (Exception e) {
+					Database.add(WifiLocator.generalFingerprint);
+				} catch (Exception exception){
 					StringWriter sw = new StringWriter();
 					PrintWriter pw = new PrintWriter(sw);
-					e.printStackTrace(pw);
+					exception.printStackTrace(pw);
+					
 					exceptionConnection.setText(sw.toString());
 				}
-				try {
-					newData.add(WifiLocator.generalFingerprint);
-				} catch (Exception e) {
-					StringWriter sw = new StringWriter();
-					PrintWriter pw = new PrintWriter(sw);
-					e.printStackTrace(pw);
-					exceptionAdding.setText(sw.toString());
-				}
-
+				
 			}
 		});
 	}

@@ -1,29 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.example" android:versionCode="1" android:versionName="@string/program_title">
+    package="com.example"
+    android:versionCode="1"
+    android:versionName="@string/program_title" >
 
-  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
-  <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>  
-  <uses-sdk android:minSdkVersion="8"/>
-    
-  <application android:icon="@drawable/icon" android:label="@string/app_name"
-    android:theme="@android:style/Theme.Light"
-    android:debuggable="true">
-    
-    <activity android:name=".WifiLocator" android:label="@string/app_name">
-      <intent-filter>
-        <action android:name="android.intent.action.MAIN" />
-        <category android:name="android.intent.category.LAUNCHER" />
-      </intent-filter>
-    </activity>
-    
-    <receiver android:name=".WiFiScanReceiver">
-      <intent-filter>
-        <action android:name="com.example" />
-      </intent-filter>
-    </receiver>
-    <activity android:name="SavedLabelActivity" android:label="@string/save_label"></activity>
-    
-  </application>
-  
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="17" />
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.Light" >
+        <activity
+            android:name=".WifiLocator"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <receiver android:name=".WiFiScanReceiver" >
+            <intent-filter>
+                <action android:name="com.example" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="SavedLabelActivity"
+            android:label="@string/save_label" >
+        </activity>
+    </application>
+
 </manifest>
