@@ -22,7 +22,8 @@ public class Database {
 	 *             exception may caused when the object is sending\receiving
 	 *             to\from the Server
 	 */
-	static public Fingerprint find(Fingerprint queryFingerprint) throws Exception {
+	static public Fingerprint find(Fingerprint queryFingerprint)
+			throws Exception {
 		RequestTask findTask = new RequestTask();
 		findTask.execute(new FindRequest(queryFingerprint));
 		return findTask.get();

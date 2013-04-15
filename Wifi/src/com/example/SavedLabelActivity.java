@@ -81,14 +81,14 @@ public class SavedLabelActivity extends WifiLocator {
 				labelShowing.setText(WifiLocator.generalFingerprint.getLabel());
 				try {
 					Database.add(WifiLocator.generalFingerprint);
-				} catch (Exception exception){
+				} catch (Exception exception) {
 					StringWriter sw = new StringWriter();
 					PrintWriter pw = new PrintWriter(sw);
 					exception.printStackTrace(pw);
-					
+
 					exceptionConnection.setText(sw.toString());
 				}
-				
+
 			}
 		});
 	}

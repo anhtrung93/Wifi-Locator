@@ -1,4 +1,4 @@
-package com.example;
+package com.example.share;
 
 import java.util.List;
 import java.util.Arrays;
@@ -137,7 +137,7 @@ public class Fingerprint implements Serializable {
 		int difference = 0;
 		// Sum of square of each difference of each matched WifiSignature's RSS
 
-		//Note: Rename i,j !!!!!!!!!11
+		// Note: Rename i,j !!!!!!!!!11
 		for (int i = 0, j = 0; i < thisSize && j < anotherSize;) {
 			WifiSignature thisSignature = thisWifiList[i];
 			WifiSignature anotherSignature = anotherWifiList[j];

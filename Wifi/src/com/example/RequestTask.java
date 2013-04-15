@@ -10,17 +10,17 @@ import android.os.*;
 public class RequestTask extends AsyncTask<Request, Void, Fingerprint> {
 	protected Fingerprint doInBackground(Request... requests) {
 		Fingerprint response = null;
-		try{
+		try {
 			Connection newConnection = new Connection(Constant.SERVER_ADDRESS,
 					Constant.SERVER_PORT);
-			response = (Fingerprint) newConnection.request( requests[0]);
+			response = (Fingerprint) newConnection.request(requests[0]);
 			newConnection.closeSession();
-		} catch (Exception exception){
+		} catch (Exception exception) {
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
 			exception.printStackTrace(pw);
-			
-			//TO DO show exception
+
+			// TO DO show exception
 		}
 		return response;
 	}

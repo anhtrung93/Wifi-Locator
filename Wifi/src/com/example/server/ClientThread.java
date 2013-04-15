@@ -60,7 +60,7 @@ class ClientThread implements Runnable {
 				ouputStream.writeObject(toSentObject);
 				System.out.println(">>>>>>>Return " + toSentObject);
 				System.out
-				.println("------------------END REQUEST--------------------\n");
+						.println("------------------END REQUEST--------------------\n");
 			} while (!Constant.isFINISH(receivedObject)
 					&& !Constant.isFINISH(toSentObject));
 

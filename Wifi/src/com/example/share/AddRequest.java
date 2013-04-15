@@ -1,7 +1,5 @@
 package com.example.share;
 
-import com.example.*;
-
 /**
  * 
  * @author bvuong93

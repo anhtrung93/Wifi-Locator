@@ -1,8 +1,7 @@
-package com.example;
+package com.example.share;
 
 import android.net.wifi.ScanResult;
 import java.io.Serializable;
-
 
 /**
  * @author anhtrung93 + bvuong93
@@ -17,7 +16,7 @@ import java.io.Serializable;
  */
 public class WifiSignature implements Comparable<WifiSignature>, Serializable {
 	final static long serialVersionUID = 1L;
-	
+
 	private String basicServiceSetIdentifier; // Address of the access point
 	private int receivedSignalStrength; // Signal strength
 	private String serviceSetIdentifier; // Name of the access point
@@ -57,7 +56,7 @@ public class WifiSignature implements Comparable<WifiSignature>, Serializable {
 		this.receivedSignalStrength = initReceivedSignalStrength;
 		this.serviceSetIdentifier = initServiceSetIdentifier;
 	}
-	
+
 	/**
 	 * Constructs the start state of the WifiSignature object by setting all the
 	 * fields of the class with some information from the parameters.

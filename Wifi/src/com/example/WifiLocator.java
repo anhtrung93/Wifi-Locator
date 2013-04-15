@@ -1,5 +1,7 @@
 package com.example;
 
+import com.example.share.*;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Timer;
@@ -199,7 +201,7 @@ public class WifiLocator extends Activity {
 	 * <li>When onOffButton is clicked, this method will turn on and turn off
 	 * wifi of the device.</li>
 	 * 
-	 * <li>When scanButton is clicked, a new wifi scan will be started. </li>
+	 * <li>When scanButton is clicked, a new wifi scan will be started.</li>
 	 */
 	private void setUpButtonListeners() {
 		// savedLabel Listener -> go to saved label activity
@@ -279,8 +281,7 @@ public class WifiLocator extends Activity {
 	}
 
 	/**
-	 * Called when the application is destroyed.
-	 * Unregisters receivers
+	 * Called when the application is destroyed. Unregisters receivers
 	 */
 	@Override
 	public void onDestroy() {

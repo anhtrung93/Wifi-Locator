@@ -1,6 +1,5 @@
 package com.example.share;
 
-import com.example.*;
 import java.io.Serializable;
 
 /**
