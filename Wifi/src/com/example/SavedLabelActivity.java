@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 /**
  * 
- * @author braveWolf
+ * @author  bravewolf
  * 
  */
 @SuppressLint("CutPasteId")
