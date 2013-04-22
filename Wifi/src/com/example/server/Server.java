@@ -69,10 +69,10 @@ public class Server {
 			System.out.println("Server is running");
 			demoServer.serve();
 
-		} catch (Exception exception) {
-			exception.printStackTrace();
+		} catch (Exception serverException) {
+			serverException.printStackTrace();
 			System.out.println("Error!!!");
-			exception.printStackTrace();
+			serverException.printStackTrace();
 		}
 	}
 }

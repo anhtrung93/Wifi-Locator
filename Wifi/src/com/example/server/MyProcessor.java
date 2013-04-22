@@ -27,17 +27,20 @@ public class MyProcessor implements Processor {
 	 * Reads the database from a fileName team
 	 * 
 	 * @param fileName
-	 *            the name of the file contains the fingerprintList.
+	 *            the name of the file containning the fingerprintList.
 	 * @throws Exception
-	 *             there may be wrong fileName, or the data in the wifli
+	 *             there may be wrong fileName, or the data in the wifi
 	 */
 	public MyProcessor(String fileName) throws Exception {
 		FileInputStream fileInputStream = new FileInputStream(fileName);
 		ObjectInputStream objectInputStream = new ObjectInputStream(
 				fileInputStream);
 		Object myProcessorFromFile = objectInputStream.readObject();
-		if (!(myProcessorFromFile instanceof MyProcessor))
+		if (!(myProcessorFromFile instanceof MyProcessor)) {
+			objectInputStream.close();
+			fileInputStream.close();
 			throw new Exception("Wrong file format: " + fileName);
+		}
 		fingerprintList = ((MyProcessor) myProcessorFromFile).fingerprintList;
 		fileInputStream.close();
 		objectInputStream.close();
@@ -89,7 +92,7 @@ public class MyProcessor implements Processor {
 	}
 
 	/**
-	 * Search for a Fingerprint on the fingerprintList
+	 * Searches for a Fingerprint on the fingerprintList
 	 * 
 	 * @param query
 	 *            a Fingerprint to search for
@@ -110,7 +113,7 @@ public class MyProcessor implements Processor {
 	}
 
 	/**
-	 * Add a new Fingerprint to the fingerprintList
+	 * Adds a new Fingerprint to the fingerprintList
 	 * 
 	 * @param fingerprint
 	 *            a new Fingerprint which will be added into the fingerprintList
@@ -120,8 +123,8 @@ public class MyProcessor implements Processor {
 	}
 
 	/**
-	 * Delete an old Fingerprint from the fingerprintList ??? What will happen
-	 * if fingerprint not in the fingerprintList
+	 * Deletes an old Fingerprint from the fingerprintList. 
+	 * <b>What will happen if fingerprint not in the fingerprintList</b>
 	 * 
 	 * @param fingerprint
 	 *            an old Fingerprint which will be deleted from the

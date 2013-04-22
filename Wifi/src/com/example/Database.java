@@ -43,7 +43,7 @@ public class Database {
 	}
 
 	/**
-	 * Adds a Fingerprint object to the real database on the server.
+	 * Removes a Fingerprint object from the real database on the server.
 	 * 
 	 * @param newFingerprint
 	 *            a Fingerprint object that the client want to add to the

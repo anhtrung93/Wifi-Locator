@@ -9,11 +9,12 @@ import android.os.*;
 
 public class RequestTask extends AsyncTask<Request, Void, Fingerprint> {
 	protected Fingerprint doInBackground(Request... requests) {
-		Fingerprint response = null;
+		Fingerprint responseFingerprint = null;
 		try {
 			Connection newConnection = new Connection(Constant.SERVER_ADDRESS,
 					Constant.SERVER_PORT);
-			response = (Fingerprint) newConnection.request(requests[0]);
+			responseFingerprint = (Fingerprint) newConnection
+					.request(requests[0]);
 			newConnection.closeSession();
 		} catch (Exception exception) {
 			StringWriter sw = new StringWriter();
@@ -22,7 +23,7 @@ public class RequestTask extends AsyncTask<Request, Void, Fingerprint> {
 
 			// TO DO show exception
 		}
-		return response;
+		return responseFingerprint;
 	}
 
 }

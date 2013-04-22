@@ -25,6 +25,7 @@
             android:layout_width="106dp"
             android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textIsSelectable="true"
             android:textSize="15sp" />
     </LinearLayout>
 
@@ -67,7 +68,8 @@
                 android:id="@+id/textStatus"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/program_title" />
+                android:hint="@string/program_title"
+                android:textIsSelectable="true" />
         </LinearLayout>
     </ScrollView>
 
