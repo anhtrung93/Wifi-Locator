@@ -1,9 +1,8 @@
 package com.example.server;
 
-import java.util.*;
+import java.util.ArrayList;
 import java.io.*;
 import com.example.share.*;
-import com.example.*;
 
 /**
  * 
@@ -36,8 +35,10 @@ public class MyProcessor implements Processor {
 		FileInputStream fileInputStream = new FileInputStream(fileName);
 		ObjectInputStream objectInputStream = new ObjectInputStream(
 				fileInputStream);
-		fingerprintList = (ArrayList<Fingerprint>) objectInputStream
-				.readObject();
+		Object myProcessorFromFile = objectInputStream.readObject();
+		if (!(myProcessorFromFile instanceof MyProcessor))
+			throw new Exception("Wrong file format: " + fileName);
+		fingerprintList = ((MyProcessor) myProcessorFromFile).fingerprintList;
 		fileInputStream.close();
 		objectInputStream.close();
 	}

@@ -134,7 +134,7 @@ public class Fingerprint implements Serializable {
 		int anotherSize = otherFingerprint.getSize();
 
 		int count = 0; // Number of matched WifiSignature
-		int difference = 0;
+		int sumOfDifference = 0;
 		// Sum of square of each difference of each matched WifiSignature's RSS
 
 		// Note: Rename i,j !!!!!!!!!11
@@ -144,10 +144,11 @@ public class Fingerprint implements Serializable {
 			int compareResult = thisSignature.compareTo(anotherSignature);
 			if (compareResult == 0) {
 				count++;
-				int squareOfDifference = thisSignature
+				int difference = thisSignature
 						.getReceivedSignalStrength()
 						- anotherSignature.getReceivedSignalStrength();
-				difference += squareOfDifference * squareOfDifference;
+				int squareOfDifference = difference * difference;
+				sumOfDifference += squareOfDifference;
 				i++;
 				j++;
 			} else if (compareResult < 0) {
@@ -156,8 +157,14 @@ public class Fingerprint implements Serializable {
 				j++;
 			}
 		}
-		return ((float) difference / count)
-				/ ((float) count / (thisSize + anotherSize));
+		
+		float proportion = (float) count / (thisSize + anotherSize);
+		float averageDifference = (float) sumOfDifference / count;
+		
+		if (proportion < 0.8)
+			return Constant.MAXIMUM_DIFFERENCE + 1;
+		else
+			return averageDifference / (proportion);
 	}
 
 	/**
