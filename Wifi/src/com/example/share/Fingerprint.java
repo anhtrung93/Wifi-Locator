@@ -158,10 +158,10 @@ public class Fingerprint implements Serializable {
 			}
 		}
 		
-		float proportion = (float) count / (thisSize + anotherSize);
+		float proportion = (float) count / anotherSize;
 		float averageDifference = (float) sumOfDifference / count;
 		
-		if (proportion < 0.8)
+		if (proportion < 0.5)
 			return Constant.MAXIMUM_DIFFERENCE + 1;
 		else
 			return averageDifference / (proportion);
