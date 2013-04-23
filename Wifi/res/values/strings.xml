@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="hello">Hello World, WiFi Locator</string>
     <string name="app_name">Wifi Locator</string>
     <string name="switch_wifi">Switch WiFi</string>
@@ -14,4 +15,5 @@
     <string name="labelname">Label</string>
     <string name="initExceptConnect">ExceptionConnect</string>
     <string name="initExceptAdd">ExceptionAdd</string>
+
 </resources>

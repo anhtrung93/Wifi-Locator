@@ -20,8 +20,11 @@
 
         <ToggleButton
             android:id="@+id/onoff"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            style="@style/ToggleButtonTheme"
+            android:layout_width="90dp"
+            android:layout_height="35dp"
+            android:background="@drawable/btn_toggle_bg"
+            android:checked="true" />
 
         <TextView
             android:id="@+id/wifistate"
