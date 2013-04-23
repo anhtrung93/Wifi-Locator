@@ -100,7 +100,7 @@ public class MyProcessor implements Processor {
 	 *         Fingerprint.differFrom(Fingerprint) to compare
 	 */
 	public Fingerprint find(Fingerprint query) {
-		Fingerprint result = null;
+		Fingerprint result = query;
 		float smallestDifference = Constant.MAXIMUM_DIFFERENCE;
 		for (Fingerprint fingerprint : fingerprintList) {
 			float difference = fingerprint.differFrom(query);

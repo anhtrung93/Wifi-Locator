@@ -1,8 +1,5 @@
 package com.example;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -76,19 +73,7 @@ public class SavedLabelActivity extends WifiLocator {
 		saveButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				String tempName = labelAdding.getText().toString();
-				WifiLocator.generalFingerprint.addLabel(tempName);
-				labelShowing.setText(WifiLocator.generalFingerprint.getLabel());
-				try {
-					Database.add(WifiLocator.generalFingerprint);
-				} catch (Exception exception) {
-					StringWriter sw = new StringWriter();
-					PrintWriter pw = new PrintWriter(sw);
-					exception.printStackTrace(pw);
-
-					exceptionConnection.setText(sw.toString());
-				}
-
+				
 			}
 		});
 	}
