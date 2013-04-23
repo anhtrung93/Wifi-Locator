@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@drawable/mainbackground"
     android:orientation="vertical" >
 
     <TextView
@@ -9,7 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/switch_wifi"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@android:color/white" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -26,6 +28,7 @@
             android:layout_width="106dp"
             android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/white"
             android:textIsSelectable="true"
             android:textSize="15sp" />
     </LinearLayout>
@@ -35,13 +38,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/scan_wifi"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@android:color/white" />
 
     <CheckBox
         android:id="@+id/autoscan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/autoscan" />
+        android:text="@string/autoscan"
+        android:textColor="@android:color/white" />
 
     <Button
         android:id="@+id/scan"
