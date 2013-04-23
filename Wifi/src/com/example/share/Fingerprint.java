@@ -2,6 +2,7 @@ package com.example.share;
 
 import java.util.List;
 import java.util.Arrays;
+// import java.util.ArrayList;
 import java.io.Serializable;
 import android.net.wifi.ScanResult;
 
@@ -58,8 +59,8 @@ public class Fingerprint implements Serializable {
 					listOfScanResults.get(idWifiList));
 		}
 
-		this.sort();
 		this.filter();
+		this.sort();		
 
 		this.locationLabel = "Unknown location";
 	}
@@ -171,7 +172,22 @@ public class Fingerprint implements Serializable {
 	 * Deletes unnecessary WifiSignature objects from the list of WifiSignature
 	 * objects. Objects which will be deleted are ...
 	 */
-	private void filter() {
+	private void filter() {		
+		int count = 0;
+		for (int i = 0; i < getSize(); i++)
+			if (wifiList[i].getReceivedSignalStrength() > -80)
+				count++;
+		
+		WifiSignature[] filteredWifiList = new WifiSignature[count];
+		
+		for (int i = 0, j = 0; (i < getSize()) && (j < count); i++)
+			if (wifiList[i].getReceivedSignalStrength() > -80) {
+				filteredWifiList[j] = wifiList[i];
+				j++;
+			}
+		
+		wifiList = filteredWifiList;
+		
 	}
 
 	/**
