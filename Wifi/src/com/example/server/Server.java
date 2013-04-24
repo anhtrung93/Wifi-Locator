@@ -69,8 +69,7 @@ public class Server {
 		try {
 			System.out.println("Server is running");
 			new Thread(controller).start(); 
-			System.out.println("Controller started");
-			System.out.println("Just type list|store|load|exit");
+
 			demoServer.serve();
 
 		} catch (Exception serverException) {

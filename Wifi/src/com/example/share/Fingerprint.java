@@ -60,7 +60,7 @@ public class Fingerprint implements Serializable {
 					listOfScanResults.get(idWifiList));
 		}
 
-		//this.filter();
+		this.filter();
 		this.sort();		
 
 		this.locationLabel = "Unknown location";
@@ -220,6 +220,7 @@ public class Fingerprint implements Serializable {
 	 * objects. Objects which will be deleted are ...
 	 */
 	private void filter() {		
+		/*
 		int count = 0;
 		for (int i = 0; i < getSize(); i++)
 			if (wifiList[i].getReceivedSignalStrength() > -80)
@@ -234,7 +235,7 @@ public class Fingerprint implements Serializable {
 			}
 		
 		wifiList = filteredWifiList;
-		
+		*/
 	}
 
 	/**

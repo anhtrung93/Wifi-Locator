@@ -17,7 +17,7 @@ import java.io.Serializable;
 public class MyProcessor implements Processor, Serializable {
 	final static long serialVersionUID = 1L;
 	private ArrayList<Fingerprint> fingerprintList;
-	
+
 
 	/**
 	 * Constructs a new empty list of Fingerprint.
@@ -30,14 +30,21 @@ public class MyProcessor implements Processor, Serializable {
 	 * Reads the database from a fileName team
 	 * 
 	 * @param fileName
-	 *            the name of the file containning the fingerprintList.
+	 *            the name of the file containning the MyProcessor.
 	 * @throws Exception
 	 *             there may be wrong fileName, or the data in the wifi
 	 */
 	public MyProcessor(String fileName) throws Exception {
 		loadFromFile(fileName);
 	}
-	
+
+	/**
+	 * The real part of loading the database from a "fileName" file
+	 * @param fileName
+	 * 				the name of the file containning the MyProcessor.
+	 * @throws Exception
+	 * 				there may be wrong fileName, or the data in the wifi
+	 */
 	public void loadFromFile(String fileName) throws Exception {
 		FileInputStream fileInputStream = new FileInputStream(fileName);
 		ObjectInputStream objectInputStream = new ObjectInputStream(
@@ -117,7 +124,7 @@ public class MyProcessor implements Processor, Serializable {
 				smallestDifference = difference;
 			}
 		}
-		System.out.println("DIFFFFFFFf = " + smallestDifference);
+		System.out.println("Difference = " + smallestDifference);
 		return result;
 	}
 
@@ -143,6 +150,11 @@ public class MyProcessor implements Processor, Serializable {
 		fingerprintList.remove(fingerprint);
 	}
 
+	/**
+	 * 
+	 * @return
+	 * 			the list of Fingerprints the processor are maintaining
+	 */
 	public ArrayList<Fingerprint> getFingerprintList() {
 		return fingerprintList;
 	}
