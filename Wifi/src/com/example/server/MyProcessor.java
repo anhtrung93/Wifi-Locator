@@ -109,6 +109,7 @@ public class MyProcessor implements Processor {
 				smallestDifference = difference;
 			}
 		}
+		System.out.println("DIFFFFFFFf = " + smallestDifference);
 		return result;
 	}
 
