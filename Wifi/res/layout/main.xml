@@ -21,8 +21,8 @@
         <ToggleButton
             android:id="@+id/onoff"
             style="@style/ToggleButtonTheme"
-            android:layout_width="108dp"
-            android:layout_height="wrap_content"
+            android:layout_width="118dp"
+            android:layout_height="67dp"
             android:background="@drawable/btn_toggle_bg"
             android:checked="false" />
 
@@ -55,6 +55,7 @@
         android:id="@+id/scan"
         android:layout_width="75dp"
         android:layout_height="75dp"
+        android:background="@drawable/btn_scan"
         android:text="@string/Scan_button" />
 
     <LinearLayout
