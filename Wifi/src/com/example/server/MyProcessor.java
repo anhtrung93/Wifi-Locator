@@ -15,7 +15,9 @@ import java.io.Serializable;
  * 
  */
 public class MyProcessor implements Processor, Serializable {
+	final static long serialVersionUID = 1L;
 	private ArrayList<Fingerprint> fingerprintList;
+	
 
 	/**
 	 * Constructs a new empty list of Fingerprint.
@@ -90,11 +92,6 @@ public class MyProcessor implements Processor, Serializable {
 			remove(((RemoveRequest) requestObject).getFingerprint());
 		} else if (requestObject instanceof FindRequest) {
 			resultObject = find(((FindRequest) requestObject).getFingerprint());			
-		} else if (requestObject instanceof SyncToFileRequest) {
-			try {
-				storeToFile(Constant.SERVER_FILE);
-			} catch (Exception e) {
-			}
 		} else {
 			System.err.println("Uknown request recognized");
 		}
