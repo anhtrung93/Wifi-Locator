@@ -64,15 +64,14 @@ public class WifiLocator extends Activity {
 	/**
 	 * Called when the activity is first created. Shows user interface by
 	 * linking xml parts with variables. Registers receivers. Initializes button
-	 * listeners for addNewLabelButton, onOffButton, scanButton and autoscan.
+	 * listeners for addNewLabelButton, onOffButton, scanButton and
+	 * autoScanButton.
 	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		this.initialize();
-
-		this.setUpInterface();
 		// Registers Receivers
 		this.registerReceiver(this.WifiStateChangedReceiver, new IntentFilter(
 				WifiManager.WIFI_STATE_CHANGED_ACTION));
@@ -86,21 +85,11 @@ public class WifiLocator extends Activity {
 	}
 
 	/**
-	 * 
+	 * Initializes some instance variables by linking xml parts to them. Allows
+	 * using variables (button and text area variables)to control the user
+	 * interface.
 	 */
 	private void initialize() {
-		scanOnClick = false;
-		WifiManager wifi = (WifiManager) getBaseContext().getSystemService(
-				Context.WIFI_SERVICE);
-		wifi.setWifiEnabled(true);
-	}
-
-	/**
-	 * Links xml parts to variables. Allows using variables (button and text
-	 * area variables)to control the user interface
-	 * 
-	 */
-	private void setUpInterface() {
 		setContentView(R.layout.main);
 
 		showLocationArea = (EditText) findViewById(R.id.addLabelText);
@@ -111,6 +100,11 @@ public class WifiLocator extends Activity {
 		scanButton = (Button) findViewById(R.id.scan);
 		autoScanButton = (CheckBox) findViewById(R.id.autoscan);
 		addNewLabelButton = (Button) findViewById(R.id.saveButton);
+
+		scanOnClick = false;
+		WifiManager wifi = (WifiManager) getBaseContext().getSystemService(
+				Context.WIFI_SERVICE);
+		wifi.setWifiEnabled(false);
 	}
 
 	/**
@@ -124,7 +118,6 @@ public class WifiLocator extends Activity {
 	 * <li>WIFI DISABLING</li>
 	 * <li>WIFI UNKNOWN</li>
 	 * </ul>
-	 * 
 	 */
 	private BroadcastReceiver WifiStateChangedReceiver = new BroadcastReceiver() {
 		@Override
@@ -159,7 +152,7 @@ public class WifiLocator extends Activity {
 	/**
 	 * Receives when a wifi scan finishes. Prints out the list of Wifi. Finds a
 	 * suitable labeled Fingerprint in the database and shows the label in
-	 * showLocationArea.
+	 * showLocationArea. Starts a new Scan if the autoScanButton is checked.
 	 */
 	private BroadcastReceiver WifiScanAvailableReceiver = new BroadcastReceiver() {
 
@@ -181,7 +174,7 @@ public class WifiLocator extends Activity {
 					// Prints out the label
 					showLocationArea.setText(Database.find(currentFingerprint)
 							.getLabel());
-					
+
 					// Starts a new scan if autoScanButton is checked
 					if (autoScanButton.isChecked()) {
 						wifi.startScan();

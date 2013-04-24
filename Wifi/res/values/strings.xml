@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, WiFi Locator</string>
     <string name="app_name">Wifi Locator</string>
     <string name="switch_wifi">Switch WiFi</string>
     <string name="scan_wifi">Scan WiFi</string>
@@ -9,11 +8,6 @@
     <string name="Scan_button">Scan</string>
     <string name="autoscan">Auto Scan</string>
     <string name="save_label">Save Label</string>
-    <string name="back">Back</string>
     <string name="addlabeledittext">Add your label here</string>
-    <string name="save">Save</string>
-    <string name="labelname">Label</string>
-    <string name="initExceptConnect">ExceptionConnect</string>
-    <string name="initExceptAdd">ExceptionAdd</string>
 
 </resources>

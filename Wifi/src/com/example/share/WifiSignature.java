@@ -127,7 +127,7 @@ public class WifiSignature implements Comparable<WifiSignature>, Serializable {
 	public String toString() {
 		String strTemp = "SSID: " + this.serviceSetIdentifier + "\nBSSID: "
 				+ this.basicServiceSetIdentifier + "\nRSS: "
-				+ this.receivedSignalStrength;
+				+ this.receivedSignalStrength + "\n";
 		return strTemp;
 	}
 }

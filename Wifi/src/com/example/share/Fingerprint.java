@@ -1,7 +1,6 @@
 package com.example.share;
 
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.io.Serializable;
 import android.net.wifi.ScanResult;
@@ -60,7 +59,6 @@ public class Fingerprint implements Serializable {
 					listOfScanResults.get(idWifiList));
 		}
 
-		this.filter();
 		this.sort();		
 
 		this.locationLabel = "Unknown location";
@@ -168,76 +166,7 @@ public class Fingerprint implements Serializable {
 		else
 			return averageDifference / (proportion);
 	}
-
 	
-	public float __differFrom(Fingerprint otherFingerprint) {
-		WifiSignature[] thisWifiList = this.getWifiList();
-		WifiSignature[] anotherWifiList = otherFingerprint.getWifiList();
-		int thisSize = this.getSize();
-		int anotherSize = otherFingerprint.getSize();
-
-		// int count = 0; // Number of matched WifiSignature		
-		
-		
-		ArrayList<WifiSignature> thisList = new ArrayList<WifiSignature> ();
-		ArrayList<WifiSignature> anotherList = new ArrayList<WifiSignature> ();
-		
-		
-		// Sum of square of each difference of each matched WifiSignature's RSS
-
-		// Note: Rename i,j !!!!!!!!!11
-		
-		
-		for (int i = 0, j = 0; i < thisSize && j < anotherSize; ) {
-			WifiSignature thisSignature = thisWifiList[i];
-			WifiSignature anotherSignature = anotherWifiList[j];
-			int compareResult = thisSignature.compareTo(anotherSignature);
-						
-			if (compareResult == 0) {
-				thisList.add(thisSignature);
-				anotherList.add(thisSignature);
-				i++; j++;
-			} else if (compareResult < 0) {
-				i++;
-			} else {
-				j++;
-			}
-		}
-		
-		WifiSignature[] thisArray = thisList.toArray(new WifiSignature[thisList.size()]);
-		WifiSignature[] anotherArray = anotherList.toArray(new WifiSignature[anotherList.size()]);
-		
-		float difference = Fingerprint.getEuclideDistance(
-				Fingerprint.getStackingDifference(thisArray),
-				Fingerprint.getStackingDifference(anotherArray));
-				
-		// float proportion = (float) count / Math.min(thisSize, anotherSize);
-		return difference;		
-	}
-	
-	/**
-	 * Deletes unnecessary WifiSignature objects from the list of WifiSignature
-	 * objects. Objects which will be deleted are ...
-	 */
-	private void filter() {		
-		/*
-		int count = 0;
-		for (int i = 0; i < getSize(); i++)
-			if (wifiList[i].getReceivedSignalStrength() > -80)
-				count++;
-		
-		WifiSignature[] filteredWifiList = new WifiSignature[count];
-		
-		for (int i = 0, j = 0; (i < getSize()) && (j < count); i++)
-			if (wifiList[i].getReceivedSignalStrength() > -80) {
-				filteredWifiList[j] = wifiList[i];
-				j++;
-			}
-		
-		wifiList = filteredWifiList;
-		*/
-	}
-
 	/**
 	 * Gets the current number of WifiSignature objects in the list.
 	 * 
@@ -273,39 +202,10 @@ public class Fingerprint implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		String tempString = "Place: " + this.locationLabel + "\n";
+		String tempString = "";
 		for (int i = 0; i < this.wifiList.length; i++) {
 			tempString += this.wifiList[i].toString() + "\n";
 		}
 		return tempString;
-	}
-	
-	
-	static int[] getStackingDifference(WifiSignature[] wifiList) {
-		int[] result = new int[wifiList.length];
-		for (int i = 0; i < wifiList.length; i++) {
-			result[i] = 0;
-			for (int j = 0; j < wifiList.length; j++) {
-				int difference = wifiList[i].getReceivedSignalStrength()
-					- wifiList[j].getReceivedSignalStrength();
-				if (difference > 0)
-					result[i] += difference;
-			}
-		}
-		return result;
-	}
-	
-	static float getEuclideDistance(int[] firstVector, int[] secondVector) {
-		int size = firstVector.length;
-		
-		//if (size != secondVector.length)
-			//throw new Exception("different size err in get getEuclideDistance");
-		int sum = 0;
-		for (int i = 0; i < size; i++) {
-			int difference = firstVector[i] - secondVector[i];
-			sum += difference * difference;
-		}
-		
-		return (float) Math.sqrt(sum);
 	}
 }
