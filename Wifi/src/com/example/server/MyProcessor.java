@@ -3,6 +3,7 @@ package com.example.server;
 import java.util.ArrayList;
 import java.io.*;
 import com.example.share.*;
+import java.io.Serializable;
 
 /**
  * 
@@ -13,7 +14,7 @@ import com.example.share.*;
  *         program, which is called ArrayList<Fingerprint> fingerprintList.
  * 
  */
-public class MyProcessor implements Processor {
+public class MyProcessor implements Processor, Serializable {
 	private ArrayList<Fingerprint> fingerprintList;
 
 	/**
@@ -32,6 +33,10 @@ public class MyProcessor implements Processor {
 	 *             there may be wrong fileName, or the data in the wifi
 	 */
 	public MyProcessor(String fileName) throws Exception {
+		loadFromFile(fileName);
+	}
+	
+	public void loadFromFile(String fileName) throws Exception {
 		FileInputStream fileInputStream = new FileInputStream(fileName);
 		ObjectInputStream objectInputStream = new ObjectInputStream(
 				fileInputStream);
@@ -45,7 +50,6 @@ public class MyProcessor implements Processor {
 		fileInputStream.close();
 		objectInputStream.close();
 	}
-
 	/**
 	 * Writes the current database of MyProcessor into a filename team.
 	 * 
@@ -54,11 +58,12 @@ public class MyProcessor implements Processor {
 	 *            written in.
 	 * @throws Exception
 	 */
+
 	public void storeToFile(String fileName) throws Exception {
 		FileOutputStream fileOutputStream = new FileOutputStream(fileName);
 		ObjectOutputStream objectOutputStream = new ObjectOutputStream(
 				fileOutputStream);
-		objectOutputStream.writeObject(fingerprintList);
+		objectOutputStream.writeObject(this);
 		fileOutputStream.close();
 		objectOutputStream.close();
 	}
@@ -84,10 +89,16 @@ public class MyProcessor implements Processor {
 		} else if (requestObject instanceof RemoveRequest) {
 			remove(((RemoveRequest) requestObject).getFingerprint());
 		} else if (requestObject instanceof FindRequest) {
-			resultObject = find(((FindRequest) requestObject).getFingerprint());
+			resultObject = find(((FindRequest) requestObject).getFingerprint());			
+		} else if (requestObject instanceof SyncToFileRequest) {
+			try {
+				storeToFile(Constant.SERVER_FILE);
+			} catch (Exception e) {
+			}
 		} else {
 			System.err.println("Uknown request recognized");
 		}
+
 		return resultObject;
 	}
 
@@ -133,5 +144,9 @@ public class MyProcessor implements Processor {
 	 */
 	public void remove(Fingerprint fingerprint) {
 		fingerprintList.remove(fingerprint);
+	}
+
+	public ArrayList<Fingerprint> getFingerprintList() {
+		return fingerprintList;
 	}
 }
