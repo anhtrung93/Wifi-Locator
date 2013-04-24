@@ -56,7 +56,9 @@ public class Server {
 	}
 
 	/**
-	 * Starts the Server.java
+	 * Starts the Server.java. Initializes ServerController, MyProcessor,
+	 * Server. A ServerController is added to control the Server. Server strarts
+	 * serving.
 	 * 
 	 * @param args
 	 *            just ignore this
@@ -68,10 +70,10 @@ public class Server {
 		ServerController controller = new ServerController(demoProcessor);
 		try {
 			System.out.println("Server is running");
-			new Thread(controller).start(); 
-
+			// Starts a new Thread to control the Server program.
+			new Thread(controller).start();
+			// the main Thread keep serving clients
 			demoServer.serve();
-
 		} catch (Exception serverException) {
 			System.out.println("Error!!!");
 			serverException.printStackTrace();
