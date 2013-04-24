@@ -21,6 +21,7 @@ import android.net.wifi.ScanResult;
  *         </ul>
  * 
  */
+
 public class Fingerprint implements Serializable {
 	final static long serialVersionUID = 1L;
 
@@ -304,6 +305,6 @@ public class Fingerprint implements Serializable {
 			sum += difference * difference;
 		}
 		
-		return (float) Math.sqrt((float) sum / size);
+		return (float) Math.sqrt(sum);
 	}
 }

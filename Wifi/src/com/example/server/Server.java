@@ -63,14 +63,17 @@ public class Server {
 	 */
 
 	public static void main(String args[]) {
-		Processor demoProcessor = new MyProcessor();
+		MyProcessor demoProcessor = new MyProcessor();
 		Server demoServer = new Server(demoProcessor, Constant.SERVER_PORT);
+		ServerController controller = new ServerController(demoProcessor);
 		try {
 			System.out.println("Server is running");
+			new Thread(controller).start(); 
+			System.out.println("Controller started");
+			System.out.println("Just type list|store|load|exit");
 			demoServer.serve();
 
 		} catch (Exception serverException) {
-			serverException.printStackTrace();
 			System.out.println("Error!!!");
 			serverException.printStackTrace();
 		}
