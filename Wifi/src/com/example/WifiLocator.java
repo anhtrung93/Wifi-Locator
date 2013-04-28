@@ -31,7 +31,7 @@ import android.widget.ToggleButton;
  *         <li>currentFingerprint: the fingerprint scanned</li>
  *         <li></li>
  *         <li>OnOffButton: button to turn on and turn off wifi</li>
- *         <li>AutoScanButton: button to start scanning automatically</li>
+ *         <li>autoScanButton: button to start scanning automatically</li>
  *         <li>scanButton: button to start a scan</li>
  *         <li>addNewLabelButton: button to assign a label (typed in
  *         showLocationArea) to a Fingerprint and add it to the database</li>
@@ -104,7 +104,8 @@ public class WifiLocator extends Activity {
 		scanOnClick = false;
 		WifiManager wifi = (WifiManager) getBaseContext().getSystemService(
 				Context.WIFI_SERVICE);
-		wifi.setWifiEnabled(false);
+		wifi.setWifiEnabled(true);
+		addNewLabelButton.setEnabled(false);
 	}
 
 	/**
@@ -175,12 +176,15 @@ public class WifiLocator extends Activity {
 					showLocationArea.setText(Database.find(currentFingerprint)
 							.getLabel());
 
-					// Starts a new scan if autoScanButton is checked
+					// Starts a new scan if autoScanButton is checked and allows
+					// to add new label if it is not automatic scan
 					if (autoScanButton.isChecked()) {
 						wifi.startScan();
 						scanButton.setEnabled(false);
+						addNewLabelButton.setEnabled(false);
 					} else {
 						scanButton.setEnabled(true);
+						addNewLabelButton.setEnabled(true);
 					}
 				} catch (Exception exception) {
 					StringWriter sw = new StringWriter();
