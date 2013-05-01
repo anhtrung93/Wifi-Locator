@@ -2,7 +2,6 @@ package com.example.test;
 
 import com.example.WifiLocator;
 import com.example.R;
-import com.example.share.Fingerprint;
 
 import android.annotation.TargetApi;
 import android.test.ActivityInstrumentationTestCase2;
@@ -13,7 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-public class WifiLocatorTest extends
+public class ActivityTest extends
 		ActivityInstrumentationTestCase2<WifiLocator> {
 	private WifiLocator activity;
 
@@ -29,11 +28,11 @@ public class WifiLocatorTest extends
 	Boolean scanOnClick;
 
 	@SuppressWarnings("deprecation")
-	public WifiLocatorTest() {
+	public ActivityTest() {
 		super("com.example", WifiLocator.class);
 	}
 
-	public WifiLocatorTest(Class<WifiLocator> name) {
+	public ActivityTest(Class<WifiLocator> name) {
 		super(name);
 	}
 
