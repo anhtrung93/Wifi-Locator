@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 public abstract class Request implements Serializable {
 	protected Fingerprint fingerprint;
-	final static long serialVersionUID = 1L;
+	public final static long serialVersionUID = 1L;
 
 	/**
 	 * Creates a new Request object with a given Fingerprint object.
