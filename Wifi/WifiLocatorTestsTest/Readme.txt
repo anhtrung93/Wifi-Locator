@@ -1,6 +1,6 @@
 How to run Tests:
 
-1. With the Junit Tests: WifiSignatureTest, FingerprintTest, ConstantTest
+1. With the Junit Tests: WifiSignatureTest, FingerprintTest, ConstantTest, RequestTest
 
 Find Running configurations -> java application
 In the new configuration's Classpath tab, find "Android Library" under Bootstrap Entries and remove it.
