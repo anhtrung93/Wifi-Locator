@@ -4,7 +4,7 @@ import android.net.wifi.ScanResult;
 import java.io.Serializable;
 
 /**
- * @author anhtrung93 + bvuong93
+ * @author anhtrung93 + bvuong93 + hidrodo (^^)
  * 
  *         A WifiSignature object encapsulates the state information of a wifi
  *         access points. This state information includes:
