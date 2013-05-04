@@ -1,8 +1,8 @@
 package com.example.test;
 import com.example.share.*;
 
-import static org.junit.Assert.*;
-import org.junit.*;
+import static org.junit.Assert.*; // Maybe you will have a question here, why using Junit to test?
+import org.junit.*; // The answer is just because the WifiSignature class do not use anything invoke to Android :D 
 
 /**
  * @author hidrodo (^^)
