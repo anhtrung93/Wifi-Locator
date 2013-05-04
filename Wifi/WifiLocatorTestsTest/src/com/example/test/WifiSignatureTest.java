@@ -27,38 +27,38 @@ public class WifiSignatureTest {
 	}
 	
 	@Test
-	public void testBSSID1(){
-		//check the BSSID of the WifiSignature;
+	public void testbasicServiceSetIdentifier1(){
+		//check the basicServiceSetIdentifier of the WifiSignature;
 		assertEquals("a1:b2:c3:d4:e5", wifiSignature1.getBasicServiceSetIdentifier());
 	}
 	
 	@Test
-	public void testBSSID2(){
+	public void testbasicServiceSetIdentifier2(){
 		assertEquals("f3:a2:b1:c3", wifiSignature2.getBasicServiceSetIdentifier());
 	}
 	
 	@Test
-	public void testBSSID3(){
+	public void testbasicServiceSetIdentifier3(){
 		assertEquals("a2:b1:c3:d4:e5", wifiSignature3.getBasicServiceSetIdentifier());
 	}
 	
 	@Test
-	public void testBSSID4(){
+	public void testbasicServiceSetIdentifier4(){
 		assertEquals("f3:a2:b1:c3", wifiSignature4.getBasicServiceSetIdentifier());
 	}
 	
 	@Test
-	public void testBSSID5(){
+	public void testbasicServiceSetIdentifier5(){
 		assertEquals("a1:b2:c3:d4:e5", wifiSignature5.getBasicServiceSetIdentifier());
 	}
 	
 	@Test
-	public void testBSSID6(){
+	public void testbasicServiceSetIdentifier6(){
 		assertEquals("xxx", wifiSignature6.getBasicServiceSetIdentifier());
 	}
 	
 	@Test
-	public void testBSSID7(){
+	public void testbasicServiceSetIdentifier7(){
 		assertEquals("xxx", wifiSignature7.getBasicServiceSetIdentifier());
 	}
 	
