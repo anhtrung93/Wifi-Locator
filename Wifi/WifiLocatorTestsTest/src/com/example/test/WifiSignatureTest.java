@@ -63,38 +63,38 @@ public class WifiSignatureTest {
 	}
 	
 	@Test
-	public void testRSS1(){
-		//check the RSS of the WifiSignature;
+	public void testreceivedSignalStrength1(){
+		//check the receivedSignalStrength of the WifiSignature;
 		assertEquals(-60, wifiSignature1.getReceivedSignalStrength());
 	}
 	
 	@Test
-	public void testRSS2(){
+	public void testreceivedSignalStrength2(){
 		assertEquals(0, wifiSignature2.getReceivedSignalStrength());
 	}
 	
 	@Test
-	public void testRSS3(){
+	public void testreceivedSignalStrength3(){
 		assertEquals(-60, wifiSignature3.getReceivedSignalStrength());
 	}
 	
 	@Test
-	public void testRSS4(){
+	public void testreceivedSignalStrength4(){
 		assertEquals(0, wifiSignature4.getReceivedSignalStrength());
 	}
 	
 	@Test
-	public void testRSS5(){
+	public void testreceivedSignalStrength5(){
 		assertEquals(-60, wifiSignature5.getReceivedSignalStrength());
 	}
 	
 	@Test
-	public void testRSS6(){
+	public void testreceivedSignalStrength6(){
 		assertEquals(-26, wifiSignature6.getReceivedSignalStrength());
 	}
 	
 	@Test
-	public void testRSS7(){
+	public void testreceivedSignalStrength7(){
 		assertEquals(-26, wifiSignature7.getReceivedSignalStrength());
 	}
 	
