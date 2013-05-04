@@ -14,12 +14,22 @@ import com.example.share.*;
  */
 
 public class FingerprintTest {
+	/*
+	 * We're going to test with 5 wifiSignature variables and 5 fingerprint variables
+	 */
 	private Fingerprint fingerprint1, fingerprint2, fingerprint3, fingerprint4, fingerprint5;
 	private WifiSignature wifiSignature1, wifiSignature2, wifiSignature3, wifiSignature4, wifiSignature5;
 	private WifiSignature[] wifiList;
 	
 	@Before
 	public void setUp() throws Exception{
+		/*
+		 * Initialization 5 above wifiSignature variables and fingerprint variables
+		 * 5 wifiSignature variables are initialized by the constructor setting by 2 parameters: the basicServiceSetIdentifier and 
+		 * the receivedSignalStrength
+		 *  
+		 * 5 fingerprint variables are initialized by a wifiList 
+		 */
 		wifiSignature1 = new WifiSignature("a1:b2:c3:d4:e5", -60);
 		
 		wifiSignature2 = new WifiSignature("f3:a2:b1:c3", 0);
@@ -48,6 +58,9 @@ public class FingerprintTest {
 	
 	@Test
 	public void testGetWifiList() {
+		/*
+		 * test the method getWifiList
+		 */
 		assertTrue(Arrays.equals(fingerprint1.getWifiList(), new WifiSignature[] {wifiSignature1}));
 		
 		assertTrue(Arrays.equals(fingerprint2.getWifiList(), new WifiSignature[] {wifiSignature1, wifiSignature2}));
@@ -61,6 +74,10 @@ public class FingerprintTest {
 	
 	@Test
 	public void testSize(){
+		/*
+		 * test the size of Fingerprint class
+		 */
+		
 		assertTrue(1 == fingerprint1.getSize());
 		
 		assertTrue(2 == fingerprint2.getSize());
@@ -74,6 +91,10 @@ public class FingerprintTest {
 	
 	@Test
 	public void testSort(){
+		/*
+		 * test the method sort of Fingerprint class
+		 */
+		
 		fingerprint1.sort();
 		assertTrue(Arrays.equals(fingerprint1.getWifiList(), new WifiSignature[] {wifiSignature1}));
 		
@@ -92,6 +113,10 @@ public class FingerprintTest {
 	
 	@Test
 	public void testdifferFrom(){
+		/*
+		 * test method differFromt of Fingerprint class
+		 */
+		
 		assertTrue(fingerprint1.differFrom(fingerprint2) == 0.0);
 		
 		assertTrue(fingerprint1.differFrom(fingerprint3) == 0.0);
