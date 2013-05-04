@@ -4,9 +4,17 @@ import com.example.share.*;
 import static org.junit.Assert.*;
 import org.junit.*;
 
-
+/**
+ * @author hidrodo (^^)
+ * 
+ * This is simply the tests of WifiSignature class
+ *
+ */
 
 public class WifiSignatureTest {
+	/*
+	 * We're going to test with 7 wifiSignature variables
+	 */
 	private WifiSignature wifiSignature1;
 	private WifiSignature wifiSignature2;
 	private WifiSignature wifiSignature3;
@@ -17,6 +25,13 @@ public class WifiSignatureTest {
 	
 	@Before
 	public void setUp() throws Exception{
+		/*
+		 * Initialization 7 above wifiSignature variables 
+		 * 5 first variables are initialized by the constructor setting by 2 parameters: the basicServiceSetIdentifier and 
+		 * the receivedSignalStrength
+		 * 2 next variables are initialized by the constructor setting by 2 parameters: the basicServiceSetIdentifier, 
+		 * the receivedSignalStrength and the serviceSetIdentifier 
+		 */
 		wifiSignature1 = new WifiSignature("a1:b2:c3:d4:e5", -60);
 		
 		wifiSignature2 = new WifiSignature("f3:a2:b1:c3", 0);
@@ -34,7 +49,7 @@ public class WifiSignatureTest {
 	
 	@Test
 	public void testBasicServiceSetIdentifier(){
-		//check the basicServiceSetIdentifier of the WifiSignature;
+		//test the basicServiceSetIdentifier of 7 wifiSignature variables;
 		assertEquals("a1:b2:c3:d4:e5", wifiSignature1.getBasicServiceSetIdentifier());
 		
 		assertEquals("f3:a2:b1:c3", wifiSignature2.getBasicServiceSetIdentifier());
@@ -51,8 +66,8 @@ public class WifiSignatureTest {
 	}
 	
 	@Test
-	public void testreceivedSignalStrength1(){
-		//check the receivedSignalStrength of the WifiSignature;
+	public void testreceivedSignalStrength(){
+		//test the receivedSignalStrength of the 7 WifiSignature variables;
 		assertEquals(-60, wifiSignature1.getReceivedSignalStrength());
 		
 		assertEquals(0, wifiSignature2.getReceivedSignalStrength());
@@ -69,8 +84,8 @@ public class WifiSignatureTest {
 	}
 	
 	@Test
-	public void testCompareTo1(){
-		// check method compareTo of the WifiSignature;
+	public void testCompareTo(){
+		// check method compareTo of the WifiSignature class;
 		assertEquals(true, wifiSignature1.compareTo(wifiSignature1) == 0);
 		assertEquals(false, wifiSignature1.compareTo(wifiSignature2) == 0);
 		assertEquals(false, wifiSignature1.compareTo(wifiSignature3) == 0);
