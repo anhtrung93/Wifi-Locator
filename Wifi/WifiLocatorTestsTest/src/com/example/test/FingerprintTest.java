@@ -14,7 +14,7 @@ import com.example.share.*;
  */
 
 public class FingerprintTest {
-	private Fingerprint f1, f2, f3, f4, f5;
+	private Fingerprint fingerprint1, fingerprint2, fingerprint3, fingerprint4, fingerprint5;
 	private WifiSignature wifiSignature1, wifiSignature2, wifiSignature3, wifiSignature4, wifiSignature5;
 	private WifiSignature[] wifiList;
 	
@@ -31,118 +31,118 @@ public class FingerprintTest {
 		wifiSignature5 = new WifiSignature("a1:b2:c3:d4:e5", -60);
 		
 		wifiList = new WifiSignature[] {wifiSignature1};
-		f1 = new Fingerprint(wifiList);
+		fingerprint1 = new Fingerprint(wifiList);
 		
 		wifiList = new WifiSignature[] {wifiSignature1, wifiSignature2};
-		f2 = new Fingerprint(wifiList);
+		fingerprint2 = new Fingerprint(wifiList);
 		
 		wifiList = new WifiSignature[] {wifiSignature1, wifiSignature2, wifiSignature3};
-		f3 = new Fingerprint(wifiList);
+		fingerprint3 = new Fingerprint(wifiList);
 		
 		wifiList = new WifiSignature[] {wifiSignature1, wifiSignature2, wifiSignature3, wifiSignature4};
-		f4 = new Fingerprint(wifiList);
+		fingerprint4 = new Fingerprint(wifiList);
 		
 		wifiList = new WifiSignature[] {wifiSignature1, wifiSignature2, wifiSignature3, wifiSignature4, wifiSignature5};
-		f5 = new Fingerprint(wifiList);
+		fingerprint5 = new Fingerprint(wifiList);
 	}
 	
 	@Test
 	public void testGetWifiList1() {
-		assertTrue(Arrays.equals(f1.getWifiList(), new WifiSignature[] {wifiSignature1}));
+		assertTrue(Arrays.equals(fingerprint1.getWifiList(), new WifiSignature[] {wifiSignature1}));
 	}
 	
 	@Test
 	public void testGetWifiList2() {
-		assertTrue(Arrays.equals(f2.getWifiList(), new WifiSignature[] {wifiSignature1, wifiSignature2}));
+		assertTrue(Arrays.equals(fingerprint2.getWifiList(), new WifiSignature[] {wifiSignature1, wifiSignature2}));
 	}
 	
 	@Test
 	public void testGetWifiList3() {
-		assertTrue(Arrays.equals(f3.getWifiList(), new WifiSignature[] {wifiSignature1, wifiSignature2, wifiSignature3}));
+		assertTrue(Arrays.equals(fingerprint3.getWifiList(), new WifiSignature[] {wifiSignature1, wifiSignature2, wifiSignature3}));
 	}
 
 	@Test
 	public void testGetWifiList4() {
-		assertTrue(Arrays.equals(f4.getWifiList(), new WifiSignature[] {wifiSignature1, wifiSignature2, wifiSignature3, wifiSignature4}));
+		assertTrue(Arrays.equals(fingerprint4.getWifiList(), new WifiSignature[] {wifiSignature1, wifiSignature2, wifiSignature3, wifiSignature4}));
 	}
 	
 	@Test
 	public void testGetWifiList5() {
-		assertTrue(Arrays.equals(f5.getWifiList(), new WifiSignature[] {wifiSignature1, wifiSignature2, wifiSignature3, wifiSignature4, wifiSignature5}));
+		assertTrue(Arrays.equals(fingerprint5.getWifiList(), new WifiSignature[] {wifiSignature1, wifiSignature2, wifiSignature3, wifiSignature4, wifiSignature5}));
 	}
 	
 	@Test
 	public void testSize1(){
-		assertTrue(1 == f1.getSize());
+		assertTrue(1 == fingerprint1.getSize());
 	}
 	
 	@Test
 	public void testSize2(){
-		assertTrue(2 == f2.getSize());
+		assertTrue(2 == fingerprint2.getSize());
 	}
 	
 	@Test
 	public void testSize3(){
-		assertTrue(3 == f3.getSize());
+		assertTrue(3 == fingerprint3.getSize());
 	}
 	
 	@Test
 	public void testSize4(){
-		assertTrue(4 == f4.getSize());
+		assertTrue(4 == fingerprint4.getSize());
 	}
 	
 	@Test
 	public void testSize5(){
-		assertTrue(5 == f5.getSize());
+		assertTrue(5 == fingerprint5.getSize());
 	}
 	
 	@Test
 	public void testSort1(){
-		f1.sort();
-		assertTrue(Arrays.equals(f1.getWifiList(), new WifiSignature[] {wifiSignature1}));
+		fingerprint1.sort();
+		assertTrue(Arrays.equals(fingerprint1.getWifiList(), new WifiSignature[] {wifiSignature1}));
 	}
 	
 	@Test
 	public void testSort2(){
-		f2.sort();
-		assertTrue(Arrays.equals(f2.getWifiList(), new WifiSignature[] {wifiSignature1, wifiSignature2}));
+		fingerprint2.sort();
+		assertTrue(Arrays.equals(fingerprint2.getWifiList(), new WifiSignature[] {wifiSignature1, wifiSignature2}));
 	}
 	
 	@Test
 	public void testSort3(){
-		f3.sort();
-		assertTrue(Arrays.equals(f3.getWifiList(), new WifiSignature[] {wifiSignature1, wifiSignature3, wifiSignature2}));
+		fingerprint3.sort();
+		assertTrue(Arrays.equals(fingerprint3.getWifiList(), new WifiSignature[] {wifiSignature1, wifiSignature3, wifiSignature2}));
 	}
 	
 	@Test
 	public void testSort4(){
-		f4.sort();
-		assertTrue(Arrays.equals(f4.getWifiList(), new WifiSignature[] {wifiSignature1, wifiSignature3, wifiSignature2, wifiSignature4}));
+		fingerprint4.sort();
+		assertTrue(Arrays.equals(fingerprint4.getWifiList(), new WifiSignature[] {wifiSignature1, wifiSignature3, wifiSignature2, wifiSignature4}));
 	}
 	
 	@Test
 	public void testSort5(){
-		f5.sort();
-		assertTrue(Arrays.equals(f5.getWifiList(), new WifiSignature[] {wifiSignature1, wifiSignature5, wifiSignature3, wifiSignature2, wifiSignature4}));
+		fingerprint5.sort();
+		assertTrue(Arrays.equals(fingerprint5.getWifiList(), new WifiSignature[] {wifiSignature1, wifiSignature5, wifiSignature3, wifiSignature2, wifiSignature4}));
 	}
 	
 	@Test
 	public void testdifferFrom1(){
-		assertTrue(f1.differFrom(f2) == 0.0);
+		assertTrue(fingerprint1.differFrom(fingerprint2) == 0.0);
 	}
 	
 	@Test
 	public void testdifferFrom2(){
-		assertTrue(f1.differFrom(f3) == 0.0);
+		assertTrue(fingerprint1.differFrom(fingerprint3) == 0.0);
 	}
 	
 	@Test
 	public void testdifferFrom3(){
-		assertTrue(f1.differFrom(f4) == 0.0);
+		assertTrue(fingerprint1.differFrom(fingerprint4) == 0.0);
 	}
 	
 	@Test
 	public void testdifferFrom4(){
-		assertTrue(f1.differFrom(f5) == 0.0);
+		assertTrue(fingerprint1.differFrom(fingerprint5) == 0.0);
 	}
 }
