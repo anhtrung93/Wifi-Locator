@@ -22,46 +22,49 @@ import android.widget.ToggleButton;
 
 /**
  * 
- * @author bravewolf
+ * @author braveWolf
  * 
  *         WifiLocator class is the main activity class on Android device. It
  *         shows the user interface with some buttons and text areas:
  *         <ul>
- *         <li>wifiManager: The wifi manager</li>
- *         <li>database: The saved list of Fingerprint</li>
- *         <li>currentFingerprint: The fingerprint scanned</li>
- *         <li>wifiToggleButton: ToggleButton to turn on and turn off wifi</li>
- *         <li>autoScanCheckbox: Checkbox to start scanning fingerprint automatically</li>
- *         <li>scanButton: Button to start a new fingerprint scan</li>
- *         <li>addNewLabelButton: Button to assign a label (typed in
+ *         <li>wifi: the wifi manager</li>
+ *         <li>database: the saved list of Fingerprint</li>
+ *         <li>currentFingerprint: the fingerprint scanned</li>
+ *         <li></li>
+ *         <li>wifiButton: button to turn on and turn off wifi</li>
+ *         <li>autoScanButton: button to start scanning automatically</li>
+ *         <li>scanButton: button to start a scan</li>
+ *         <li>addNewLabelButton: button to assign a label (typed in
  *         showLocationArea) to a Fingerprint and add it to the database</li>
- *         <li>wifiState: Text area shows the wifi status
+ *         <li></li>
+ *         <li>wifiState: text area shows the wifi status
  *         (Enabled/Disabled/Enabling/Disabling)</li>
- *         <li>showFingerprintArea: Text area shows the list of Wifi Access
+ *         <li>showFingerprintArea: text area shows the list of Wifi Access
  *         Point</li>
- *         <li>showLocationArea: Text area shows the current location. Users can
+ *         <li>showLocationArea: text area shows the current location. Users can
  *         change the location by typing in this area and press
  *         addNewLabelButton</li>
- *         <li>scanButtonIsClicked: Boolean variable to check "scanButton" is clicked or not</li>
+ *         <li></li>
+ *         <li>scanOnClick:</li>
  *         </ul>
  */
 public class WifiLocator extends Activity {
 	private final static int MAX_STRING = 100;
 
-	private transient WifiManager wifiManager;
+	private transient WifiManager wifi;
 	private final transient Database database = Database.getInstance();
 	private transient Fingerprint currentFingerprint;
 
 	private transient Button scanButton;
+	private transient CheckBox autoScanButton;
+	private transient ToggleButton wifiButton;
 	private transient Button addNewLabelButton;
-	private transient CheckBox autoScanCheckbox;
-	private transient ToggleButton wifiToggleButton;
 
 	private transient TextView wifiState;
 	private transient TextView showFingerprintArea;
 	private transient EditText showLocationArea;
 
-	transient Boolean scanButtonIsClicked;
+	transient Boolean scanOnClick;
 
 	/**
 	 * Receives the changes of the wifi state and prints it on the screen. There
@@ -96,7 +99,7 @@ public class WifiLocator extends Activity {
 				wifiState.setText("WIFI IS ENABLING");
 				break;
 			case WifiManager.WIFI_STATE_UNKNOWN:
-				wifiState.setText("WIFI STATE IS UNKNOWN");
+				wifiState.setText("WIFI IS UNKNOWN");
 				break;
 			default:
 				wifiState.setText("ERROR!!!!");
@@ -114,11 +117,11 @@ public class WifiLocator extends Activity {
 		@Override
 		public void onReceive(final Context context, final Intent intent) {
 			// runs when autoScanButton is checked or scanButton is clicked
-			if (autoScanCheckbox.isChecked() || scanButtonIsClicked) {
+			if (autoScanButton.isChecked() || scanOnClick) {
 				StringBuilder wifiListString = new StringBuilder(MAX_STRING);
 				try {
 					// Gets scan results
-					currentFingerprint = new Fingerprint(wifiManager.getScanResults());
+					currentFingerprint = new Fingerprint(wifi.getScanResults());
 
 					// Shows the list of wifiSignature
 					wifiListString.append("List of available WiFi: \n\n");
@@ -133,8 +136,8 @@ public class WifiLocator extends Activity {
 
 					// Starts a new scan if autoScanButton is checked and allows
 					// to add new label if it is not automatic scan
-					if (autoScanCheckbox.isChecked()) {
-						wifiManager.startScan();
+					if (autoScanButton.isChecked()) {
+						wifi.startScan();
 						scanButton.setEnabled(false);
 						addNewLabelButton.setEnabled(false);
 					} else {
@@ -146,7 +149,7 @@ public class WifiLocator extends Activity {
 					exception.printStackTrace(new PrintWriter(strWriter));
 					showFingerprintArea.setText(strWriter.toString());
 				}
-				scanButtonIsClicked = false;
+				scanOnClick = false;
 			}
 
 		}
@@ -185,16 +188,16 @@ public class WifiLocator extends Activity {
 		setContentView(R.layout.main);
 
 		showLocationArea = (EditText) findViewById(R.id.addLabelText);
-		wifiState = (TextView) findViewById(R.id.wifiState);
+		wifiState = (TextView) findViewById(R.id.wifistate);
 		showFingerprintArea = (TextView) findViewById(R.id.textStatus);
-		wifiToggleButton = (ToggleButton) findViewById(R.id.toggleButtonSwitchWifi);
-		scanButton = (Button) findViewById(R.id.buttonScan);
-		autoScanCheckbox = (CheckBox) findViewById(R.id.autoScan);
-		addNewLabelButton = (Button) findViewById(R.id.buttonSave);
+		wifiButton = (ToggleButton) findViewById(R.id.onoff);
+		scanButton = (Button) findViewById(R.id.scan);
+		autoScanButton = (CheckBox) findViewById(R.id.autoscan);
+		addNewLabelButton = (Button) findViewById(R.id.saveButton);
 
-		scanButtonIsClicked = false;
-		wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-		wifiManager.setWifiEnabled(true);
+		scanOnClick = false;
+		wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+		wifi.setWifiEnabled(true);
 		addNewLabelButton.setEnabled(false);
 	}
 
@@ -203,18 +206,18 @@ public class WifiLocator extends Activity {
 	 * device.
 	 */
 	private void setWifiButtonListener() {
-		wifiToggleButton
+		wifiButton
 				.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 					@Override
 					public void onCheckedChanged(
 							final CompoundButton buttonView,
 							final boolean isChecked) {
 						if (isChecked) {
-							wifiManager.setWifiEnabled(false);
-							scanButtonIsClicked = false;
+							wifi.setWifiEnabled(false);
+							scanOnClick = false;
 						} else {
-							wifiManager.setWifiEnabled(true);
-							scanButtonIsClicked = false;
+							wifi.setWifiEnabled(true);
+							scanOnClick = false;
 						}
 					}
 				});
@@ -251,8 +254,8 @@ public class WifiLocator extends Activity {
 			@Override
 			public void onClick(final View view) {
 				StringBuilder status = new StringBuilder(MAX_STRING);
-				if (wifiManager.getWifiState() == WifiManager.WIFI_STATE_ENABLED) {
-					if (!wifiManager.startScan()) {
+				if (wifi.getWifiState() == WifiManager.WIFI_STATE_ENABLED) {
+					if (!wifi.startScan()) {
 						status.append("Scan failed!!!");
 					} else {
 						scanButton.setEnabled(false);
@@ -262,7 +265,7 @@ public class WifiLocator extends Activity {
 					status.append("WiFi is off, turn it on now !!! \n");
 				}
 				showFingerprintArea.setText(status);
-				scanButtonIsClicked = true;
+				scanOnClick = true;
 			}
 		});
 	}
@@ -272,11 +275,11 @@ public class WifiLocator extends Activity {
 	 * for wifiList and show the current location automatically.
 	 */
 	private void setAutoScanButtonListener() {
-		autoScanCheckbox.setOnClickListener(new OnClickListener() {
+		autoScanButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(final View view) {
-				if (autoScanCheckbox.isChecked()) {
-					wifiManager.startScan();
+				if (autoScanButton.isChecked()) {
+					wifi.startScan();
 				} else {
 					scanButton.setEnabled(true);
 				}
