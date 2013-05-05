@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!-- @author bravewolf -->
-
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
@@ -9,6 +6,6 @@
         android:drawable="@android:color/transparent"/>
     <item
         android:id="@+android:id/toggle"
-        android:drawable="@drawable/togglebutton_wifi"/>
+        android:drawable="@drawable/btn_toggle"/>
 
 </layer-list>
