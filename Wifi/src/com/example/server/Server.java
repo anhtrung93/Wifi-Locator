@@ -1,7 +1,9 @@
 package com.example.server;
 
-import java.net.*;
-import com.example.share.*;
+import com.example.share.Constant;
+
+import java.net.ServerSocket;
+import java.net.Socket;
 
 /**
  * 
@@ -21,8 +23,8 @@ import com.example.share.*;
  *         <b>Alert: Missing Exception handlers</b>
  */
 public class Server {
-	private int port;
-	private Processor processor;
+	private final transient int port;
+	private final transient Processor processor;
 
 	/**
 	 * Initializes a new Server object with two given object: a processor and
@@ -35,23 +37,23 @@ public class Server {
 	 *            the port integer number which all clients use to connect to
 	 *            the server
 	 */
-	public Server(Processor processor, int port) {
+	public Server(final Processor processor, final int port) {
 		this.processor = processor;
 		this.port = port;
 	}
 
 	/**
 	 * Starts serving the clients' requests. Waits for incoming requests. When a
-	 * request comes, a new Thread is created to process that request.
+	 * request comes, a new ClientThread is created to process that request.
 	 * 
 	 * @throws Exception
 	 *             exception when something goes wrong
 	 */
 	public void serve() throws Exception {
-		ServerSocket serverSocket = new ServerSocket(port);
+		ServerSocket serverSocket = new ServerSocket(this.port);
 		while (true) {
 			Socket clientSocket = serverSocket.accept();
-			new Thread(new ClientThread(clientSocket, processor)).start();
+			new Thread(new ClientThread(clientSocket, this.processor)).start();
 		}
 	}
 
@@ -64,7 +66,7 @@ public class Server {
 	 *            just ignore this
 	 */
 
-	public static void main(String args[]) {
+	public static void main(final String args[]) {
 		MyProcessor demoProcessor = new MyProcessor();
 		Server demoServer = new Server(demoProcessor, Constant.SERVER_PORT);
 		ServerController controller = new ServerController(demoProcessor);

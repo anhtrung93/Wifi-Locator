@@ -12,8 +12,10 @@ import java.io.Serializable;
  *         objects will be transferred between the client and the Server.
  */
 public abstract class Request implements Serializable {
-	protected Fingerprint fingerprint;
 	public final static long serialVersionUID = 1L;
+	
+	protected Fingerprint fingerprint;
+	
 
 	/**
 	 * Creates a new Request object with a given Fingerprint object.
@@ -24,12 +26,22 @@ public abstract class Request implements Serializable {
 	 * @throws Exception
 	 *             when intializes a Request with a null Fingerprint pointer
 	 */
-	public Request(Fingerprint fingerprint) throws Exception {
+	public Request(final Fingerprint fingerprint) throws Exception {
 		if (fingerprint == null) {
 			throw new Exception(
 					"Initialize a request with a null Fingerprint pointer");
 		}
 		this.fingerprint = fingerprint;
+	}
+
+	/**
+	 * Sets the value for the Fingerprint field of the Request
+	 * 
+	 * @param newFingerprint
+	 *            new Fingerprint object to be set
+	 */
+	public void setFingerprint(final Fingerprint newFingerprint) {
+		this.fingerprint = newFingerprint;
 	}
 
 	/**

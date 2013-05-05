@@ -9,5 +9,5 @@ package com.example.server;
  * 
  */
 public interface Processor {
-	public Object process(Object obj);
+	Object process(Object obj);
 }

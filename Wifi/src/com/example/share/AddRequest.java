@@ -20,7 +20,7 @@ public class AddRequest extends Request {
 	 * @throws Exception
 	 *             when intializes an AddRequest with a null Fingerprint pointer
 	 */
-	public AddRequest(Fingerprint fingerprint) throws Exception {
+	public AddRequest(final Fingerprint fingerprint) throws Exception {
 		super(fingerprint);
 	}
 

@@ -1,10 +1,10 @@
 package com.example;
 
+import com.example.share.Constant;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-
-import com.example.share.Constant;
 
 /**
  * 
@@ -15,9 +15,9 @@ import com.example.share.Constant;
  */
 
 public class Connection {
-	private ObjectOutputStream objectOutputStream;
-	private ObjectInputStream objectInputStream;
-	private Socket clientSocket;
+	private final transient ObjectOutputStream objStreamToServer;
+	private final transient ObjectInputStream objStreamFromServer;
+	private final transient Socket clientSocket;
 
 	/**
 	 * 
@@ -32,26 +32,28 @@ public class Connection {
 	 *             exception which may exists when creates new
 	 *             objectInput/Output Stream and clienSocket
 	 */
-	public Connection(String serverAddress, int serverPort) throws Exception {
-		clientSocket = new Socket(serverAddress, serverPort);
-		objectOutputStream = new ObjectOutputStream(
-				clientSocket.getOutputStream());
-		objectInputStream = new ObjectInputStream(clientSocket.getInputStream());
+	public Connection(final String serverAddress, final int serverPort)
+			throws Exception {
+		this.clientSocket = new Socket(serverAddress, serverPort);
+		this.objStreamToServer = new ObjectOutputStream(
+				this.clientSocket.getOutputStream());
+		this.objStreamFromServer = new ObjectInputStream(
+				this.clientSocket.getInputStream());
 	}
 
 	/**
 	 * Sends an object to the server and received an other object from Server.
 	 * 
-	 * @param requestObject
+	 * @param toSendObject
 	 *            an object that the client requests
 	 * @return an object replied from the server
 	 * @throws Exception
 	 *             exception exception may caused when the client and server
 	 *             communicate
 	 */
-	public Object request(Object requestObject) throws Exception {
-		objectOutputStream.writeObject(requestObject);
-		return objectInputStream.readObject();
+	public Object request(final Object toSendObject) throws Exception {
+		this.objStreamToServer.writeObject(toSendObject);
+		return this.objStreamFromServer.readObject();
 	}
 
 	/**
@@ -63,8 +65,8 @@ public class Connection {
 	 */
 	public void closeSession() throws Exception {
 		request(Constant.FINISH);
-		objectInputStream.close();
-		objectOutputStream.close();
-		clientSocket.close();
+		this.objStreamFromServer.close();
+		this.objStreamToServer.close();
+		this.clientSocket.close();
 	}
 }

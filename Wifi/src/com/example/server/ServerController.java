@@ -5,8 +5,11 @@
  */
 package com.example.server;
 
+import com.example.share.Constant;
+
 import java.util.Scanner;
-import com.example.share.*;
+
+
 
 /**
  * 
@@ -19,7 +22,7 @@ import com.example.share.*;
  * 
  */
 public class ServerController implements Runnable {
-	MyProcessor processor;
+	private final transient MyProcessor processor;
 
 	/**
 	 * Contructs a new ServerController with a given processor.
@@ -27,7 +30,7 @@ public class ServerController implements Runnable {
 	 * @param processor
 	 *            the processor of the server
 	 */
-	public ServerController(MyProcessor processor) {
+	public ServerController(final MyProcessor processor) {
 		this.processor = processor;
 	}
 
@@ -51,17 +54,17 @@ public class ServerController implements Runnable {
 			while (true) {
 				String command = input.nextLine();
 
-				if (command.equals("store")) {
+				if ("store".equals(command)) {
 					processor.storeToFile(Constant.SERVER_FILE);
 					System.out.println("store ok");
-				} else if (command.equals("load")) {
+				} else if ("load".equals(command)) {
 					processor.loadFromFile(Constant.SERVER_FILE);
 					System.out.println("load ok");
-				} else if (command.equals("list")) {
+				} else if ("list".equals(command)) {
 					System.out.println(processor.getFingerprintList());
-				} else if (command.equals("exit")) {
+				} else if ("exit".equals(command)) {
 					System.exit(0);
-				} else if (command.equals("")) {
+				} else if ("".equals(command)) {
 					System.out.println("An empty command");
 				} else {
 					System.err.println("command not found");

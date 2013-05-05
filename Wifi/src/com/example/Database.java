@@ -1,16 +1,42 @@
 package com.example;
 
-import com.example.share.*;
+import com.example.share.AddRequest;
+import com.example.share.RemoveRequest;
+import com.example.share.FindRequest;
+import com.example.share.Fingerprint;
 
 /**
  * @author anhtrung93
  * 
  *         Database class is actually a virtual database as the real database is
- *         located on the Server. This class supports all methods that other
+ *         located on the Server. This class supports all methods which other
  *         part of the application need to communicate with the database.
+ * 
+ *         Database instance is the only one (using the Singleton pattern) so
+ *         that there is no more than one database for the application.
  * 
  */
 public class Database {
+	// the only instance of the Database class
+	private static Database virtualDatabase = new Database();
+
+	/**
+	 * Creates the only instance and also prevents the other instance to be
+	 * created
+	 */
+	private Database() {
+		super();
+	}
+
+	/**
+	 * Returns the only instance of Database class
+	 * 
+	 * @return the virtualDatabase
+	 */
+	public static Database getInstance() {
+		return Database.virtualDatabase;
+	}
+
 	/**
 	 * Searches for a Fingerprint object on the real database on the server.
 	 * 
@@ -22,7 +48,7 @@ public class Database {
 	 *             exception may caused when the object is sending\receiving
 	 *             to\from the Server
 	 */
-	static public Fingerprint find(Fingerprint queryFingerprint)
+	public Fingerprint find(final Fingerprint queryFingerprint)
 			throws Exception {
 		RequestTask findTask = new RequestTask();
 		findTask.execute(new FindRequest(queryFingerprint));
@@ -38,7 +64,7 @@ public class Database {
 	 * @throws Exception
 	 *             exception may caused when the object is sending to the Server
 	 */
-	static public void add(Fingerprint newFingerprint) throws Exception {
+	public void add(final Fingerprint newFingerprint) throws Exception {
 		new RequestTask().execute(new AddRequest(newFingerprint));
 	}
 
@@ -51,7 +77,7 @@ public class Database {
 	 * @throws Exception
 	 *             exception may caused when the object is sending to the Server
 	 */
-	static public void remove(Fingerprint oldFingerprint) throws Exception {
+	public void remove(final Fingerprint oldFingerprint) throws Exception {
 		new RequestTask().execute(new RemoveRequest(oldFingerprint));
 	}
 }

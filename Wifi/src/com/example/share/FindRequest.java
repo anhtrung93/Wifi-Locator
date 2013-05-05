@@ -20,7 +20,7 @@ public class FindRequest extends Request {
 	 * @throws Exception
 	 *             when intializes a FindRequest with a null Fingerprint pointer
 	 */
-	public FindRequest(Fingerprint fingerprint) throws Exception {
+	public FindRequest(final Fingerprint fingerprint) throws Exception {
 		super(fingerprint);
 	}
 
@@ -29,6 +29,9 @@ public class FindRequest extends Request {
 	 */
 	@Override
 	public String toString() {
+		if (fingerprint == null){
+			System.out.println("There is no fingerprint inside");
+		}
 		return "Request (FIND)\n" + getFingerprint().toString();
 	}
 

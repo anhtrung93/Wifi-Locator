@@ -1,11 +1,12 @@
 package com.example;
 
+import com.example.share.Fingerprint;
+import com.example.share.Request;
+import com.example.share.Constant;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
-import com.example.share.*;
-
-import android.os.*;
+import android.os.AsyncTask;
 
 /**
  * 
@@ -25,7 +26,7 @@ public class RequestTask extends AsyncTask<Request, Void, Fingerprint> {
 	 * @return the Fingerprint with a label if sent Request is an instance of
 	 *         findRequest; otherwise null
 	 */
-	protected Fingerprint doInBackground(Request... requests) {
+	protected Fingerprint doInBackground(final Request... requests) {
 		Fingerprint responseFingerprint = null;
 		try {
 			Connection newConnection = new Connection(Constant.SERVER_ADDRESS,
@@ -34,12 +35,11 @@ public class RequestTask extends AsyncTask<Request, Void, Fingerprint> {
 					.request(requests[0]);
 			newConnection.closeSession();
 		} catch (Exception exception) {
-			StringWriter sw = new StringWriter();
-			PrintWriter pw = new PrintWriter(sw);
-			exception.printStackTrace(pw);
-
+			StringWriter strWriter = new StringWriter();
+			exception.printStackTrace(new PrintWriter(strWriter));
 			// TO DO show exception
 		}
+
 		return responseFingerprint;
 	}
 

@@ -22,7 +22,7 @@ public class RemoveRequest extends Request {
 	 *             when intializes a RemoveRequest with a null Fingerprint
 	 *             pointer
 	 */
-	public RemoveRequest(Fingerprint fingerprint) throws Exception {
+	public RemoveRequest(final Fingerprint fingerprint) throws Exception {
 		super(fingerprint);
 	}
 

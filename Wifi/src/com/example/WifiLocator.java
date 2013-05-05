@@ -1,10 +1,9 @@
 package com.example;
 
-import com.example.share.*;
+import com.example.share.Fingerprint;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import com.example.R;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -28,9 +27,11 @@ import android.widget.ToggleButton;
  *         WifiLocator class is the main activity class on Android device. It
  *         shows the user interface with some buttons and text areas:
  *         <ul>
+ *         <li>wifi: the wifi manager</li>
+ *         <li>database: the saved list of Fingerprint</li>
  *         <li>currentFingerprint: the fingerprint scanned</li>
  *         <li></li>
- *         <li>OnOffButton: button to turn on and turn off wifi</li>
+ *         <li>wifiButton: button to turn on and turn off wifi</li>
  *         <li>autoScanButton: button to start scanning automatically</li>
  *         <li>scanButton: button to start a scan</li>
  *         <li>addNewLabelButton: button to assign a label (typed in
@@ -48,65 +49,22 @@ import android.widget.ToggleButton;
  *         </ul>
  */
 public class WifiLocator extends Activity {
-	private Fingerprint currentFingerprint;
+	private final static int MAX_STRING = 100;
 
-	private Button scanButton;
-	private CheckBox autoScanButton;
-	private ToggleButton onOffButton;
-	private Button addNewLabelButton;
+	private transient WifiManager wifi;
+	private final transient Database database = Database.getInstance();
+	private transient Fingerprint currentFingerprint;
 
-	private TextView wifiState;
-	private TextView showFingerprintArea;
-	private EditText showLocationArea;
+	private transient Button scanButton;
+	private transient CheckBox autoScanButton;
+	private transient ToggleButton wifiButton;
+	private transient Button addNewLabelButton;
 
-	Boolean scanOnClick;
+	private transient TextView wifiState;
+	private transient TextView showFingerprintArea;
+	private transient EditText showLocationArea;
 
-	/**
-	 * Called when the activity is first created. Shows user interface by
-	 * linking xml parts with variables. Registers receivers. Initializes button
-	 * listeners for addNewLabelButton, onOffButton, scanButton and
-	 * autoScanButton.
-	 */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		this.initialize();
-		// Registers Receivers
-		this.registerReceiver(this.WifiStateChangedReceiver, new IntentFilter(
-				WifiManager.WIFI_STATE_CHANGED_ACTION));
-		this.registerReceiver(this.WifiScanAvailableReceiver, new IntentFilter(
-				WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-		// Sets Listeners
-		this.setAddNewLabelButtonListener();
-		this.setOnOffButtonListener();
-		this.setScanButtonListener();
-		this.setAutoScanButtonListener();
-	}
-
-	/**
-	 * Initializes some instance variables by linking xml parts to them. Allows
-	 * using variables (button and text area variables)to control the user
-	 * interface.
-	 */
-	private void initialize() {
-		setContentView(R.layout.main);
-
-		showLocationArea = (EditText) findViewById(R.id.addLabelText);
-		wifiState = (TextView) findViewById(R.id.wifistate);
-		showFingerprintArea = (TextView) findViewById(R.id.textStatus);
-
-		onOffButton = (ToggleButton) findViewById(R.id.onoff);
-		scanButton = (Button) findViewById(R.id.scan);
-		autoScanButton = (CheckBox) findViewById(R.id.autoscan);
-		addNewLabelButton = (Button) findViewById(R.id.saveButton);
-
-		scanOnClick = false;
-		WifiManager wifi = (WifiManager) getBaseContext().getSystemService(
-				Context.WIFI_SERVICE);
-		wifi.setWifiEnabled(true);
-		addNewLabelButton.setEnabled(false);
-	}
+	transient Boolean scanOnClick;
 
 	/**
 	 * Receives the changes of the wifi state and prints it on the screen. There
@@ -120,9 +78,9 @@ public class WifiLocator extends Activity {
 	 * <li>WIFI UNKNOWN</li>
 	 * </ul>
 	 */
-	private BroadcastReceiver WifiStateChangedReceiver = new BroadcastReceiver() {
+	private final transient BroadcastReceiver WifiStateChangedReceiver = new BroadcastReceiver() {
 		@Override
-		public void onReceive(Context context, Intent intent) {
+		public void onReceive(final Context context, final Intent intent) {
 			int extraWifiState = intent.getIntExtra(
 					WifiManager.EXTRA_WIFI_STATE,
 					WifiManager.WIFI_STATE_UNKNOWN);
@@ -144,7 +102,7 @@ public class WifiLocator extends Activity {
 				wifiState.setText("WIFI IS UNKNOWN");
 				break;
 			default:
-				wifiState.setText("Error: Unknown extraWifiState value!!!!");
+				wifiState.setText("ERROR!!!!");
 				break;
 			}
 		}
@@ -155,14 +113,12 @@ public class WifiLocator extends Activity {
 	 * suitable labeled Fingerprint in the database and shows the label in
 	 * showLocationArea. Starts a new Scan if the autoScanButton is checked.
 	 */
-	private BroadcastReceiver WifiScanAvailableReceiver = new BroadcastReceiver() {
-
+	private final transient BroadcastReceiver WifiScanAvailableReceiver = new BroadcastReceiver() {
 		@Override
-		public void onReceive(Context context, Intent intent) {
+		public void onReceive(final Context context, final Intent intent) {
+			// runs when autoScanButton is checked or scanButton is clicked
 			if (autoScanButton.isChecked() || scanOnClick) {
-				StringBuilder wifiListString = new StringBuilder();
-				WifiManager wifi = (WifiManager) context
-						.getSystemService(Context.WIFI_SERVICE);
+				StringBuilder wifiListString = new StringBuilder(MAX_STRING);
 				try {
 					// Gets scan results
 					currentFingerprint = new Fingerprint(wifi.getScanResults());
@@ -172,9 +128,11 @@ public class WifiLocator extends Activity {
 					wifiListString.append(currentFingerprint.toString());
 					showFingerprintArea.setText(wifiListString);
 
-					// Prints out the label
-					showLocationArea.setText(Database.find(currentFingerprint)
+					// Gets the label from the database and prints it out
+					if (currentFingerprint != null){
+						showLocationArea.setText(database.find(currentFingerprint)
 							.getLabel());
+					}
 
 					// Starts a new scan if autoScanButton is checked and allows
 					// to add new label if it is not automatic scan
@@ -187,9 +145,9 @@ public class WifiLocator extends Activity {
 						addNewLabelButton.setEnabled(true);
 					}
 				} catch (Exception exception) {
-					StringWriter sw = new StringWriter();
-					exception.printStackTrace(new PrintWriter(sw));
-					showFingerprintArea.setText(sw.toString());
+					StringWriter strWriter = new StringWriter();
+					exception.printStackTrace(new PrintWriter(strWriter));
+					showFingerprintArea.setText(strWriter.toString());
 				}
 				scanOnClick = false;
 			}
@@ -199,25 +157,65 @@ public class WifiLocator extends Activity {
 	};
 
 	/**
-	 * When onOffButton is clicked, this method will turn on and turn off wifi
-	 * of the device.
+	 * Called when the activity is first created. Shows user interface by
+	 * linking xml parts with variables. Registers receivers. Initializes button
+	 * listeners for addNewLabelButton, wifiButton, scanButton and
+	 * autoScanButton.
 	 */
-	private void setOnOffButtonListener() {
-		onOffButton
+	@Override
+	public void onCreate(final Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		this.initialize();
+		// Registers Receivers
+		this.registerReceiver(this.WifiStateChangedReceiver, new IntentFilter(
+				WifiManager.WIFI_STATE_CHANGED_ACTION));
+		this.registerReceiver(this.WifiScanAvailableReceiver, new IntentFilter(
+				WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+		// Sets Listeners
+		this.setAddNewLabelButtonListener();
+		this.setWifiButtonListener();
+		this.setScanButtonListener();
+		this.setAutoScanButtonListener();
+	}
+
+	/**
+	 * Initializes some instance variables by linking xml parts to them. Allows
+	 * using variables (button and text area variables)to control the user
+	 * interface.
+	 */
+	private void initialize() {
+		setContentView(R.layout.main);
+
+		showLocationArea = (EditText) findViewById(R.id.addLabelText);
+		wifiState = (TextView) findViewById(R.id.wifistate);
+		showFingerprintArea = (TextView) findViewById(R.id.textStatus);
+		wifiButton = (ToggleButton) findViewById(R.id.onoff);
+		scanButton = (Button) findViewById(R.id.scan);
+		autoScanButton = (CheckBox) findViewById(R.id.autoscan);
+		addNewLabelButton = (Button) findViewById(R.id.saveButton);
+
+		scanOnClick = false;
+		wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+		wifi.setWifiEnabled(true);
+		addNewLabelButton.setEnabled(false);
+	}
+
+	/**
+	 * When wifiButton is clicked, this method will turn on/off wifi of the
+	 * device.
+	 */
+	private void setWifiButtonListener() {
+		wifiButton
 				.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 					@Override
-					public void onCheckedChanged(CompoundButton buttonView,
-							boolean isChecked) {
-						WifiManager wifi;
-
+					public void onCheckedChanged(
+							final CompoundButton buttonView,
+							final boolean isChecked) {
 						if (isChecked) {
-							wifi = (WifiManager) getBaseContext()
-									.getSystemService(Context.WIFI_SERVICE);
 							wifi.setWifiEnabled(false);
 							scanOnClick = false;
 						} else {
-							wifi = (WifiManager) getBaseContext()
-									.getSystemService(Context.WIFI_SERVICE);
 							wifi.setWifiEnabled(true);
 							scanOnClick = false;
 						}
@@ -233,16 +231,16 @@ public class WifiLocator extends Activity {
 	private void setAddNewLabelButtonListener() {
 		addNewLabelButton.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View view) {
+			public void onClick(final View view) {
 				String newLabel = showLocationArea.getText().toString();
 				currentFingerprint.addLabel(newLabel);
 				showLocationArea.setText(currentFingerprint.getLabel());
 				try {
-					Database.add(currentFingerprint);
+					database.add(currentFingerprint);
 				} catch (Exception exception) {
-					StringWriter sw = new StringWriter();
-					exception.printStackTrace(new PrintWriter(sw));
-					showFingerprintArea.setText(sw.toString());
+					StringWriter strWriter = new StringWriter();
+					exception.printStackTrace(new PrintWriter(strWriter));
+					showFingerprintArea.setText(strWriter.toString());
 				}
 			}
 		});
@@ -254,12 +252,10 @@ public class WifiLocator extends Activity {
 	private void setScanButtonListener() {
 		scanButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
-				StringBuilder status = new StringBuilder();
-				WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-
+			public void onClick(final View view) {
+				StringBuilder status = new StringBuilder(MAX_STRING);
 				if (wifi.getWifiState() == WifiManager.WIFI_STATE_ENABLED) {
-					if (wifi.startScan() == false) {
+					if (!wifi.startScan()) {
 						status.append("Scan failed!!!");
 					} else {
 						scanButton.setEnabled(false);
@@ -281,9 +277,8 @@ public class WifiLocator extends Activity {
 	private void setAutoScanButtonListener() {
 		autoScanButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {
+			public void onClick(final View view) {
 				if (autoScanButton.isChecked()) {
-					WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 					wifi.startScan();
 				} else {
 					scanButton.setEnabled(true);
@@ -297,9 +292,8 @@ public class WifiLocator extends Activity {
 	 */
 	@Override
 	public void onDestroy() {
-		super.onDestroy();
 		this.unregisterReceiver(this.WifiScanAvailableReceiver);
 		this.unregisterReceiver(this.WifiStateChangedReceiver);
+		super.onDestroy();
 	}
-
 }

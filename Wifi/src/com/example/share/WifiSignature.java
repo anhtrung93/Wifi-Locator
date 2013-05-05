@@ -4,7 +4,7 @@ import android.net.wifi.ScanResult;
 import java.io.Serializable;
 
 /**
- * @author anhtrung93 + bvuong93 + hidrodo (^^)
+ * @author anhtrung93 + bvuong93 + hidrodo
  * 
  *         A WifiSignature object encapsulates the state information of a wifi
  *         access points. This state information includes:
@@ -19,7 +19,7 @@ public class WifiSignature implements Comparable<WifiSignature>, Serializable {
 
 	private String basicServiceSetIdentifier; // Address of the access point
 	private int receivedSignalStrength; // Signal strength
-	private String serviceSetIdentifier; // Name of the access point
+	private final transient String serviceSetIdentifier; // Name of access point
 
 	/**
 	 * Constructs the start state of the WifiSignature object by using the
@@ -30,7 +30,7 @@ public class WifiSignature implements Comparable<WifiSignature>, Serializable {
 	 * @param scanResult
 	 *            the result from a scan the device has done
 	 */
-	public WifiSignature(ScanResult scanResult) {
+	public WifiSignature(final ScanResult scanResult) {
 		this.serviceSetIdentifier = scanResult.SSID;
 		this.basicServiceSetIdentifier = scanResult.BSSID;
 		this.receivedSignalStrength = scanResult.level;
@@ -40,7 +40,7 @@ public class WifiSignature implements Comparable<WifiSignature>, Serializable {
 	 * Constructs the start state of the WifiSignature object by setting all the
 	 * fields of the class with some information from the parameters.
 	 * <p>
-	 * 
+	 * <b> Note: this object method is used to test!!! </b>
 	 * 
 	 * @param initBasicServiceSetIdentifier
 	 *            the MAC address of the access point in the form of
@@ -50,8 +50,9 @@ public class WifiSignature implements Comparable<WifiSignature>, Serializable {
 	 * @param initServiceSetIdentifier
 	 *            the name of the access point
 	 */
-	public WifiSignature(String initBasicServiceSetIdentifier,
-			int initReceivedSignalStrength, String initServiceSetIdentifier) {
+	public WifiSignature(final String initBasicServiceSetIdentifier,
+			final int initReceivedSignalStrength,
+			final String initServiceSetIdentifier) {
 		this.basicServiceSetIdentifier = initBasicServiceSetIdentifier;
 		this.receivedSignalStrength = initReceivedSignalStrength;
 		this.serviceSetIdentifier = initServiceSetIdentifier;
@@ -69,8 +70,8 @@ public class WifiSignature implements Comparable<WifiSignature>, Serializable {
 	 * @param initReceivedSignalStrength
 	 *            the signal strength measured in dB
 	 */
-	public WifiSignature(String initBasicServiceSetIdentifier,
-			int initReceivedSignalStrength) {
+	public WifiSignature(final String initBasicServiceSetIdentifier,
+			final int initReceivedSignalStrength) {
 		this.basicServiceSetIdentifier = initBasicServiceSetIdentifier;
 		this.receivedSignalStrength = initReceivedSignalStrength;
 		this.serviceSetIdentifier = null;
@@ -88,9 +89,22 @@ public class WifiSignature implements Comparable<WifiSignature>, Serializable {
 	 *         other WifiSignature object
 	 */
 	@Override
-	public int compareTo(WifiSignature otherWifiSignature) {
+	public int compareTo(final WifiSignature otherWifiSignature) {
 		return this.getBasicServiceSetIdentifier().compareTo(
 				otherWifiSignature.getBasicServiceSetIdentifier());
+	}
+
+	/**
+	 * Sets the Basic Service Set Identifier (BSSID or the MAC address of the
+	 * access point).
+	 * 
+	 * @param initBasicServiceSetIdentifier
+	 *            the BSSID string in the form of "XX:XX:XX:XX:XX:XX" with 'X'
+	 *            is an alpha-number
+	 */
+	public void setBasicServiceSetIdentifier(
+			final String initBasicServiceSetIdentifier) {
+		this.basicServiceSetIdentifier = initBasicServiceSetIdentifier;
 	}
 
 	/**
@@ -102,6 +116,18 @@ public class WifiSignature implements Comparable<WifiSignature>, Serializable {
 	 */
 	public String getBasicServiceSetIdentifier() {
 		return this.basicServiceSetIdentifier;
+	}
+
+	/**
+	 * Sets a new RSS for the WifiSignature object.</br> <b>Alert: this is just
+	 * for test</b>
+	 * <p>
+	 * 
+	 * @param initReceivedSignalStrength
+	 *            a new RSS value
+	 */
+	public void setReceivedSignalStrength(final int initReceivedSignalStrength) {
+		this.receivedSignalStrength = initReceivedSignalStrength;
 	}
 
 	/**
