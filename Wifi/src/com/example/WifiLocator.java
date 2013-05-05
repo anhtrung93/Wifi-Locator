@@ -1,7 +1,7 @@
 package com.example;
 
 import com.example.share.Fingerprint;
-import com.example.R;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import android.app.Activity;
