@@ -11,9 +11,14 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-
-public class ActivityTest extends
-		ActivityInstrumentationTestCase2<WifiLocator> {
+/**
+ * @author anhtrung93 and comments by hidrodo
+ * 
+ * This is the Android Activity tests of WifiLocator class
+ *
+ */
+public class ActivityTest extends ActivityInstrumentationTestCase2<WifiLocator> {
+	
 	private WifiLocator activity;
 
 	private Button scanButton;
@@ -27,6 +32,15 @@ public class ActivityTest extends
 
 	Boolean scanOnClick;
 
+	/**
+	 * Called when the activity is first created. 
+	 * Test the interface.
+	 * Test the Registers receivers. 
+	 * Test the buttons initialization.
+	 * Test the listeners for addNewLabelButton, onOffButton, scanButton and autoScanButton.
+	 * 
+	 */
+	
 	@SuppressWarnings("deprecation")
 	public ActivityTest() {
 		super("com.example", WifiLocator.class);
@@ -38,6 +52,9 @@ public class ActivityTest extends
 
 	@Override
 	public void setUp() throws Exception {
+		/*
+		 * Initialize activity to test
+		 */
 		super.setUp();
 		activity = getActivity();
 
@@ -52,6 +69,10 @@ public class ActivityTest extends
 	}
 
 	public void testBeCreated() {
+		/*
+		 * Test the creation of showLocationArea, wifiState, showFingerprintArea, onOffButton, scanButton, autoScanButton, 
+		 * addNewLabelButton
+		 */
 		assertNotNull(activity);
 
 		assertNotNull(showLocationArea);
@@ -65,11 +86,13 @@ public class ActivityTest extends
 	}
 
 	public void testView() {
+		/*
+		 * Test the viewing on the screen of showLocationArea, wifiState, showFingerprintArea, onOffButton, scanButton, 
+		 * autoScanButton, addNewLabelButton
+		 */
 		ViewAsserts.assertOnScreen(wifiState.getRootView(), showLocationArea);
 		ViewAsserts.assertOnScreen(wifiState.getRootView(), wifiState);
-		ViewAsserts
-				.assertOnScreen(wifiState.getRootView(), showFingerprintArea);
-
+		ViewAsserts.assertOnScreen(wifiState.getRootView(), showFingerprintArea);
 		ViewAsserts.assertOnScreen(wifiState.getRootView(), onOffButton);
 		ViewAsserts.assertOnScreen(wifiState.getRootView(), scanButton);
 		ViewAsserts.assertOnScreen(wifiState.getRootView(), autoScanButton);
@@ -79,7 +102,10 @@ public class ActivityTest extends
 		ViewAsserts.assertLeftAligned(autoScanButton, showLocationArea);
 	}
 	@TargetApi(15)
-	public void testInitialize() {
+	public void testClickable() {
+		/*
+		 * Test The Clickable of onOffButton, scanButton, autoScanButton and the addNewLabelButton 
+		 */
 		assertTrue(onOffButton.isClickable());
 		assertTrue(onOffButton.callOnClick());
 
