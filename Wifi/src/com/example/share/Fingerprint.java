@@ -1,8 +1,9 @@
 package com.example.share;
 
-import java.util.List;
-import java.util.Arrays;
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
+
 import android.net.wifi.ScanResult;
 
 /**
@@ -24,8 +25,8 @@ import android.net.wifi.ScanResult;
 public class Fingerprint implements Serializable {
 	final static long serialVersionUID = 1L;
 
-	private final WifiSignature[] wifiList; // the list of
-														// WifiSignature objects
+	private WifiSignature[] wifiList; // the list of
+										// WifiSignature objects
 	private String label; // the label assigned by users
 
 	/**
@@ -117,6 +118,25 @@ public class Fingerprint implements Serializable {
 	}
 
 	/**
+	 * Sets a WifiSignature list for this.wifiList
+	 * 
+	 * @param newWifiList
+	 *            new WifiSignature list
+	 */
+	public void setWifiList(final WifiSignature[] newWifiList) {
+		this.wifiList = newWifiList.clone();
+	}
+
+	/**
+	 * Gets the WifiSignature list
+	 * 
+	 * @return the list of WifiSignatures of this Fingerprint
+	 */
+	public WifiSignature[] getWifiList() {
+		return this.wifiList.clone();
+	}
+
+	/**
 	 * Differs this Fingerprint object with another Fingerprint object. Returns
 	 * a float which shows the difference between two Fingerprint objects. The
 	 * larger the float is, the more different two objects are.
@@ -128,10 +148,10 @@ public class Fingerprint implements Serializable {
 	 *         object the otherFingerprint object
 	 */
 	public float differFrom(final Fingerprint otherFingerprint) {
-		WifiSignature[] thisWifiList = this.wifiList;
-		WifiSignature[] anotherWifiList = otherFingerprint.wifiList;
-		int thisListSize = this.wifiList.length;
-		int anotherListSize = otherFingerprint.wifiList.length;
+		WifiSignature[] thisWifiList = this.getWifiList();
+		WifiSignature[] anotherWifiList = otherFingerprint.getWifiList();
+		int thisListSize = thisWifiList.length;
+		int anotherListSize = anotherWifiList.length;
 
 		int count = 0; // Number of matched WifiSignature
 		int sumOfDifference = 0;
@@ -143,7 +163,7 @@ public class Fingerprint implements Serializable {
 			WifiSignature anotherSignature = anotherWifiList[idAnotherList];
 			int compareResult = thisSignature.compareTo(anotherSignature);
 			if (compareResult == 0) {
-				//only compare the level of the same wifi address
+				// only compare the level of the same wifi address
 				count++;
 				int difference = thisSignature.getSignalStrength()
 						- anotherSignature.getSignalStrength();
@@ -157,7 +177,8 @@ public class Fingerprint implements Serializable {
 			}
 		}
 
-		float proportion = (float) count / Math.min(thisListSize, anotherListSize);
+		float proportion = (float) count
+				/ Math.min(thisListSize, anotherListSize);
 		float averageDifference = (float) sumOfDifference / count;
 		float result;
 		if (proportion < 0.5) {
