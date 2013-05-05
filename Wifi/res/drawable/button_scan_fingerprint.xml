@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- @author bravewolf -->
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/button_scan_press" android:state_pressed="true"></item>
+    <item android:drawable="@drawable/button_scan_disabled" android:state_enabled="false"></item>
+    <item android:drawable="@drawable/button_scan_normal" android:state_enabled="true"></item>
+    <item android:drawable="@drawable/button_scan_normal"></item>
+
+</selector>
