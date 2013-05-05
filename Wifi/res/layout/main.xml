@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- @author bravewolf -->
+<!-- main.xml is used to set main interface of application -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -6,7 +9,7 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/switchWifi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/switch_wifi"
@@ -19,15 +22,15 @@
         android:orientation="horizontal" >
 
         <ToggleButton
-            android:id="@+id/onoff"
+            android:id="@+id/toggleButtonSwitchWifi"
             style="@style/ToggleButtonTheme"
             android:layout_width="148dp"
             android:layout_height="113dp"
-            android:background="@drawable/btn_toggle_bg"
+            android:background="@drawable/togglebutton_wifi_switch_bg"
             android:checked="false" />
 
         <TextView
-            android:id="@+id/wifistate"
+            android:id="@+id/wifiState"
             android:layout_width="106dp"
             android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -45,17 +48,17 @@
         android:textColor="@android:color/white" />
 
     <CheckBox
-        android:id="@+id/autoscan"
+        android:id="@+id/autoScan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/autoscan"
         android:textColor="@android:color/white" />
 
     <Button
-        android:id="@+id/scan"
+        android:id="@+id/buttonScan"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:background="@drawable/btn_scan"
+        android:background="@drawable/button_scan_fingerprint"
         android:text="@string/Scan_button" />
 
     <LinearLayout
@@ -71,15 +74,15 @@
             android:hint="@string/addlabeledittext" />
 
         <Button
-            android:id="@+id/saveButton"
+            android:id="@+id/buttonSave"
             android:layout_width="132dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/btn_save"
+            android:background="@drawable/button_save_label"
             android:text="@string/save_label" />
     </LinearLayout>
 
     <ScrollView
-        android:id="@+id/scrollView1"
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 

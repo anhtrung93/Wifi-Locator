@@ -12,7 +12,7 @@ package com.example.share;
 public class Constant {
 	public final static String FINISH = "quit";
 	public final static int MAXIMUM_DIFFERENCE = 120; // need changing
-	public final static String SERVER_ADDRESS = "192.168.0.101";
+	public final static String SERVER_ADDRESS = "10.99.198.197";
 	//public static String SERVER_ADDRESS = "10.99.193.144";
 	public final static int SERVER_PORT = 4444;
 	public final static String SERVER_FILE = "fp_database.dat";
