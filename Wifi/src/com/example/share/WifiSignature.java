@@ -9,17 +9,17 @@ import java.io.Serializable;
  *         A WifiSignature object encapsulates the state information of a wifi
  *         access points. This state information includes:
  *         <ul>
- *         <li>its Basic Service Set Identifier (BSSID)</li>
- *         <li>its Received Signal Strength (RSS)</li>
- *         <li>its Service Set Identifier (SSID)</li>
+ *         <li>physicalAddress: its Basic Service Set Identifier (BSSID)</li>
+ *         <li>signalStrength: its Received Signal Strength (RSS)</li>
+ *         <li>networkName: its Service Set Identifier (SSID)</li>
  *         </ul>
  */
 public class WifiSignature implements Comparable<WifiSignature>, Serializable {
 	final static long serialVersionUID = 1L;
 
-	private String basicServiceSetIdentifier; // Address of the access point
-	private int receivedSignalStrength; // Signal strength
-	private final transient String serviceSetIdentifier; // Name of access point
+	private String physicalAddress;
+	private int signalStrength;
+	private final transient String networkName;
 
 	/**
 	 * Constructs the start state of the WifiSignature object by using the
@@ -31,9 +31,9 @@ public class WifiSignature implements Comparable<WifiSignature>, Serializable {
 	 *            the result from a scan the device has done
 	 */
 	public WifiSignature(final ScanResult scanResult) {
-		this.serviceSetIdentifier = scanResult.SSID;
-		this.basicServiceSetIdentifier = scanResult.BSSID;
-		this.receivedSignalStrength = scanResult.level;
+		this.networkName = scanResult.SSID;
+		this.physicalAddress = scanResult.BSSID;
+		this.signalStrength = scanResult.level;
 	}
 
 	/**
@@ -42,20 +42,19 @@ public class WifiSignature implements Comparable<WifiSignature>, Serializable {
 	 * <p>
 	 * <b> Note: this object method is used to test!!! </b>
 	 * 
-	 * @param initBasicServiceSetIdentifier
+	 * @param initPhysicalAddress
 	 *            the MAC address of the access point in the form of
 	 *            "XX:XX:XX:XX:XX:XX" (X is an alpha-number)
-	 * @param initReceivedSignalStrength
+	 * @param initSignalStrength
 	 *            the signal strength measured in dBm
-	 * @param initServiceSetIdentifier
+	 * @param initNetworkName
 	 *            the name of the access point
 	 */
-	public WifiSignature(final String initBasicServiceSetIdentifier,
-			final int initReceivedSignalStrength,
-			final String initServiceSetIdentifier) {
-		this.basicServiceSetIdentifier = initBasicServiceSetIdentifier;
-		this.receivedSignalStrength = initReceivedSignalStrength;
-		this.serviceSetIdentifier = initServiceSetIdentifier;
+	public WifiSignature(final String initPhysicalAddress,
+			final int initSignalStrength, final String initNetworkName) {
+		this.physicalAddress = initPhysicalAddress;
+		this.signalStrength = initSignalStrength;
+		this.networkName = initNetworkName;
 	}
 
 	/**
@@ -64,17 +63,17 @@ public class WifiSignature implements Comparable<WifiSignature>, Serializable {
 	 * <p>
 	 * <b> Note: this object method is used to test!!! </b>
 	 * 
-	 * @param initBasicServiceSetIdentifier
+	 * @param initPhysicalAddress
 	 *            the MAC address of the access point in the form of
 	 *            "XX:XX:XX:XX:XX:XX" (X is an alpha-number)
-	 * @param initReceivedSignalStrength
+	 * @param initSignalStrength
 	 *            the signal strength measured in dB
 	 */
-	public WifiSignature(final String initBasicServiceSetIdentifier,
-			final int initReceivedSignalStrength) {
-		this.basicServiceSetIdentifier = initBasicServiceSetIdentifier;
-		this.receivedSignalStrength = initReceivedSignalStrength;
-		this.serviceSetIdentifier = null;
+	public WifiSignature(final String initPhysicalAddress,
+			final int initSignalStrength) {
+		this.physicalAddress = initPhysicalAddress;
+		this.signalStrength = initSignalStrength;
+		this.networkName = null;
 	}
 
 	/**
@@ -90,8 +89,8 @@ public class WifiSignature implements Comparable<WifiSignature>, Serializable {
 	 */
 	@Override
 	public int compareTo(final WifiSignature otherWifiSignature) {
-		return this.getBasicServiceSetIdentifier().compareTo(
-				otherWifiSignature.getBasicServiceSetIdentifier());
+		return this.getPhysicalAddress().compareTo(
+				otherWifiSignature.getPhysicalAddress());
 	}
 
 	/**
@@ -102,9 +101,9 @@ public class WifiSignature implements Comparable<WifiSignature>, Serializable {
 	 *            the BSSID string in the form of "XX:XX:XX:XX:XX:XX" with 'X'
 	 *            is an alpha-number
 	 */
-	public void setBasicServiceSetIdentifier(
+	public void setPhysicalAddress(
 			final String initBasicServiceSetIdentifier) {
-		this.basicServiceSetIdentifier = initBasicServiceSetIdentifier;
+		this.physicalAddress = initBasicServiceSetIdentifier;
 	}
 
 	/**
@@ -114,8 +113,8 @@ public class WifiSignature implements Comparable<WifiSignature>, Serializable {
 	 * @return the BSSID string in the form of "XX:XX:XX:XX:XX:XX" with 'X' is
 	 *         an alpha-number
 	 */
-	public String getBasicServiceSetIdentifier() {
-		return this.basicServiceSetIdentifier;
+	public String getPhysicalAddress() {
+		return this.physicalAddress;
 	}
 
 	/**
@@ -126,17 +125,17 @@ public class WifiSignature implements Comparable<WifiSignature>, Serializable {
 	 * @param initReceivedSignalStrength
 	 *            a new RSS value
 	 */
-	public void setReceivedSignalStrength(final int initReceivedSignalStrength) {
-		this.receivedSignalStrength = initReceivedSignalStrength;
+	public void setSignalStrength(final int initReceivedSignalStrength) {
+		this.signalStrength = initReceivedSignalStrength;
 	}
 
 	/**
-	 * Gets the Received Signal Strength (RSS).
+	 * Gets the Signal Strength (RSS).
 	 * 
 	 * @return the RSS integer in range from -100 to 0 (measured in dBm)
 	 */
-	public int getReceivedSignalStrength() {
-		return this.receivedSignalStrength;
+	public int getSignalStrength() {
+		return this.signalStrength;
 	}
 
 	/**
@@ -151,9 +150,8 @@ public class WifiSignature implements Comparable<WifiSignature>, Serializable {
 	 */
 	@Override
 	public String toString() {
-		String strTemp = "SSID: " + this.serviceSetIdentifier + "\nBSSID: "
-				+ this.basicServiceSetIdentifier + "\nRSS: "
-				+ this.receivedSignalStrength + "\n";
+		String strTemp = "SSID: " + this.networkName + "\nBSSID: "
+				+ this.physicalAddress + "\nRSS: " + this.signalStrength + "\n";
 		return strTemp;
 	}
 }

@@ -1,12 +1,13 @@
 package com.example;
 
-import com.example.share.Fingerprint;
-import com.example.share.Request;
-import com.example.share.Constant;
-
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
 import android.os.AsyncTask;
+
+import com.example.share.Constant;
+import com.example.share.Fingerprint;
+import com.example.share.Request;
 
 /**
  * 
@@ -34,12 +35,11 @@ public class RequestTask extends AsyncTask<Request, Void, Fingerprint> {
 			responseFingerprint = (Fingerprint) newConnection
 					.request(requests[0]);
 			newConnection.closeSession();
-		} catch (Exception exception) {
+		} catch (Exception taskException) {
 			StringWriter strWriter = new StringWriter();
-			exception.printStackTrace(new PrintWriter(strWriter));
+			taskException.printStackTrace(new PrintWriter(strWriter));
 			// TO DO show exception
 		}
-
 		return responseFingerprint;
 	}
 

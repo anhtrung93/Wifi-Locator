@@ -1,9 +1,9 @@
 package com.example.server;
 
-import com.example.share.Constant;
-
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import com.example.share.Constant;
 
 /**
  * 
@@ -15,31 +15,31 @@ import java.net.Socket;
  *         objects:</br>
  *         <p>
  *         <ul>
- *         <li>port: the port number which clients will use to connect to the
- *         server</li>
- *         <li>processor: the object will process all the requests from the
- *         clients</li>
+ *         <li>portNumber: the port number which clients will use to connect to
+ *         the server</li>
+ *         <li>objProcessor: this processor will process all the objects from
+ *         the clients</li>
  *         </ul>
  *         <b>Alert: Missing Exception handlers</b>
  */
 public class Server {
-	private final transient int port;
-	private final transient Processor processor;
+	private final transient int portNumber;
+	private final transient Processor objProcessor;
 
 	/**
 	 * Initializes a new Server object with two given object: a processor and
 	 * the port number.
 	 * 
-	 * @param processor
+	 * @param initObjProcessor
 	 *            the object which will process all the requests and will answer
 	 *            the client if it is necessary
-	 * @param port
+	 * @param initPortNumber
 	 *            the port integer number which all clients use to connect to
 	 *            the server
 	 */
-	public Server(final Processor processor, final int port) {
-		this.processor = processor;
-		this.port = port;
+	public Server(final Processor initObjProcessor, final int initPortNumber) {
+		this.objProcessor = initObjProcessor;
+		this.portNumber = initPortNumber;
 	}
 
 	/**
@@ -50,10 +50,11 @@ public class Server {
 	 *             exception when something goes wrong
 	 */
 	public void serve() throws Exception {
-		ServerSocket serverSocket = new ServerSocket(this.port);
+		ServerSocket serverSocket = new ServerSocket(this.portNumber);
 		while (true) {
 			Socket clientSocket = serverSocket.accept();
-			new Thread(new ClientThread(clientSocket, this.processor)).start();
+			new Thread(new ClientThread(clientSocket, this.objProcessor))
+					.start();
 		}
 	}
 

@@ -1,9 +1,8 @@
 package com.example;
 
-import com.example.share.Fingerprint;
-
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -19,6 +18,8 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+
+import com.example.share.Fingerprint;
 
 /**
  * 
@@ -51,7 +52,7 @@ import android.widget.ToggleButton;
 public class WifiLocator extends Activity {
 	private final static int MAX_STRING = 100;
 
-	private transient WifiManager wifi;
+	private transient WifiManager wifiManager;
 	private final transient Database database = Database.getInstance();
 	private transient Fingerprint currentFingerprint;
 
@@ -121,7 +122,8 @@ public class WifiLocator extends Activity {
 				StringBuilder wifiListString = new StringBuilder(MAX_STRING);
 				try {
 					// Gets scan results
-					currentFingerprint = new Fingerprint(wifi.getScanResults());
+					currentFingerprint = new Fingerprint(
+							wifiManager.getScanResults());
 
 					// Shows the list of wifiSignature
 					wifiListString.append("List of available WiFi: \n\n");
@@ -129,15 +131,15 @@ public class WifiLocator extends Activity {
 					showFingerprintArea.setText(wifiListString);
 
 					// Gets the label from the database and prints it out
-					if (currentFingerprint != null){
-						showLocationArea.setText(database.find(currentFingerprint)
-							.getLabel());
+					if (currentFingerprint != null) {
+						showLocationArea.setText(database.find(
+								currentFingerprint).getLabel());
 					}
 
 					// Starts a new scan if autoScanButton is checked and allows
 					// to add new label if it is not automatic scan
 					if (autoScanButton.isChecked()) {
-						wifi.startScan();
+						wifiManager.startScan();
 						scanButton.setEnabled(false);
 						addNewLabelButton.setEnabled(false);
 					} else {
@@ -196,8 +198,8 @@ public class WifiLocator extends Activity {
 		addNewLabelButton = (Button) findViewById(R.id.saveButton);
 
 		scanOnClick = false;
-		wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-		wifi.setWifiEnabled(true);
+		wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+		wifiManager.setWifiEnabled(true);
 		addNewLabelButton.setEnabled(false);
 	}
 
@@ -213,10 +215,10 @@ public class WifiLocator extends Activity {
 							final CompoundButton buttonView,
 							final boolean isChecked) {
 						if (isChecked) {
-							wifi.setWifiEnabled(false);
+							wifiManager.setWifiEnabled(false);
 							scanOnClick = false;
 						} else {
-							wifi.setWifiEnabled(true);
+							wifiManager.setWifiEnabled(true);
 							scanOnClick = false;
 						}
 					}
@@ -233,7 +235,7 @@ public class WifiLocator extends Activity {
 			@Override
 			public void onClick(final View view) {
 				String newLabel = showLocationArea.getText().toString();
-				currentFingerprint.addLabel(newLabel);
+				currentFingerprint.setLabel(newLabel);
 				showLocationArea.setText(currentFingerprint.getLabel());
 				try {
 					database.add(currentFingerprint);
@@ -254,8 +256,8 @@ public class WifiLocator extends Activity {
 			@Override
 			public void onClick(final View view) {
 				StringBuilder status = new StringBuilder(MAX_STRING);
-				if (wifi.getWifiState() == WifiManager.WIFI_STATE_ENABLED) {
-					if (!wifi.startScan()) {
+				if (wifiManager.getWifiState() == WifiManager.WIFI_STATE_ENABLED) {
+					if (!wifiManager.startScan()) {
 						status.append("Scan failed!!!");
 					} else {
 						scanButton.setEnabled(false);
@@ -279,7 +281,7 @@ public class WifiLocator extends Activity {
 			@Override
 			public void onClick(final View view) {
 				if (autoScanButton.isChecked()) {
-					wifi.startScan();
+					wifiManager.startScan();
 				} else {
 					scanButton.setEnabled(true);
 				}

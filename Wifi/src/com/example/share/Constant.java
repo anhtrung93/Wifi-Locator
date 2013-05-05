@@ -10,17 +10,20 @@ package com.example.share;
  */
 
 public class Constant {
-	public static String FINISH = "quit";
-	public static int MAXIMUM_DIFFERENCE = 120; // need changing
-	public static String SERVER_ADDRESS = "192.168.0.101";
+	public final static String FINISH = "quit";
+	public final static int MAXIMUM_DIFFERENCE = 120; // need changing
+	public final static String SERVER_ADDRESS = "192.168.0.101";
 	//public static String SERVER_ADDRESS = "10.99.193.144";
-	public static int SERVER_PORT = 4444;
-	public static String SERVER_FILE = "fp_database.dat";
+	public final static int SERVER_PORT = 4444;
+	public final static String SERVER_FILE = "fp_database.dat";
 
-	public static boolean isFINISH(Object object) {
-		if (object instanceof String)
-			return ((String) object).equals(FINISH);
-		else
-			return false;
+	public static boolean isFINISH(final Object object) {
+		boolean result;
+		if (object instanceof String) {
+			result = ((String) object).equals(FINISH);
+		} else {
+			result = false;
+		}
+		return result;
 	}
 }

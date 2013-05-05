@@ -15,15 +15,15 @@ public class RemoveRequest extends Request {
 	/**
 	 * Constructs an RemoveRequest object with a given Fingerprint object.
 	 * 
-	 * @param fingerprint
+	 * @param toDeleteFingerprint
 	 *            the Fingerprint object which will be removed from the database
 	 *            on Server
 	 * @throws Exception
 	 *             when intializes a RemoveRequest with a null Fingerprint
 	 *             pointer
 	 */
-	public RemoveRequest(final Fingerprint fingerprint) throws Exception {
-		super(fingerprint);
+	public RemoveRequest(final Fingerprint toDeleteFingerprint) throws Exception {
+		super(toDeleteFingerprint);
 	}
 
 	/**

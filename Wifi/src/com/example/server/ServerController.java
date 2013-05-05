@@ -5,33 +5,31 @@
  */
 package com.example.server;
 
-import com.example.share.Constant;
-
 import java.util.Scanner;
 
-
+import com.example.share.Constant;
 
 /**
  * 
  * @author bvuong93
  * 
  *         Class ServerController is based on the Thread Class. ServerController
- *         object is crearted to help control the Server.exe on the Server. This
+ *         object is created to help control the Server.exe on the Server. This
  *         object allows the Server.exe to be stored/loaded database, to exit.
  *         It contains a MyProcessor object.
  * 
  */
 public class ServerController implements Runnable {
-	private final transient MyProcessor processor;
+	private final transient MyProcessor requestProcessor;
 
 	/**
-	 * Contructs a new ServerController with a given processor.
+	 * Constructs a new ServerController with a given processor.
 	 * 
 	 * @param processor
 	 *            the processor of the server
 	 */
 	public ServerController(final MyProcessor processor) {
-		this.processor = processor;
+		this.requestProcessor = processor;
 	}
 
 	/**
@@ -52,19 +50,19 @@ public class ServerController implements Runnable {
 			System.out.println("Controller started");
 			System.out.println("Just type list|store|load|exit");
 			while (true) {
-				String command = input.nextLine();
+				String serverCommand = input.nextLine();
 
-				if ("store".equals(command)) {
-					processor.storeToFile(Constant.SERVER_FILE);
+				if ("store".equals(serverCommand)) {
+					requestProcessor.storeToFile(Constant.SERVER_FILE);
 					System.out.println("store ok");
-				} else if ("load".equals(command)) {
-					processor.loadFromFile(Constant.SERVER_FILE);
+				} else if ("load".equals(serverCommand)) {
+					requestProcessor.loadFromFile(Constant.SERVER_FILE);
 					System.out.println("load ok");
-				} else if ("list".equals(command)) {
-					System.out.println(processor.getFingerprintList());
-				} else if ("exit".equals(command)) {
+				} else if ("list".equals(serverCommand)) {
+					System.out.println(requestProcessor.getFingerprintList());
+				} else if ("exit".equals(serverCommand)) {
 					System.exit(0);
-				} else if ("".equals(command)) {
+				} else if ("".equals(serverCommand)) {
 					System.out.println("An empty command");
 				} else {
 					System.err.println("command not found");
@@ -73,6 +71,5 @@ public class ServerController implements Runnable {
 		} catch (Exception serverControllerException) {
 			serverControllerException.printStackTrace();
 		}
-
 	}
 }

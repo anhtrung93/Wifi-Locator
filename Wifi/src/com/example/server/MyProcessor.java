@@ -1,9 +1,17 @@
 package com.example.server;
 
-import java.util.ArrayList;
-import java.io.*;
-import com.example.share.*;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+
+import com.example.share.AddRequest;
+import com.example.share.Constant;
+import com.example.share.FindRequest;
+import com.example.share.Fingerprint;
+import com.example.share.RemoveRequest;
 
 /**
  * 
@@ -17,7 +25,6 @@ import java.io.Serializable;
 public class MyProcessor implements Processor, Serializable {
 	final static long serialVersionUID = 1L;
 	private ArrayList<Fingerprint> fingerprintList;
-
 
 	/**
 	 * Constructs a new empty list of Fingerprint.
@@ -34,18 +41,19 @@ public class MyProcessor implements Processor, Serializable {
 	 * @throws Exception
 	 *             there may be wrong fileName, or the data in the wifi
 	 */
-	public MyProcessor(String fileName) throws Exception {
+	public MyProcessor(final String fileName) throws Exception {
 		loadFromFile(fileName);
 	}
 
 	/**
 	 * The real part of loading the database from a "fileName" file
+	 * 
 	 * @param fileName
-	 * 				the name of the file containning the MyProcessor.
+	 *            the name of the file containning the MyProcessor.
 	 * @throws Exception
-	 * 				there may be wrong fileName, or the data in the wifi
+	 *             there may be wrong fileName, or the data in the wifi
 	 */
-	public void loadFromFile(String fileName) throws Exception {
+	public void loadFromFile(final String fileName) throws Exception {
 		FileInputStream fileInputStream = new FileInputStream(fileName);
 		ObjectInputStream objectInputStream = new ObjectInputStream(
 				fileInputStream);
@@ -59,6 +67,7 @@ public class MyProcessor implements Processor, Serializable {
 		fileInputStream.close();
 		objectInputStream.close();
 	}
+
 	/**
 	 * Writes the current database of MyProcessor into a filename team.
 	 * 
@@ -68,7 +77,7 @@ public class MyProcessor implements Processor, Serializable {
 	 * @throws Exception
 	 */
 
-	public void storeToFile(String fileName) throws Exception {
+	public void storeToFile(final String fileName) throws Exception {
 		FileOutputStream fileOutputStream = new FileOutputStream(fileName);
 		ObjectOutputStream objectOutputStream = new ObjectOutputStream(
 				fileOutputStream);
@@ -89,7 +98,7 @@ public class MyProcessor implements Processor, Serializable {
 	 * @param requestObject
 	 */
 	@Override
-	public Object process(Object requestObject) {
+	public Object process(final Object requestObject) {
 		Object resultObject = null;
 		if (Constant.isFINISH(requestObject)) {
 			resultObject = requestObject;
@@ -98,7 +107,7 @@ public class MyProcessor implements Processor, Serializable {
 		} else if (requestObject instanceof RemoveRequest) {
 			remove(((RemoveRequest) requestObject).getFingerprint());
 		} else if (requestObject instanceof FindRequest) {
-			resultObject = find(((FindRequest) requestObject).getFingerprint());			
+			resultObject = find(((FindRequest) requestObject).getFingerprint());
 		} else {
 			System.err.println("Uknown request recognized");
 		}
@@ -109,16 +118,16 @@ public class MyProcessor implements Processor, Serializable {
 	/**
 	 * Searches for a Fingerprint on the fingerprintList
 	 * 
-	 * @param query
+	 * @param queryFingerprint
 	 *            a Fingerprint to search for
 	 * @return the closest Fingerprint to the query, using
 	 *         Fingerprint.differFrom(Fingerprint) to compare
 	 */
-	public Fingerprint find(Fingerprint query) {
-		Fingerprint result = query;
+	public Fingerprint find(final Fingerprint queryFingerprint) {
+		Fingerprint result = queryFingerprint;
 		float smallestDifference = Constant.MAXIMUM_DIFFERENCE;
 		for (Fingerprint fingerprint : fingerprintList) {
-			float difference = fingerprint.differFrom(query);
+			float difference = fingerprint.differFrom(queryFingerprint);
 			if (difference < smallestDifference) {
 				result = fingerprint;
 				smallestDifference = difference;
@@ -131,29 +140,28 @@ public class MyProcessor implements Processor, Serializable {
 	/**
 	 * Adds a new Fingerprint to the fingerprintList
 	 * 
-	 * @param fingerprint
+	 * @param newFingerprint
 	 *            a new Fingerprint which will be added into the fingerprintList
 	 */
-	public void add(Fingerprint fingerprint) {
-		fingerprintList.add(fingerprint);
+	public void add(final Fingerprint newFingerprint) {
+		fingerprintList.add(newFingerprint);
 	}
 
 	/**
-	 * Deletes an old Fingerprint from the fingerprintList. 
-	 * <b>What will happen if fingerprint not in the fingerprintList</b>
+	 * Deletes an old Fingerprint from the fingerprintList. <b>What will happen
+	 * if fingerprint not in the fingerprintList</b>
 	 * 
-	 * @param fingerprint
+	 * @param oldFingerprint
 	 *            an old Fingerprint which will be deleted from the
 	 *            fingerprintList
 	 */
-	public void remove(Fingerprint fingerprint) {
-		fingerprintList.remove(fingerprint);
+	public void remove(final Fingerprint oldFingerprint) {
+		fingerprintList.remove(oldFingerprint);
 	}
 
 	/**
 	 * 
-	 * @return
-	 * 			the list of Fingerprints the processor are maintaining
+	 * @return the list of Fingerprints the processor are maintaining
 	 */
 	public ArrayList<Fingerprint> getFingerprintList() {
 		return fingerprintList;

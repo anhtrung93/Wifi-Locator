@@ -24,16 +24,17 @@ import android.net.wifi.ScanResult;
 public class Fingerprint implements Serializable {
 	final static long serialVersionUID = 1L;
 
-	private WifiSignature[] wifiList; // the list of WifiSignature objects
-	private String locationLabel; // the label assigned by users
+	private final WifiSignature[] wifiList; // the list of
+														// WifiSignature objects
+	private String label; // the label assigned by users
 
 	/**
 	 * Starts an empty object without any Fingerprint objects in the wifiList
 	 * and the label is set to be "Unknown location"
 	 */
 	public Fingerprint() {
-		wifiList = null;
-		locationLabel = "Unknown location";
+		this.wifiList = null;
+		this.label = "Unknown location";
 	}
 
 	/**
@@ -47,21 +48,20 @@ public class Fingerprint implements Serializable {
 	 * @throws Exception
 	 *             when listOfScanResults does not exist
 	 */
-	public Fingerprint(List<ScanResult> listOfScanResults) throws Exception {
+	public Fingerprint(final List<ScanResult> listOfScanResults)
+			throws Exception {
 		if (listOfScanResults == null) {
 			throw new Exception(
 					"There is no listOfScanResults to init Fingerprint");
 		}
-		int size = listOfScanResults.size();
-		this.wifiList = new WifiSignature[size];
-		for (int idWifiList = 0; idWifiList < size; idWifiList++) {
+		int numOfScanResults = listOfScanResults.size();
+		this.wifiList = new WifiSignature[numOfScanResults];
+		for (int idWifiList = 0; idWifiList < numOfScanResults; idWifiList++) {
 			this.wifiList[idWifiList] = new WifiSignature(
 					listOfScanResults.get(idWifiList));
 		}
-
-		this.sort();		
-
-		this.locationLabel = "Unknown location";
+		Arrays.sort(this.wifiList);
+		this.label = "Unknown location";
 	}
 
 	/**
@@ -73,9 +73,9 @@ public class Fingerprint implements Serializable {
 	 * @param initWifiList
 	 *            a list of WifiSignature objects
 	 */
-	public Fingerprint(WifiSignature[] initWifiList) {
-		this.wifiList = initWifiList;
-		this.locationLabel = "Unknown location";
+	public Fingerprint(final WifiSignature[] initWifiList) {
+		this.wifiList = initWifiList.clone();
+		this.label = "Unknown location";
 	}
 
 	/**
@@ -89,9 +89,10 @@ public class Fingerprint implements Serializable {
 	 * @param initLocationLabel
 	 *            a initial location label
 	 */
-	public Fingerprint(WifiSignature[] initWifiList, String initLocationLabel) {
-		this.wifiList = initWifiList;
-		this.locationLabel = initLocationLabel;
+	public Fingerprint(final WifiSignature[] initWifiList,
+			final String initLocationLabel) {
+		this.wifiList = initWifiList.clone();
+		this.label = initLocationLabel;
 	}
 
 	/**
@@ -102,8 +103,8 @@ public class Fingerprint implements Serializable {
 	 * @param newLabel
 	 *            a new location label
 	 */
-	public void addLabel(String newLabel) {
-		this.locationLabel = newLabel;
+	public void setLabel(final String newLabel) {
+		this.label = newLabel;
 	}
 
 	/**
@@ -112,7 +113,7 @@ public class Fingerprint implements Serializable {
 	 * @return this locationLabel
 	 */
 	public String getLabel() {
-		return this.locationLabel;
+		return this.label;
 	}
 
 	/**
@@ -126,72 +127,45 @@ public class Fingerprint implements Serializable {
 	 * @return a float show the relative difference between this Fingerprint
 	 *         object the otherFingerprint object
 	 */
-	// This method needs to be changed in the future release
-	public float differFrom(Fingerprint otherFingerprint) {
-		WifiSignature[] thisWifiList = this.getWifiList();
-		WifiSignature[] anotherWifiList = otherFingerprint.getWifiList();
-		int thisSize = this.getSize();
-		int anotherSize = otherFingerprint.getSize();
+	public float differFrom(final Fingerprint otherFingerprint) {
+		WifiSignature[] thisWifiList = this.wifiList;
+		WifiSignature[] anotherWifiList = otherFingerprint.wifiList;
+		int thisListSize = this.wifiList.length;
+		int anotherListSize = otherFingerprint.wifiList.length;
 
 		int count = 0; // Number of matched WifiSignature
 		int sumOfDifference = 0;
 		// Sum of square of each difference of each matched WifiSignature's RSS
-
-		// Note: Rename i,j !!!!!!!!!11
-		for (int i = 0, j = 0; i < thisSize && j < anotherSize;) {
-			WifiSignature thisSignature = thisWifiList[i];
-			WifiSignature anotherSignature = anotherWifiList[j];
+		int idThisList = 0;
+		int idAnotherList = 0;
+		while (idThisList < thisListSize && idAnotherList < anotherListSize) {
+			WifiSignature thisSignature = thisWifiList[idThisList];
+			WifiSignature anotherSignature = anotherWifiList[idAnotherList];
 			int compareResult = thisSignature.compareTo(anotherSignature);
 			if (compareResult == 0) {
+				//only compare the level of the same wifi address
 				count++;
-				int difference = thisSignature
-						.getReceivedSignalStrength()
-						- anotherSignature.getReceivedSignalStrength();
-				int squareOfDifference = difference * difference;
-				sumOfDifference += squareOfDifference;
-				i++;
-				j++;
+				int difference = thisSignature.getSignalStrength()
+						- anotherSignature.getSignalStrength();
+				sumOfDifference += difference * difference;
+				idThisList++;
+				idAnotherList++;
 			} else if (compareResult < 0) {
-				i++;
+				idThisList++;
 			} else {
-				j++;
+				idAnotherList++;
 			}
 		}
-		
-		float proportion = (float) count / Math.min(thisSize, anotherSize);
+
+		float proportion = (float) count / Math.min(thisListSize, anotherListSize);
 		float averageDifference = (float) sumOfDifference / count;
-		
-		if (proportion < 0.5)
-			return Constant.MAXIMUM_DIFFERENCE + 1;
-		else
-			return averageDifference / (proportion);
-	}
-	
-	/**
-	 * Gets the current number of WifiSignature objects in the list.
-	 * 
-	 * @return the number of WifiSignature objects
-	 */
-	public int getSize() {
-		return this.wifiList.length;
-	}
-
-	/**
-	 * Gets the list of all wifi signal objects in the form of an array of
-	 * WifiSignature objects.
-	 * 
-	 * @return array of WifiSignature objects extracted from this current object
-	 */
-	public WifiSignature[] getWifiList() {
-		return this.wifiList;
-	}
-
-	/**
-	 * Sorts the list of WifiSignature objects by using the compareTo method of
-	 * the WifiSignature class
-	 */
-	public void sort() {
-		Arrays.sort(this.wifiList);
+		float result;
+		if (proportion < 0.5) {
+			result = Constant.MAXIMUM_DIFFERENCE + 1;
+		} else {
+			result = averageDifference / proportion;
+		}
+		return result;
 	}
 
 	/**
@@ -202,10 +176,11 @@ public class Fingerprint implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		String tempString = "";
+		StringBuffer resultString = new StringBuffer();
 		for (int i = 0; i < this.wifiList.length; i++) {
-			tempString += this.wifiList[i].toString() + "\n";
+			resultString.append(this.wifiList[i].toString());
+			resultString.append('\n');
 		}
-		return tempString;
+		return resultString.toString();
 	}
 }

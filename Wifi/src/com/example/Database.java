@@ -1,9 +1,9 @@
 package com.example;
 
 import com.example.share.AddRequest;
-import com.example.share.RemoveRequest;
 import com.example.share.FindRequest;
 import com.example.share.Fingerprint;
+import com.example.share.RemoveRequest;
 
 /**
  * @author anhtrung93
