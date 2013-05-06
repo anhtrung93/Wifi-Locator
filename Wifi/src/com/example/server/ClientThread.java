@@ -53,17 +53,17 @@ class ClientThread implements Runnable {
 					this.clientSocket.getInputStream());
 
 			Object receivedObject;
-			Object toSendObject;
+			Object objectToSend;
 			do {
 				receivedObject = objStreamFromClient.readObject();
 				System.out.println("Received " + receivedObject);
-				toSendObject = this.requestProcessor.process(receivedObject);
-				objStreamToClient.writeObject(toSendObject);
-				System.out.println(">>>>>>>Return " + toSendObject);
+				objectToSend = this.requestProcessor.process(receivedObject);
+				objStreamToClient.writeObject(objectToSend);
+				System.out.println(">>>>>>>Return " + objectToSend);
 				System.out
 						.println("------------------END REQUEST--------------------\n");
 			} while (!Constant.isFINISH(receivedObject)
-					&& !Constant.isFINISH(toSendObject));
+					&& !Constant.isFINISH(objectToSend));
 
 			objStreamFromClient.close();
 			objStreamToClient.close();

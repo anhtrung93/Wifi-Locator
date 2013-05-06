@@ -14,14 +14,14 @@ public class FindRequest extends Request {
 	/**
 	 * Constructs an FindRequest object with a given Fingerprint object.
 	 * 
-	 * @param toSearchForFingerprint
+	 * @param fingerprintToFind
 	 *            the Fingerprint object which will be searched from the
 	 *            database on Server
 	 * @throws Exception
 	 *             when intializes a FindRequest with a null Fingerprint pointer
 	 */
-	public FindRequest(final Fingerprint toSearchForFingerprint) throws Exception {
-		super(toSearchForFingerprint);
+	public FindRequest(final Fingerprint fingerprintToFind) throws Exception {
+		super(fingerprintToFind);
 	}
 
 	/**
@@ -29,7 +29,7 @@ public class FindRequest extends Request {
 	 */
 	@Override
 	public String toString() {
-		if (fingerprint == null){
+		if (fingerprint == null) {
 			System.out.println("There is no fingerprint inside");
 		}
 		return "Request (FIND)\n" + getFingerprint().toString();

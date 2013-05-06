@@ -7,7 +7,7 @@ import java.util.List;
 import android.net.wifi.ScanResult;
 
 /**
- * @author anhtrung93 + bvuong93
+ * @author anhtrung93
  * 
  *         A Fingerprint object encapsulates the state information of all signal
  *         from all wifi access points(WifiSignature objects) at a point of
@@ -149,18 +149,18 @@ public class Fingerprint implements Serializable {
 	 */
 	public float differFrom(final Fingerprint otherFingerprint) {
 		WifiSignature[] thisWifiList = this.getWifiList();
-		WifiSignature[] anotherWifiList = otherFingerprint.getWifiList();
+		WifiSignature[] otherWifiList = otherFingerprint.getWifiList();
 		int thisListSize = thisWifiList.length;
-		int anotherListSize = anotherWifiList.length;
+		int otherListSize = otherWifiList.length;
 
 		int count = 0; // Number of matched WifiSignature
 		int sumOfDifference = 0;
 		// Sum of square of each difference of each matched WifiSignature's RSS
 		int idThisList = 0;
-		int idAnotherList = 0;
-		while (idThisList < thisListSize && idAnotherList < anotherListSize) {
+		int idOtherList = 0;
+		while (idThisList < thisListSize && idOtherList < otherListSize) {
 			WifiSignature thisSignature = thisWifiList[idThisList];
-			WifiSignature anotherSignature = anotherWifiList[idAnotherList];
+			WifiSignature anotherSignature = otherWifiList[idOtherList];
 			int compareResult = thisSignature.compareTo(anotherSignature);
 			if (compareResult == 0) {
 				// only compare the level of the same wifi address
@@ -169,16 +169,16 @@ public class Fingerprint implements Serializable {
 						- anotherSignature.getSignalStrength();
 				sumOfDifference += difference * difference;
 				idThisList++;
-				idAnotherList++;
+				idOtherList++;
 			} else if (compareResult < 0) {
 				idThisList++;
 			} else {
-				idAnotherList++;
+				idOtherList++;
 			}
 		}
 
 		float proportion = (float) count
-				/ Math.min(thisListSize, anotherListSize);
+				/ Math.min(thisListSize, otherListSize);
 		float averageDifference = (float) sumOfDifference / count;
 		float result;
 		if (proportion < 0.5) {

@@ -25,11 +25,11 @@ public class ServerController implements Runnable {
 	/**
 	 * Constructs a new ServerController with a given processor.
 	 * 
-	 * @param processor
+	 * @param initRequestProcessor
 	 *            the processor of the server
 	 */
-	public ServerController(final MyProcessor processor) {
-		this.requestProcessor = processor;
+	public ServerController(final MyProcessor initRequestProcessor) {
+		this.requestProcessor = initRequestProcessor;
 	}
 
 	/**
@@ -44,13 +44,13 @@ public class ServerController implements Runnable {
 	 * If command is "store", it saves database into a file
 	 */
 	public void run() {
-		Scanner input = new Scanner(System.in);
+		Scanner inputKeyBoard = new Scanner(System.in);
 
 		try {
 			System.out.println("Controller started");
 			System.out.println("Just type list|store|load|exit");
 			while (true) {
-				String serverCommand = input.nextLine();
+				String serverCommand = inputKeyBoard.nextLine();
 
 				if ("store".equals(serverCommand)) {
 					requestProcessor.storeToFile(Constant.SERVER_FILE);

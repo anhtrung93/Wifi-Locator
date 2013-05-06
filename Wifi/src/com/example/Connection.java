@@ -44,15 +44,15 @@ public class Connection {
 	/**
 	 * Sends an object to the server and received an other object from Server.
 	 * 
-	 * @param toSendObject
+	 * @param objectToSend
 	 *            an object that the client requests
 	 * @return an object replied from the server
 	 * @throws Exception
 	 *             exception exception may caused when the client and server
 	 *             communicate
 	 */
-	public Object request(final Object toSendObject) throws Exception {
-		this.objStreamToServer.writeObject(toSendObject);
+	public Object request(final Object objectToSend) throws Exception {
+		this.objStreamToServer.writeObject(objectToSend);
 		return this.objStreamFromServer.readObject();
 	}
 

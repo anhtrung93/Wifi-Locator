@@ -30,10 +30,12 @@ import com.example.share.Fingerprint;
  *         <ul>
  *         <li>wifiManager: The wifi manager</li>
  *         <li>database: The saved list of Fingerprint</li>
- *         <li>currentFingerprint: The scanned fingerprint </li>
+ *         <li>currentFingerprint: The scanned fingerprint</li>
  *         <li></li>
- *         <li>switchWifiToggleButton: Toggle button to turn on and turn off wifi</li>
- *         <li>autoScanCheckBox: Check box to start scanning fingerprint automatically</li>
+ *         <li>switchWifiToggleButton: Toggle button to turn on and turn off
+ *         wifi</li>
+ *         <li>autoScanCheckBox: Check box to start scanning fingerprint
+ *         automatically</li>
  *         <li>scanButton: Button to start a fingerprint scan</li>
  *         <li>addNewLabelButton: Button to assign a label (typed in
  *         showLocationArea) to a Fingerprint and add it to the database</li>
@@ -46,7 +48,8 @@ import com.example.share.Fingerprint;
  *         change the location by typing in this area and press
  *         addNewLabelButton</li>
  *         <li></li>
- *         <li>scanButtonIsClicked: A boolean variable to check if "scanButton" is clicked or not</li>
+ *         <li>scanButtonIsClicked: A boolean variable to check if "scanButton"
+ *         is clicked or not</li>
  *         </ul>
  */
 public class WifiLocator extends Activity {
@@ -136,7 +139,8 @@ public class WifiLocator extends Activity {
 								currentFingerprint).getLabel());
 					}
 
-					// Starts a new scan if autoScanCheckBox is checked and allows
+					// Starts a new scan if autoScanCheckBox is checked and
+					// allows
 					// to add new label if it is not automatic scan
 					if (autoScanCheckBox.isChecked()) {
 						wifiManager.startScan();
@@ -270,7 +274,7 @@ public class WifiLocator extends Activity {
 				scanButtonIsClicked = true;
 			}
 		});
-	}	
+	}
 
 	/**
 	 * When the autoScanCheckBox is checked, the program will automatically scan

@@ -1,10 +1,11 @@
 package com.example.share;
 
-import android.net.wifi.ScanResult;
 import java.io.Serializable;
 
+import android.net.wifi.ScanResult;
+
 /**
- * @author anhtrung93 + bvuong93 + hidrodo
+ * @author anhtrung93
  * 
  *         A WifiSignature object encapsulates the state information of a wifi
  *         access points. This state information includes:
@@ -97,13 +98,12 @@ public class WifiSignature implements Comparable<WifiSignature>, Serializable {
 	 * Sets the Basic Service Set Identifier (BSSID or the MAC address of the
 	 * access point).
 	 * 
-	 * @param initBasicServiceSetIdentifier
+	 * @param newPhysicalAddress
 	 *            the BSSID string in the form of "XX:XX:XX:XX:XX:XX" with 'X'
 	 *            is an alpha-number
 	 */
-	public void setPhysicalAddress(
-			final String initBasicServiceSetIdentifier) {
-		this.physicalAddress = initBasicServiceSetIdentifier;
+	public void setPhysicalAddress(final String newPhysicalAddress) {
+		this.physicalAddress = newPhysicalAddress;
 	}
 
 	/**
@@ -122,11 +122,11 @@ public class WifiSignature implements Comparable<WifiSignature>, Serializable {
 	 * for test</b>
 	 * <p>
 	 * 
-	 * @param initReceivedSignalStrength
+	 * @param newSignalStrength
 	 *            a new RSS value
 	 */
-	public void setSignalStrength(final int initReceivedSignalStrength) {
-		this.signalStrength = initReceivedSignalStrength;
+	public void setSignalStrength(final int newSignalStrength) {
+		this.signalStrength = newSignalStrength;
 	}
 
 	/**

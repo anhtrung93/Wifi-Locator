@@ -6,7 +6,7 @@ import com.example.share.Fingerprint;
 import com.example.share.RemoveRequest;
 
 /**
- * @author anhtrung93
+ * @author bvuong93
  * 
  *         Database class is actually a virtual database as the real database is
  *         located on the Server. This class supports all methods which other
@@ -40,7 +40,7 @@ public class Database {
 	/**
 	 * Searches for a Fingerprint object on the real database on the server.
 	 * 
-	 * @param queryFingerprint
+	 * @param fingerprintToFind
 	 *            a Fingerprint object that the client want to find on the
 	 *            Server
 	 * @return the closest Fingerprint object with the one sent to the Server
@@ -48,24 +48,24 @@ public class Database {
 	 *             exception may caused when the object is sending\receiving
 	 *             to\from the Server
 	 */
-	public Fingerprint find(final Fingerprint queryFingerprint)
+	public Fingerprint find(final Fingerprint fingerprintToFind)
 			throws Exception {
 		RequestTask findTask = new RequestTask();
-		findTask.execute(new FindRequest(queryFingerprint));
+		findTask.execute(new FindRequest(fingerprintToFind));
 		return findTask.get();
 	}
 
 	/**
 	 * Adds a Fingerprint object to the real database on the server.
 	 * 
-	 * @param newFingerprint
+	 * @param fingerprintToAdd
 	 *            a Fingerprint object that the client want to add to the
 	 *            database
 	 * @throws Exception
 	 *             exception may caused when the object is sending to the Server
 	 */
-	public void add(final Fingerprint newFingerprint) throws Exception {
-		new RequestTask().execute(new AddRequest(newFingerprint));
+	public void add(final Fingerprint fingerprintToAdd) throws Exception {
+		new RequestTask().execute(new AddRequest(fingerprintToAdd));
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class Database {
 	 * @throws Exception
 	 *             exception may caused when the object is sending to the Server
 	 */
-	public void remove(final Fingerprint oldFingerprint) throws Exception {
-		new RequestTask().execute(new RemoveRequest(oldFingerprint));
+	public void remove(final Fingerprint fingerprintToRemove) throws Exception {
+		new RequestTask().execute(new RemoveRequest(fingerprintToRemove));
 	}
 }

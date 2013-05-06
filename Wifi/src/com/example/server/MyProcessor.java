@@ -30,19 +30,7 @@ public class MyProcessor implements Processor, Serializable {
 	 * Constructs a new empty list of Fingerprint.
 	 */
 	public MyProcessor() {
-		fingerprintList = new ArrayList<Fingerprint>();
-	}
-
-	/**
-	 * Reads the database from a fileName team
-	 * 
-	 * @param fileName
-	 *            the name of the file containning the MyProcessor.
-	 * @throws Exception
-	 *             there may be wrong fileName, or the data in the wifi
-	 */
-	public MyProcessor(final String fileName) throws Exception {
-		loadFromFile(fileName);
+		this.fingerprintList = new ArrayList<Fingerprint>();
 	}
 
 	/**
@@ -54,18 +42,18 @@ public class MyProcessor implements Processor, Serializable {
 	 *             there may be wrong fileName, or the data in the wifi
 	 */
 	public void loadFromFile(final String fileName) throws Exception {
-		FileInputStream fileInputStream = new FileInputStream(fileName);
-		ObjectInputStream objectInputStream = new ObjectInputStream(
-				fileInputStream);
-		Object myProcessorFromFile = objectInputStream.readObject();
+		FileInputStream streamFromFile = new FileInputStream(fileName);
+		ObjectInputStream objStreamFromFile = new ObjectInputStream(
+				streamFromFile);
+		Object myProcessorFromFile = objStreamFromFile.readObject();
 		if (!(myProcessorFromFile instanceof MyProcessor)) {
-			objectInputStream.close();
-			fileInputStream.close();
+			objStreamFromFile.close();
+			streamFromFile.close();
 			throw new Exception("Wrong file format: " + fileName);
 		}
-		fingerprintList = ((MyProcessor) myProcessorFromFile).fingerprintList;
-		fileInputStream.close();
-		objectInputStream.close();
+		this.fingerprintList = ((MyProcessor) myProcessorFromFile).fingerprintList;
+		streamFromFile.close();
+		objStreamFromFile.close();
 	}
 
 	/**
@@ -78,12 +66,12 @@ public class MyProcessor implements Processor, Serializable {
 	 */
 
 	public void storeToFile(final String fileName) throws Exception {
-		FileOutputStream fileOutputStream = new FileOutputStream(fileName);
-		ObjectOutputStream objectOutputStream = new ObjectOutputStream(
-				fileOutputStream);
-		objectOutputStream.writeObject(this);
-		fileOutputStream.close();
-		objectOutputStream.close();
+		FileOutputStream streamToFile = new FileOutputStream(fileName);
+		ObjectOutputStream objStreamToFile = new ObjectOutputStream(
+				streamToFile);
+		objStreamToFile.writeObject(this);
+		streamToFile.close();
+		objStreamToFile.close();
 	}
 
 	/**
@@ -118,18 +106,18 @@ public class MyProcessor implements Processor, Serializable {
 	/**
 	 * Searches for a Fingerprint on the fingerprintList
 	 * 
-	 * @param queryFingerprint
+	 * @param fingerprintToFind
 	 *            a Fingerprint to search for
 	 * @return the closest Fingerprint to the query, using
 	 *         Fingerprint.differFrom(Fingerprint) to compare
 	 */
-	public Fingerprint find(final Fingerprint queryFingerprint) {
-		Fingerprint result = queryFingerprint;
+	public Fingerprint find(final Fingerprint fingerprintToFind) {
+		Fingerprint result = fingerprintToFind;
 		float smallestDifference = Constant.MAXIMUM_DIFFERENCE;
-		for (Fingerprint fingerprint : fingerprintList) {
-			float difference = fingerprint.differFrom(queryFingerprint);
+		for (Fingerprint aFingerprint : this.fingerprintList) {
+			float difference = aFingerprint.differFrom(fingerprintToFind);
 			if (difference < smallestDifference) {
-				result = fingerprint;
+				result = aFingerprint;
 				smallestDifference = difference;
 			}
 		}
@@ -140,23 +128,23 @@ public class MyProcessor implements Processor, Serializable {
 	/**
 	 * Adds a new Fingerprint to the fingerprintList
 	 * 
-	 * @param newFingerprint
+	 * @param fingerprintToAdd
 	 *            a new Fingerprint which will be added into the fingerprintList
 	 */
-	public void add(final Fingerprint newFingerprint) {
-		fingerprintList.add(newFingerprint);
+	public void add(final Fingerprint fingerprintToAdd) {
+		this.fingerprintList.add(fingerprintToAdd);
 	}
 
 	/**
 	 * Deletes an old Fingerprint from the fingerprintList. <b>What will happen
 	 * if fingerprint not in the fingerprintList</b>
 	 * 
-	 * @param oldFingerprint
+	 * @param fingerprintToRemove
 	 *            an old Fingerprint which will be deleted from the
 	 *            fingerprintList
 	 */
-	public void remove(final Fingerprint oldFingerprint) {
-		fingerprintList.remove(oldFingerprint);
+	public void remove(final Fingerprint fingerprintToRemove) {
+		this.fingerprintList.remove(fingerprintToRemove);
 	}
 
 	/**
@@ -164,6 +152,6 @@ public class MyProcessor implements Processor, Serializable {
 	 * @return the list of Fingerprints the processor are maintaining
 	 */
 	public ArrayList<Fingerprint> getFingerprintList() {
-		return fingerprintList;
+		return this.fingerprintList;
 	}
 }

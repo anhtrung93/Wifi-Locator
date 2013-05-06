@@ -11,7 +11,7 @@ import com.example.share.Request;
 
 /**
  * 
- * @author trunganhdinh
+ * @author anhtrung93
  * 
  *         Class RequestTask is a subclass of AsyncTask. This class is used to
  *         make a new Thread for program to send Request to the server as
@@ -38,7 +38,7 @@ public class RequestTask extends AsyncTask<Request, Void, Fingerprint> {
 		} catch (Exception taskException) {
 			StringWriter strWriter = new StringWriter();
 			taskException.printStackTrace(new PrintWriter(strWriter));
-			// TO DO show exception
+			// TODO show exception
 		}
 		return responseFingerprint;
 	}

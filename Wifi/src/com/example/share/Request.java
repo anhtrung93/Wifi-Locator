@@ -13,25 +13,24 @@ import java.io.Serializable;
  */
 public abstract class Request implements Serializable {
 	public final static long serialVersionUID = 1L;
-	
+
 	protected Fingerprint fingerprint;
-	
 
 	/**
 	 * Creates a new Request object with a given Fingerprint object.
 	 * 
-	 * @param initiFingerprint
+	 * @param initFingerprint
 	 *            a Fingerprint object to add, delete or search to/from/on
 	 *            database
 	 * @throws Exception
 	 *             when intializes a Request with a null Fingerprint pointer
 	 */
-	public Request(final Fingerprint initiFingerprint) throws Exception {
-		if (initiFingerprint == null) {
+	public Request(final Fingerprint initFingerprint) throws Exception {
+		if (initFingerprint == null) {
 			throw new Exception(
 					"Initialize a request with a null Fingerprint pointer");
 		}
-		this.fingerprint = initiFingerprint;
+		this.fingerprint = initFingerprint;
 	}
 
 	/**
