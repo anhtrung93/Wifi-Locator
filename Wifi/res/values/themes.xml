@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- @author bravewolf -->
+<!-- themes.xml is used to set themes of application -->
+
 <resources>
 
     <!-- Overwrite the ToggleButton style -->
@@ -15,7 +18,13 @@
         <item name="android:buttonStyleToggle">@style/Widget.Button.Toggle</item>
         <item name="android:textOn"></item>
         <item name="android:textOff"></item>
-        <!-- Perhaps more theme items here...? -->
+    </style>
+
+    <!-- Overwrite the application background -->
+    <style name="BackGround" parent="android:Theme.Black">
+        <item name="android:windowBackground">@drawable/mainbackground</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
 
 </resources>

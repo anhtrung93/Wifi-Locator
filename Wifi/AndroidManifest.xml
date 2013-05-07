@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- @author bravewolf -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-
     package="com.example"
     android:versionCode="1"
-    android:versionName="@string/program_title" >
+    android:versionName="Wifi Locator v1.2" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -19,7 +19,7 @@
         android:allowBackup="true"
         android:icon="@drawable/icon_application"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Light" >
+        android:theme="@style/BackGround" >
         <activity
             android:name=".WifiLocator"
             android:label="@string/app_name" >
