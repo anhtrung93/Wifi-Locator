@@ -8,6 +8,7 @@
     android:background="@drawable/mainbackground"
     android:orientation="vertical" >
 
+	<!-- Shows a text with string "switch_wifi" -->
     <TextView
         android:id="@+id/switchWifi"
         android:layout_width="wrap_content"
@@ -20,7 +21,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
-
+		
+		<!-- Interface of a Toggle Button with id: "toggleButtonSwitchWifi" -->
         <ToggleButton
             android:id="@+id/toggleButtonSwitchWifi"
             style="@style/ToggleButtonTheme"
@@ -29,6 +31,7 @@
             android:background="@drawable/togglebutton_wifi_switch_bg"
             android:checked="false" />
 
+		<!-- Shows information about wifiState -->
         <TextView
             android:id="@+id/wifiState"
             android:layout_width="106dp"
@@ -38,7 +41,9 @@
             android:textIsSelectable="true"
             android:textSize="15sp" />
     </LinearLayout>
-
+	
+	
+	<!-- Shows a text with string "scan_wifi" -->
     <TextView
         android:id="@+id/labelName"
         android:layout_width="wrap_content"
@@ -46,14 +51,16 @@
         android:text="@string/scan_wifi"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@android:color/white" />
-
+		
+	<!-- Interface of a CheckBox with id: "autoscan" -->
     <CheckBox
         android:id="@+id/autoScan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/autoscan"
         android:textColor="@android:color/white" />
-
+		
+	<!-- Interface of a Button with id: "buttonScan" -->
     <Button
         android:id="@+id/buttonScan"
         android:layout_width="75dp"
@@ -65,14 +72,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
-
+		
+		<!-- Shows a text with string "addlabeledittext" -->
         <EditText
             android:id="@+id/addLabelText"
             android:layout_width="187dp"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/addlabeledittext" />
-
+		
+		<!-- Interface of a Button with id: "buttonSave" -->
         <Button
             android:id="@+id/buttonSave"
             android:layout_width="132dp"
@@ -80,7 +89,8 @@
             android:background="@drawable/button_save_label"
             android:text="@string/save_label" />
     </LinearLayout>
-
+	
+	
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
@@ -90,7 +100,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
-
+			
+			<!-- Shows a text with hint string "program_title" -->
             <TextView
                 android:id="@+id/textStatus"
                 android:layout_width="fill_parent"
