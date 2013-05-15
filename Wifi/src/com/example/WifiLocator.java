@@ -68,7 +68,7 @@ public class WifiLocator extends Activity {
 	private transient TextView showFingerprintArea;
 	private transient EditText showLocationArea;
 
-	transient Boolean scanButtonIsClicked;
+	private transient Boolean scanButtonIsClicked;
 
 	/**
 	 * Receives the changes of the wifi state and prints it on the screen. There
@@ -122,39 +122,39 @@ public class WifiLocator extends Activity {
 		public void onReceive(final Context context, final Intent intent) {
 			// runs when autoScanCheckBox is checked or scanButton is clicked
 			if (autoScanCheckBox.isChecked() || scanButtonIsClicked) {
-				StringBuilder wifiListString = new StringBuilder(MAX_STRING);
 				try {
 					// Gets scan results
 					currentFingerprint = new Fingerprint(
 							wifiManager.getScanResults());
-
-					// Shows the list of wifiSignature
-					wifiListString.append("List of available WiFi: \n\n");
-					wifiListString.append(currentFingerprint.toString());
-					showFingerprintArea.setText(wifiListString);
 
 					// Gets the label from the database and prints it out
 					if (currentFingerprint != null) {
 						showLocationArea.setText(database.find(
 								currentFingerprint).getLabel());
 					}
-
-					// Starts a new scan if autoScanCheckBox is checked and
-					// allows
-					// to add new label if it is not automatic scan
-					if (autoScanCheckBox.isChecked()) {
-						wifiManager.startScan();
-						scanButton.setEnabled(false);
-						addNewLabelButton.setEnabled(false);
-					} else {
-						scanButton.setEnabled(true);
-						addNewLabelButton.setEnabled(true);
-					}
 				} catch (Exception exception) {
 					StringWriter strWriter = new StringWriter();
 					exception.printStackTrace(new PrintWriter(strWriter));
 					showFingerprintArea.setText(strWriter.toString());
 				}
+
+				// Shows the list of wifiSignature
+				StringBuilder wifiListString = new StringBuilder(MAX_STRING);
+				wifiListString.append("List of available WiFi: \n\n");
+				wifiListString.append(currentFingerprint.toString());
+				showFingerprintArea.setText(wifiListString);
+
+				// Starts a new scan if autoScanCheckBox is checked and
+				// allows to add new label if it is not automatic scan
+				if (autoScanCheckBox.isChecked()) {
+					wifiManager.startScan();
+					scanButton.setEnabled(false);
+					addNewLabelButton.setEnabled(false);
+				} else {
+					scanButton.setEnabled(true);
+					addNewLabelButton.setEnabled(true);
+				}
+				
 				scanButtonIsClicked = false;
 			}
 
@@ -180,9 +180,9 @@ public class WifiLocator extends Activity {
 				WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 		// Sets Listeners
 		this.setAddNewLabelButtonListener();
-		this.setWifiButtonListener();
+		this.setSwitchWifiToggleButtonListener();
 		this.setScanButtonListener();
-		this.setAutoScanButtonListener();
+		this.setAutoScanCheckBoxListener();
 	}
 
 	/**
@@ -211,7 +211,7 @@ public class WifiLocator extends Activity {
 	 * When scanButton is clicked, this method will turn on/off wifi of the
 	 * device.
 	 */
-	private void setWifiButtonListener() {
+	private void setSwitchWifiToggleButtonListener() {
 		switchWifiToggleButton
 				.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 					@Override
@@ -280,7 +280,7 @@ public class WifiLocator extends Activity {
 	 * When the autoScanCheckBox is checked, the program will automatically scan
 	 * for wifiList and show the current location automatically.
 	 */
-	private void setAutoScanButtonListener() {
+	private void setAutoScanCheckBoxListener() {
 		autoScanCheckBox.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(final View view) {

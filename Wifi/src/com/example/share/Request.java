@@ -28,7 +28,7 @@ public abstract class Request implements Serializable {
 	public Request(final Fingerprint initFingerprint) throws Exception {
 		if (initFingerprint == null) {
 			throw new Exception(
-					"Initialize a request with a null Fingerprint pointer");
+					"Initializes a request with a null Fingerprint pointer");
 		}
 		this.fingerprint = initFingerprint;
 	}
