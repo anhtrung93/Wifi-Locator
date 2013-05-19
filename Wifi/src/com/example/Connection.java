@@ -48,7 +48,7 @@ public class Connection {
 	 *            an object that the client requests
 	 * @return an object replied from the server
 	 * @throws Exception
-	 *             exception exception may caused when the client and server
+	 *             exception may caused when the client and server
 	 *             communicate
 	 */
 	public Object request(final Object objectToSend) throws Exception {

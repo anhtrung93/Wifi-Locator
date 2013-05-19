@@ -1,8 +1,5 @@
 package com.example;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 import android.os.AsyncTask;
 
 import com.example.share.Constant;
@@ -36,9 +33,8 @@ public class RequestTask extends AsyncTask<Request, Void, Fingerprint> {
 					.request(requests[0]);
 			newConnection.closeSession();
 		} catch (Exception taskException) {
-			StringWriter strWriter = new StringWriter();
-			taskException.printStackTrace(new PrintWriter(strWriter));
-			// TODO show exception
+			//this is intentionally empty
+			//exception will be shown on the main activity
 		}
 		return responseFingerprint;
 	}

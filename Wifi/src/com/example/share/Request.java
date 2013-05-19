@@ -22,14 +22,8 @@ public abstract class Request implements Serializable {
 	 * @param initFingerprint
 	 *            a Fingerprint object to add, delete or search to/from/on
 	 *            database
-	 * @throws Exception
-	 *             when intializes a Request with a null Fingerprint pointer
 	 */
-	public Request(final Fingerprint initFingerprint) throws Exception {
-		if (initFingerprint == null) {
-			throw new Exception(
-					"Initializes a request with a null Fingerprint pointer");
-		}
+	public Request(final Fingerprint initFingerprint) {
 		this.fingerprint = initFingerprint;
 	}
 

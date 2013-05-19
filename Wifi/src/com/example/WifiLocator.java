@@ -1,8 +1,5 @@
 package com.example;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -12,6 +9,7 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -122,39 +120,31 @@ public class WifiLocator extends Activity {
 		public void onReceive(final Context context, final Intent intent) {
 			// runs when autoScanCheckBox is checked or scanButton is clicked
 			if (autoScanCheckBox.isChecked() || scanButtonIsClicked) {
-				try {
-					// Gets scan results
-					currentFingerprint = new Fingerprint(
-							wifiManager.getScanResults());
-
-					// Gets the label from the database and prints it out
-					if (currentFingerprint != null) {
-						showLocationArea.setText(database.find(
-								currentFingerprint).getLabel());
-					}
-				} catch (Exception exception) {
-					StringWriter strWriter = new StringWriter();
-					exception.printStackTrace(new PrintWriter(strWriter));
-					showFingerprintArea.setText(strWriter.toString());
-				}
-
+				// Gets scan results
+				currentFingerprint = new Fingerprint(
+						wifiManager.getScanResults());
 				// Shows the list of wifiSignature
 				StringBuilder wifiListString = new StringBuilder(MAX_STRING);
 				wifiListString.append("List of available WiFi: \n\n");
 				wifiListString.append(currentFingerprint.toString());
 				showFingerprintArea.setText(wifiListString);
-
+				try {
+					// Gets the label from the database and prints it out
+					showLocationArea.setText(database.find(currentFingerprint)
+							.getLabel());
+					if (scanButtonIsClicked){
+						addNewLabelButton.setEnabled(true);
+					}
+				} catch (Exception connectionException) {
+					showFingerprintArea.setText("CONNECTION ERROR!!!");
+				}
 				// Starts a new scan if autoScanCheckBox is checked and
-				// allows to add new label if it is not automatic scan
+				// allows to scan normally if it is not
 				if (autoScanCheckBox.isChecked()) {
 					wifiManager.startScan();
-					scanButton.setEnabled(false);
-					addNewLabelButton.setEnabled(false);
 				} else {
 					scanButton.setEnabled(true);
-					addNewLabelButton.setEnabled(true);
 				}
-				
 				scanButtonIsClicked = false;
 			}
 
@@ -238,16 +228,17 @@ public class WifiLocator extends Activity {
 		addNewLabelButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(final View view) {
+				// hide keyboard
+				InputMethodManager keyboard = (InputMethodManager) 
+						getSystemService(Context.INPUT_METHOD_SERVICE);
+				keyboard.hideSoftInputFromWindow(
+						showLocationArea.getWindowToken(), 0);
+				// show label
 				String newLabel = showLocationArea.getText().toString();
 				currentFingerprint.setLabel(newLabel);
 				showLocationArea.setText(currentFingerprint.getLabel());
-				try {
-					database.add(currentFingerprint);
-				} catch (Exception exception) {
-					StringWriter strWriter = new StringWriter();
-					exception.printStackTrace(new PrintWriter(strWriter));
-					showFingerprintArea.setText(strWriter.toString());
-				}
+				// send data to database
+				database.add(currentFingerprint);
 			}
 		});
 	}
@@ -259,6 +250,12 @@ public class WifiLocator extends Activity {
 		scanButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(final View view) {
+				// hide keyboard if there exist
+				InputMethodManager keyboard = (InputMethodManager) 
+						getSystemService(Context.INPUT_METHOD_SERVICE);
+				keyboard.hideSoftInputFromWindow(
+						showLocationArea.getWindowToken(), 0);
+				// show scan status
 				StringBuilder status = new StringBuilder(MAX_STRING);
 				if (wifiManager.getWifiState() == WifiManager.WIFI_STATE_ENABLED) {
 					if (!wifiManager.startScan()) {
@@ -284,8 +281,16 @@ public class WifiLocator extends Activity {
 		autoScanCheckBox.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(final View view) {
+				// hide keyboard if there exist
+				InputMethodManager keyboard = (InputMethodManager) 
+						getSystemService(Context.INPUT_METHOD_SERVICE);
+				keyboard.hideSoftInputFromWindow(
+						showLocationArea.getWindowToken(), 0);
+
 				if (autoScanCheckBox.isChecked()) {
 					wifiManager.startScan();
+					scanButton.setEnabled(false);
+					addNewLabelButton.setEnabled(false);
 				} else {
 					scanButton.setEnabled(true);
 				}

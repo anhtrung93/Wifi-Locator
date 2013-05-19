@@ -46,15 +46,8 @@ public class Fingerprint implements Serializable {
 	 * 
 	 * @param listOfScanResults
 	 *            list of all wifi signal received after the device makes a scan
-	 * @throws Exception
-	 *             when listOfScanResults does not exist
 	 */
-	public Fingerprint(final List<ScanResult> listOfScanResults)
-			throws Exception {
-		if (listOfScanResults == null) {
-			throw new Exception(
-					"There is no listOfScanResults to init Fingerprint");
-		}
+	public Fingerprint(final List<ScanResult> listOfScanResults){
 		int numOfScanResults = listOfScanResults.size();
 		this.wifiList = new WifiSignature[numOfScanResults];
 		for (int idWifiList = 0; idWifiList < numOfScanResults; idWifiList++) {

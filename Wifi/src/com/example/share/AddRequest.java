@@ -17,10 +17,8 @@ public class AddRequest extends Request {
 	 * @param fingerprintToAdd
 	 *            the Fingerprint object which will be added into the database
 	 *            on Server
-	 * @throws Exception
-	 *             when intializes an AddRequest with a null Fingerprint pointer
 	 */
-	public AddRequest(final Fingerprint fingerprintToAdd) throws Exception {
+	public AddRequest(final Fingerprint fingerprintToAdd){
 		super(fingerprintToAdd);
 	}
 

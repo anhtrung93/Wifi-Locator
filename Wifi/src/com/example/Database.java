@@ -45,8 +45,8 @@ public class Database {
 	 *            Server
 	 * @return the closest Fingerprint object with the one sent to the Server
 	 * @throws Exception
-	 *             exception may caused when the object is sending\receiving
-	 *             to\from the Server
+	 *             exception may caused when the program receives data
+	 *             from the Server
 	 */
 	public Fingerprint find(final Fingerprint fingerprintToFind)
 			throws Exception {
@@ -61,10 +61,8 @@ public class Database {
 	 * @param fingerprintToAdd
 	 *            a Fingerprint object that the client want to add to the
 	 *            database
-	 * @throws Exception
-	 *             exception may caused when the object is sending to the Server
 	 */
-	public void add(final Fingerprint fingerprintToAdd) throws Exception {
+	public void add(final Fingerprint fingerprintToAdd) {
 		new RequestTask().execute(new AddRequest(fingerprintToAdd));
 	}
 
@@ -74,10 +72,8 @@ public class Database {
 	 * @param newFingerprint
 	 *            a Fingerprint object that the client want to add to the
 	 *            database
-	 * @throws Exception
-	 *             exception may caused when the object is sending to the Server
 	 */
-	public void remove(final Fingerprint fingerprintToRemove) throws Exception {
+	public void remove(final Fingerprint fingerprintToRemove) {
 		new RequestTask().execute(new RemoveRequest(fingerprintToRemove));
 	}
 }

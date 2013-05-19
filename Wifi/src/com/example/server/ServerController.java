@@ -1,8 +1,3 @@
-/**
- * this file contains the controller of the server
- * it runs concurrently with clientThreads
- * it controls the server through manipulating its Process 
- */
 package com.example.server;
 
 import java.util.Scanner;
@@ -14,8 +9,8 @@ import com.example.share.Constant;
  * @author bvuong93
  * 
  *         Class ServerController is based on the Thread Class. ServerController
- *         object is created to help control the Server.exe on the Server. This
- *         object allows the Server.exe to be stored/loaded database, to exit.
+ *         object is created to help control the Server. This
+ *         object allows the Server to be stored/loaded database, to exit.
  *         It contains a MyProcessor object.
  * 
  */

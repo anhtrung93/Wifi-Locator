@@ -17,10 +17,8 @@ public class FindRequest extends Request {
 	 * @param fingerprintToFind
 	 *            the Fingerprint object which will be searched from the
 	 *            database on Server
-	 * @throws Exception
-	 *             when intializes a FindRequest with a null Fingerprint pointer
 	 */
-	public FindRequest(final Fingerprint fingerprintToFind) throws Exception {
+	public FindRequest(final Fingerprint fingerprintToFind) {
 		super(fingerprintToFind);
 	}
 
